@@ -7,12 +7,11 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     * { box-sizing: border-box; }
-
     :root {
       --text: #1f2a44;
       --muted: #5d6b86;
       --line: rgba(96, 114, 158, 0.14);
-      --panel: rgba(255, 255, 255, 0.92);
+      --panel: rgba(255, 255, 255, 0.95);
       --blue1: #2558c7;
       --blue2: #3b82f6;
       --purple: #7b5cff;
@@ -83,7 +82,7 @@
 
     .header-inner {
       position: relative;
-      z-index: 2;
+      z-index: 5;
       max-width: 1280px;
       margin: 0 auto;
     }
@@ -118,7 +117,16 @@
       color: rgba(255,255,255,0.94);
     }
 
-    .admin-open-btn {
+    .header-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 10;
+      pointer-events: auto;
+    }
+
+    .header-btn {
       border: 1px solid rgba(255,255,255,0.24);
       background: rgba(255,255,255,0.12);
       color: white;
@@ -237,7 +245,6 @@
       height: 72px;
       border-radius: 50%;
       flex: 0 0 72px;
-      position: relative;
       overflow: hidden;
       display: flex;
       align-items: center;
@@ -251,721 +258,239 @@
       box-shadow: 0 10px 22px rgba(74, 99, 255, 0.22);
     }
 
-    .team-photo.placeholder::before {
-      content: "";
-      position: absolute;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.85);
-      top: 12px;
-      left: 22px;
-    }
+    .team-name { margin: 0; font-size: 17px; color: #243250; }
+    .team-role { margin: 6px 0 0; font-size: 13px; font-weight: 700; color: #4a63c9; }
+    .team-desc { margin: 0; font-size: 14px; line-height: 1.55; color: #62728f; }
 
-    .team-photo.placeholder::after {
-      content: "";
-      position: absolute;
-      width: 42px;
-      height: 24px;
-      border-radius: 20px 20px 8px 8px;
-      background: rgba(255,255,255,0.85);
-      left: 15px;
-      bottom: 10px;
-    }
-
-    .team-name {
-      margin: 0;
-      font-size: 17px;
-      color: #243250;
-    }
-
-    .team-role {
-      margin: 6px 0 0;
-      font-size: 13px;
-      font-weight: 700;
-      color: #4a63c9;
-    }
-
-    .team-desc {
-      margin: 0;
-      font-size: 14px;
-      line-height: 1.55;
-      color: #62728f;
-    }
-
-    .calendar-wrap {
-      margin-bottom: 20px;
-    }
-
+    .calendar-wrap { margin-bottom: 20px; }
     .calendar-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
+      display: flex; justify-content: space-between; align-items: center; gap: 12px;
+      margin-bottom: 16px; flex-wrap: wrap;
     }
-
-    .calendar-tools {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
+    .calendar-tools { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
     .calendar-nav-btn {
-      border: none;
-      cursor: pointer;
-      color: white;
-      font-size: 14px;
-      font-weight: 700;
-      padding: 9px 12px;
-      border-radius: 12px;
+      border: none; cursor: pointer; color: white; font-size: 14px; font-weight: 700;
+      padding: 9px 12px; border-radius: 12px;
       background: linear-gradient(135deg, var(--blue1), var(--purple));
     }
-
-    .calendar-month {
-      font-size: 18px;
-      font-weight: 700;
-      color: #25324f;
-      min-width: 160px;
-      text-align: center;
+    .calendar-month { font-size: 18px; font-weight: 700; color: #25324f; min-width: 160px; text-align: center; }
+    .calendar-mark, .head-badge {
+      padding: 8px 12px; border-radius: 999px; font-size: 13px; font-weight: 700;
+      color: #4f6184; background: linear-gradient(135deg, #eef3ff, #f3ebff);
     }
 
-    .calendar-mark,
-    .head-badge {
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: 700;
-      color: #4f6184;
-      background: linear-gradient(135deg, #eef3ff, #f3ebff);
+    .calendar-weekdays, .calendar-grid {
+      display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 10px;
     }
-
-    .calendar-weekdays,
-    .calendar-grid {
-      display: grid;
-      grid-template-columns: repeat(7, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .calendar-weekdays {
-      margin-bottom: 10px;
-    }
-
+    .calendar-weekdays { margin-bottom: 10px; }
     .weekday {
-      text-align: center;
-      font-size: 12px;
-      font-weight: 700;
-      color: #687894;
-      text-transform: uppercase;
+      text-align: center; font-size: 12px; font-weight: 700; color: #687894; text-transform: uppercase;
     }
-
     .day {
-      min-height: 110px;
-      border-radius: var(--radius-md);
-      background: rgba(247, 250, 255, 0.96);
-      border: 1px solid rgba(92, 115, 164, 0.10);
-      padding: 10px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+      min-height: 110px; border-radius: var(--radius-md); background: rgba(247, 250, 255, 0.96);
+      border: 1px solid rgba(92, 115, 164, 0.10); padding: 10px; overflow: hidden;
+      display: flex; flex-direction: column; gap: 6px; cursor: pointer;
     }
-
-    .day.has-events {
-      cursor: pointer;
-    }
-
-    .day.has-events:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 28px rgba(82, 97, 135, 0.10);
-      border-color: rgba(76, 133, 255, 0.28);
-    }
-
-    .day.muted {
-      opacity: 0.35;
-    }
-
-    .day-number {
-      font-size: 14px;
-      font-weight: 700;
-      color: #31415f;
-      line-height: 1;
-    }
-
-    .day-events {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-top: 2px;
-    }
-
+    .day.muted { opacity: 0.35; cursor: default; }
+    .day.has-events { border-color: rgba(37,88,199,.24); }
+    .day-number { font-size: 14px; font-weight: 700; color: #31415f; line-height: 1; }
+    .day-events { display: flex; flex-direction: column; gap: 6px; margin-top: 2px; }
     .mini-event {
-      display: block;
-      width: 100%;
-      padding: 5px 7px;
-      border-radius: 9px;
-      font-size: 10px;
-      line-height: 1.2;
-      font-weight: 700;
-      color: white;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      pointer-events: none;
+      display: block; width: 100%; padding: 5px 7px; border-radius: 9px; font-size: 10px; line-height: 1.2;
+      font-weight: 700; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
-
     .event-blue { background: linear-gradient(135deg, var(--blue2), var(--blue1)); }
     .event-orange { background: linear-gradient(135deg, #ff9a3d, #ff5d67); }
     .event-green { background: linear-gradient(135deg, var(--green1), var(--green2)); }
 
-    .event-more {
-      display: inline-block;
-      font-size: 10px;
-      font-weight: 700;
-      color: #5f6f8b;
-      padding-left: 2px;
-    }
-
-    .calendar-bottom {
-      margin-top: 18px;
-    }
-
-    .events-summary {
-      border-radius: var(--radius-md);
-      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(246,250,255,0.94));
-      border: 1px solid rgba(92, 115, 164, 0.10);
-      padding: 14px;
-    }
-
-    .events-summary-title {
-      margin: 0 0 10px;
-      font-size: 15px;
-      font-weight: 700;
-      color: #283755;
-    }
-
-    .summary-list {
-      display: grid;
-      gap: 10px;
-    }
-
-    .summary-item {
-      display: grid;
-      grid-template-columns: 12px 1fr;
-      gap: 10px;
-      align-items: start;
-    }
-
-    .summary-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      margin-top: 3px;
-    }
-
-    .summary-text {
-      font-size: 13px;
-      line-height: 1.45;
-      color: #53637f;
-    }
-
-    .summary-text b {
-      color: #233250;
-    }
-
-    .jobs-panel {
-      margin-bottom: 20px;
-    }
-
+    .jobs-panel { margin-bottom: 20px; }
     .section-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 14px;
-      flex-wrap: wrap;
-      margin-bottom: 16px;
+      display: flex; justify-content: space-between; align-items: center; gap: 14px;
+      flex-wrap: wrap; margin-bottom: 16px;
     }
-
-    .jobs-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
-    }
-
+    .jobs-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
     .job-card {
       border-radius: var(--radius-lg);
       padding: 18px;
-      padding-bottom: 84px;
       background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(248,251,255,0.94));
       border: 1px solid rgba(94, 116, 160, 0.12);
-      min-height: 220px;
+      min-height: 240px;
       position: relative;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
-
     .job-card::after {
-      content: "";
-      position: absolute;
-      right: -20px;
-      bottom: -20px;
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      background: rgba(76, 133, 255, 0.08);
+      content: ""; position: absolute; right: -20px; bottom: -20px; width: 90px; height: 90px;
+      border-radius: 50%; background: rgba(76, 133, 255, 0.08);
     }
-
     .job-tag {
-      display: inline-block;
-      margin-bottom: 12px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 700;
-      color: #2457c5;
-      background: #eaf1ff;
+      display: inline-block; margin-bottom: 12px; padding: 6px 10px; border-radius: 999px;
+      font-size: 12px; font-weight: 700; color: #2457c5; background: #eaf1ff; align-self: flex-start;
     }
-
-    .job-title {
-      margin: 0 0 8px;
-      font-size: 18px;
-      color: #22314e;
-    }
-
+    .job-title { margin: 0 0 8px; font-size: 18px; color: #22314e; position: relative; z-index: 1; }
     .job-text {
       margin: 0;
-      font-size: 14px;
-      line-height: 1.55;
-      color: #5a6a87;
+      margin-bottom: 50px;
+      font-size: 14px; line-height: 1.55; color: #5a6a87; position: relative; z-index: 1;
+      flex: 1;
     }
-
     .job-btn {
-      position: absolute;
-      left: 18px;
-      bottom: 18px;
-      text-decoration: none;
-      color: white;
-      font-size: 13px;
-      font-weight: 700;
-      padding: 10px 14px;
-      border-radius: 12px;
+      text-decoration: none; color: white; font-size: 13px; font-weight: 700;
+      padding: 10px 14px; border-radius: 12px;
       background: linear-gradient(135deg, var(--orange1), var(--orange2));
+      position: relative; z-index: 1; margin-top: auto; align-self: flex-start;
     }
 
-    .direction-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none;
-      color: #2457c5;
-      font-size: 14px;
-      font-weight: 700;
-      padding: 11px 14px;
-      border-radius: 12px;
-      background: #eef4ff;
-      border: 1px solid rgba(76, 133, 255, 0.18);
-    }
-
-    .direction-link:hover {
-      background: #e5efff;
-    }
-
-    .day-events-modal-list {
-      display: grid;
-      gap: 12px;
-      margin-top: 14px;
-    }
-
-    .day-event-card {
-      padding: 14px;
-      border-radius: 16px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(246,249,255,0.94));
-      border: 1px solid rgba(93, 114, 160, 0.12);
-    }
-
-    .day-event-time {
-      display: inline-block;
-      margin-bottom: 8px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 700;
-      color: #2457c5;
-      background: #eaf1ff;
-    }
-
-    .day-event-title {
-      margin: 0 0 8px;
-      font-size: 18px;
-      color: #22314e;
-    }
-
-    .day-event-text {
-      margin: 0;
-      font-size: 14px;
-      line-height: 1.55;
-      color: #5a6a87;
-    }
-
-    .day-events-empty {
-      font-size: 14px;
-      line-height: 1.55;
-      color: #60708b;
-    }
-
-    .day-events-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 18px;
-    }
-
-    .directions-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 16px;
-      margin-top: 10px;
-    }
-
+    .directions-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 10px; }
     .direction-card {
-      overflow: hidden;
-      border-radius: 24px;
-      background: white;
-      border: 1px solid rgba(96, 116, 157, 0.12);
-      box-shadow: 0 12px 28px rgba(82, 97, 135, 0.08);
+      overflow: hidden; border-radius: 24px; background: white;
+      border: 1px solid rgba(96, 116, 157, 0.12); box-shadow: 0 12px 28px rgba(82, 97, 135, 0.08);
+      display: flex; flex-direction: column;
     }
-
-    .direction-top {
-      padding: 18px;
-      color: white;
-      position: relative;
-    }
-
+    .direction-top { padding: 18px; color: white; position: relative; }
     .direction-top::after {
-      content: "";
-      position: absolute;
-      right: -16px;
-      top: -16px;
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.14);
+      content: ""; position: absolute; right: -16px; top: -16px; width: 70px; height: 70px;
+      border-radius: 50%; background: rgba(255,255,255,0.14);
     }
-
-    .direction-card:nth-child(1) .direction-top { background: linear-gradient(135deg, var(--blue1), #4a8cff); }
-    .direction-card:nth-child(2) .direction-top { background: linear-gradient(135deg, var(--green2), #23c59b); }
-    .direction-card:nth-child(3) .direction-top { background: linear-gradient(135deg, #ff8d3d, #ff5e6d); }
-    .direction-card:nth-child(4) .direction-top { background: linear-gradient(135deg, var(--purple), #b265ff); }
-
-    .direction-title {
-      margin: 0;
-      font-size: 20px;
-    }
-
-    .direction-sub {
-      margin: 8px 0 0;
-      font-size: 13px;
-      line-height: 1.45;
-      opacity: 0.95;
-    }
-
-    .direction-body {
-      padding: 16px 18px 18px;
-    }
-
-    .mini-job-row {
-      padding: 10px 0;
-      border-bottom: 1px solid #edf1f7;
-      font-size: 14px;
-      line-height: 1.45;
-      color: #33435f;
-    }
-
-    .mini-job-row:last-child {
-      border-bottom: none;
-      padding-bottom: 0;
+    .direction-card:nth-child(1n) .direction-top { background: linear-gradient(135deg, var(--blue1), #4a8cff); }
+    .direction-card:nth-child(2n) .direction-top { background: linear-gradient(135deg, var(--green2), #23c59b); }
+    .direction-card:nth-child(3n) .direction-top { background: linear-gradient(135deg, #ff8d3d, #ff5e6d); }
+    .direction-card:nth-child(4n) .direction-top { background: linear-gradient(135deg, var(--purple), #b265ff); }
+    .direction-title { margin: 0; font-size: 20px; }
+    .direction-sub { margin: 8px 0 0; font-size: 13px; line-height: 1.45; opacity: 0.95; }
+    .direction-body { padding: 16px 18px 18px; display:flex; flex-direction:column; flex:1; }
+    .direction-body p { margin:0 0 14px; color:#4d5d7a; line-height:1.5; font-size:14px; flex:1; }
+    .direction-link {
+      text-decoration:none; color:white; font-size:13px; font-weight:700; padding:10px 14px;
+      border-radius:12px; background: linear-gradient(135deg, var(--blue1), var(--purple)); align-self:flex-start;
     }
 
     .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(14, 21, 38, 0.58);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 18px;
-      z-index: 1000;
+      position: fixed; inset: 0; background: rgba(14, 21, 38, 0.58); display: none;
+      align-items: center; justify-content: center; padding: 18px; z-index: 1000;
     }
-
-    .modal.show {
-      display: flex;
-    }
+    .modal.show { display: flex; }
 
     .modal-box {
-      width: min(1200px, 100%);
-      max-height: 92vh;
-      overflow: auto;
-      border-radius: 28px;
-      background: rgba(255,255,255,0.97);
-      box-shadow: 0 24px 70px rgba(22, 33, 61, 0.28);
-      border: 1px solid rgba(108, 126, 170, 0.16);
-      padding: 22px;
+      width: min(1200px, 100%); max-height: 92vh; overflow: auto; border-radius: 28px;
+      background: rgba(255,255,255,0.98); box-shadow: 0 24px 70px rgba(22, 33, 61, 0.28);
+      border: 1px solid rgba(108, 126, 170, 0.16); padding: 22px;
     }
+    .modal-box.narrow { width: min(460px, 100%); }
 
     .modal-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 14px;
-      flex-wrap: wrap;
-      margin-bottom: 16px;
+      display: flex; justify-content: space-between; align-items: center; gap: 14px;
+      flex-wrap: wrap; margin-bottom: 16px;
     }
-
-    .modal-title {
-      margin: 0;
-      font-size: 28px;
-      color: #243250;
-    }
-
+    .modal-title { margin: 0; font-size: 28px; color: #243250; }
     .close-btn, .btn, .small-btn {
-      border: none;
-      cursor: pointer;
-      font-family: Arial, sans-serif;
+      border: none; cursor: pointer; font-family: Arial, sans-serif;
     }
-
     .close-btn {
-      padding: 10px 14px;
-      border-radius: 12px;
-      color: white;
-      font-size: 14px;
-      font-weight: 700;
+      padding: 10px 14px; border-radius: 12px; color: white; font-size: 14px; font-weight: 700;
       background: linear-gradient(135deg, #7d8aa3, #5f6b83);
     }
 
-    .login-wrap {
-      max-width: 430px;
-      margin: 18px auto 6px;
-    }
-
-    .field {
-      margin-bottom: 12px;
-    }
-
+    .field { margin-bottom: 12px; }
     .field label {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 14px;
-      font-weight: 700;
-      color: #31415f;
+      display: block; margin-bottom: 6px; font-size: 14px; font-weight: 700; color: #31415f;
     }
-
-    .field input,
-    .field textarea,
-    .field select {
-      width: 100%;
-      padding: 12px 14px;
-      border-radius: 14px;
-      border: 1px solid #d7dff0;
-      background: white;
-      font-size: 14px;
-      font-family: Arial, sans-serif;
-      color: #233250;
-      outline: none;
+    .field input, .field textarea, .field select {
+      width: 100%; padding: 12px 14px; border-radius: 14px; border: 1px solid #d7dff0;
+      background: white; font-size: 14px; font-family: Arial, sans-serif; color: #233250; outline: none;
     }
-
-    .field textarea {
-      min-height: 96px;
-      resize: vertical;
-    }
+    .field textarea { min-height: 96px; resize: vertical; }
 
     .btn {
-      padding: 12px 16px;
-      border-radius: 14px;
-      font-size: 14px;
-      font-weight: 700;
-      color: white;
-      background: linear-gradient(135deg, var(--blue1), var(--purple));
+      padding: 12px 16px; border-radius: 14px; font-size: 14px; font-weight: 700;
+      color: white; background: linear-gradient(135deg, var(--blue1), var(--purple));
     }
-
-    .btn.secondary {
-      background: linear-gradient(135deg, var(--orange1), var(--orange2));
-    }
-
-    .btn.gray {
-      background: linear-gradient(135deg, #8b97ad, #6b768d);
-    }
-
+    .btn.secondary { background: linear-gradient(135deg, var(--orange1), var(--orange2)); }
+    .btn.gray { background: linear-gradient(135deg, #8b97ad, #6b768d); }
     .small-btn {
-      padding: 8px 12px;
-      border-radius: 10px;
-      font-size: 13px;
-      font-weight: 700;
-      color: white;
+      padding: 8px 12px; border-radius: 10px; font-size: 13px; font-weight: 700; color: white;
       background: linear-gradient(135deg, var(--blue1), var(--purple));
     }
+    .small-btn.delete { background: linear-gradient(135deg, var(--orange1), var(--orange2)); }
 
-    .small-btn.delete {
-      background: linear-gradient(135deg, var(--orange1), var(--orange2));
-    }
-
-    .muted-text {
-      color: #60708b;
-      font-size: 14px;
-      line-height: 1.55;
-    }
-
-    .error {
-      margin-top: 10px;
-      color: #d63a3a;
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .hidden {
-      display: none !important;
-    }
+    .muted-text { color: #60708b; font-size: 14px; line-height: 1.55; }
+    .error { margin-top: 10px; color: #d63a3a; font-size: 14px; font-weight: 700; }
+    .success { margin-top: 10px; color: #0c8b57; font-size: 14px; font-weight: 700; }
+    .hidden { display: none !important; }
 
     .admin-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      margin-top: 8px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 8px;
     }
-
     .admin-card {
       background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(248,251,255,0.94));
-      border: 1px solid rgba(94, 116, 160, 0.12);
-      border-radius: 22px;
-      padding: 18px;
+      border: 1px solid rgba(94, 116, 160, 0.12); border-radius: 22px; padding: 18px;
     }
+    .admin-card h3 { margin: 0 0 14px; font-size: 20px; color: #243250; }
 
-    .admin-card h3 {
-      margin: 0 0 14px;
-      font-size: 20px;
-      color: #243250;
-    }
-
-    .list {
-      display: grid;
-      gap: 12px;
-      margin-top: 16px;
-    }
-
+    .list { display: grid; gap: 12px; margin-top: 16px; }
     .item {
-      padding: 14px;
-      border-radius: 18px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(246,249,255,0.94));
+      padding: 14px; border-radius: 18px; background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(246,249,255,0.94));
       border: 1px solid rgba(93, 114, 160, 0.12);
     }
+    .item-title { margin: 0 0 8px; font-size: 16px; color: #243250; }
+    .item-text { margin: 0 0 6px; font-size: 14px; line-height: 1.5; color: #5e6d88; }
+    .item-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+    .form-toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; margin-bottom: 6px; }
+    .edit-note { font-size: 13px; color: #4a63c9; font-weight: 700; margin-bottom: 10px; min-height: 18px; }
 
-    .item-title {
-      margin: 0 0 8px;
-      font-size: 16px;
-      color: #243250;
+    .day-event-list { display:grid; gap:12px; }
+    .day-event-card {
+      padding: 16px; border-radius: 18px; background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(246,249,255,0.94));
+      border: 1px solid rgba(93, 114, 160, 0.12);
     }
+    .day-event-meta { color:#5a6a87; font-size:14px; line-height:1.5; margin:6px 0 12px; }
 
-    .item-text {
-      margin: 0 0 6px;
-      font-size: 14px;
-      line-height: 1.5;
-      color: #5e6d88;
-    }
-
-    .item-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 10px;
-    }
-
-    .form-toolbar {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 4px;
-      margin-bottom: 6px;
-    }
-
-    .edit-note {
-      font-size: 13px;
-      color: #4a63c9;
-      font-weight: 700;
-      margin-bottom: 10px;
-      min-height: 18px;
+    .runtime-error-box {
+      position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 99999;
+      background: #fff4f4; color: #8a1f1f; border: 1px solid #f1b7b7; border-radius: 12px;
+      padding: 12px 14px; font: 14px/1.45 Arial,sans-serif; display:none; box-shadow: 0 8px 24px rgba(0,0,0,.12)
     }
 
     @media (max-width: 1100px) {
-      .row-2,
-      .jobs-grid,
-      .directions-grid,
-      .admin-grid {
-        grid-template-columns: 1fr;
-      }
+      .row-2, .jobs-grid, .directions-grid, .admin-grid { grid-template-columns: 1fr; }
     }
-
     @media (max-width: 760px) {
-      .field-grid-2 {
-        grid-template-columns: 1fr;
-      }
-      header {
-        padding: 24px 18px 26px;
-      }
-
-      .header-title {
-        font-size: 31px;
-      }
-
-      .container {
-        padding: 16px 12px 34px;
-      }
-
-      .team-grid,
-      .jobs-grid,
-      .directions-grid,
-      .admin-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .calendar-weekdays,
-      .calendar-grid {
-        gap: 6px;
-      }
-
-      .day {
-        min-height: 90px;
-        padding: 8px;
-      }
-
-      .mini-event {
-        font-size: 9px;
-        padding: 4px 6px;
-      }
-
-      .panel-content,
-      .modal-box {
-        padding: 18px;
-      }
+      header { padding: 24px 18px 26px; }
+      .header-title { font-size: 31px; }
+      .container { padding: 16px 12px 34px; }
+      .team-grid, .jobs-grid, .directions-grid, .admin-grid { grid-template-columns: 1fr; }
+      .calendar-weekdays, .calendar-grid { gap: 6px; }
+      .day { min-height: 90px; padding: 8px; }
+      .mini-event { font-size: 9px; padding: 4px 6px; }
+      .panel-content, .modal-box { padding: 18px; }
     }
   </style>
 </head>
 <body>
   <div class="bg-pattern"></div>
 
+  <div class="runtime-error-box" id="runtimeErrorBox">
+    <b>Ошибка на странице</b>
+    <div id="runtimeErrorText" style="margin-top:6px;white-space:pre-wrap"></div>
+  </div>
+
   <header>
     <div class="header-inner">
       <div class="header-topline">
         <div>
-          <div class="header-label" id="headerLabelText">Центр карьеры колледжа</div>
-          <h1 class="header-title" id="headerTitleText">Запись в центр карьеры, мероприятия и команда центра</h1>
-          <p class="header-text" id="headerTextBlock">
-            Площадка для студентов и выпускников: запись на консультации центра карьеры,
-            карьерные события и полезные ссылки по направлениям обучения.
+          <div class="header-label" id="headerLabel">Центр карьеры колледжа</div>
+          <h1 class="header-title" id="headerTitle">Запись, мероприятия и команда центра карьеры</h1>
+          <p class="header-text" id="headerText">
+            Площадка для студентов и выпускников: запись на консультации, карьерные события и полезные ссылки по направлениям обучения.
           </p>
         </div>
 
-        <button class="admin-open-btn" id="openAdminBtn">Админка</button>
+        <div class="header-actions">
+          <button class="header-btn" id="accountOpenBtn" type="button">Войти</button>
+          <button class="header-btn hidden" id="logoutTopBtn" type="button">Выйти</button>
+          <button class="header-btn hidden" id="openAdminBtn" type="button">Админка</button>
+        </div>
       </div>
 
       <div class="top-links">
@@ -982,19 +507,18 @@
     <section class="row-2">
       <article class="panel" id="info">
         <div class="panel-content">
-          <h2 class="panel-title" id="infoTitleText">Инфо</h2>
-          <p class="panel-text" id="infoTextBlock">
-            Центр карьеры помогает студентам с трудоустройством, стажировками, практикой,
-            резюме и подготовкой к собеседованиям. Ниже можно разместить запись на консультацию,
-            а также оставить описание, зачем студенту обращаться в центр карьеры.
+          <h2 class="panel-title" id="infoTitle">Инфо</h2>
+          <p class="panel-text" id="infoText">
+            Центр карьеры помогает студентам с поиском практики, подготовкой резюме и карьерными консультациями.
+            На сайте можно записаться на нужный формат помощи, посмотреть мероприятия и открыть таблицы по направлениям.
           </p>
-          <div class="info-mark" id="infoMarkText">Формы записи и регистрации доступны онлайн</div>
+          <div class="info-mark" id="infoMark">Запись и полезные ссылки доступны онлайн</div>
         </div>
       </article>
 
       <article class="panel" id="team">
         <div class="panel-content">
-          <h2 class="panel-title" id="teamTitleText">Команда центра</h2>
+          <h2 class="panel-title" id="teamTitle">Команда центра</h2>
           <div class="team-grid" id="teamGrid"></div>
         </div>
       </article>
@@ -1003,13 +527,12 @@
     <section class="panel calendar-wrap" id="events">
       <div class="panel-content">
         <div class="calendar-head">
-          <h2 class="panel-title" style="margin: 0;" id="eventsTitleText">Мероприятия</h2>
-
+          <h2 class="panel-title" id="eventsTitle" style="margin:0;">Мероприятия</h2>
           <div class="calendar-tools">
-            <button class="calendar-nav-btn" id="prevMonthBtn">← Назад</button>
+            <button class="calendar-nav-btn" id="prevMonthBtn" type="button">← Назад</button>
             <div class="calendar-month" id="calendarMonthTitle"></div>
-            <button class="calendar-nav-btn" id="nextMonthBtn">Вперёд →</button>
-            <div class="calendar-mark" id="calendarBadgeText">Календарь событий</div>
+            <button class="calendar-nav-btn" id="nextMonthBtn" type="button">Вперёд →</button>
+            <div class="calendar-mark">Календарь событий</div>
           </div>
         </div>
 
@@ -1024,23 +547,15 @@
         </div>
 
         <div class="calendar-grid" id="calendarGrid"></div>
-
-        <div class="calendar-bottom">
-          <div class="events-summary">
-            <h3 class="events-summary-title" id="eventsSummaryTitleText">Как пользоваться календарём</h3>
-            <div class="summary-text" id="eventsSummaryText">Нажмите на день с событиями, чтобы открыть подробную информацию и перейти к записи.</div>
-          </div>
-        </div>
       </div>
     </section>
 
     <section class="panel jobs-panel" id="jobs">
       <div class="panel-content">
         <div class="section-head">
-          <h2 class="panel-title" style="margin: 0;" id="jobsTitleText">Запись в центр карьеры</h2>
-          <div class="head-badge" id="jobsBadgeText">Онлайн-запись</div>
+          <h2 class="panel-title" id="jobsTitle" style="margin:0;">Запись в центр карьеры</h2>
+          <div class="head-badge">Форматы помощи</div>
         </div>
-
         <div class="jobs-grid" id="jobsGrid"></div>
       </div>
     </section>
@@ -1048,552 +563,377 @@
     <section class="panel" id="directions">
       <div class="panel-content">
         <div class="section-head">
-          <h2 class="panel-title" style="margin: 0;" id="directionsTitleText">Направления обучения</h2>
-          <div class="head-badge" id="directionsBadgeText">Ссылки на таблицы</div>
+          <h2 class="panel-title" id="directionsTitle" style="margin:0;">Направления и таблицы</h2>
+          <div class="head-badge">Полезные ссылки</div>
         </div>
-
         <div class="directions-grid" id="directionsGrid"></div>
       </div>
     </section>
   </main>
 
+  <div class="modal" id="accountModal">
+    <div class="modal-box narrow">
+      <div class="modal-head">
+        <h2 class="modal-title" id="accountModalTitle">Вход</h2>
+        <button class="close-btn" id="closeAccountBtn" type="button">Закрыть</button>
+      </div>
+
+      <div id="loginView">
+        <div class="field">
+          <label for="emailInput">Email</label>
+          <input type="email" id="emailInput" placeholder="Введите email">
+        </div>
+        <div class="field">
+          <label for="passwordInput">Пароль</label>
+          <input type="password" id="passwordInput" placeholder="Введите пароль">
+        </div>
+        <button class="btn" id="loginBtn" type="button">Войти</button>
+        <div class="error" id="loginError"></div>
+      </div>
+
+      <div id="accountView" class="hidden">
+        <p class="muted-text" id="accountInfoText"></p>
+        <button class="btn gray" id="logoutBtn" type="button">Выйти</button>
+      </div>
+    </div>
+  </div>
+
   <div class="modal" id="adminModal">
     <div class="modal-box">
       <div class="modal-head">
         <h2 class="modal-title">Админ-панель</h2>
-        <button class="close-btn" id="closeAdminBtn">Закрыть</button>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button class="btn secondary" id="saveAllBtn" type="button">Сохранить в базу</button>
+          <button class="close-btn" id="closeAdminBtn" type="button">Закрыть</button>
+        </div>
       </div>
 
-      <div id="loginView">
-        <div class="login-wrap">
-          <p class="muted-text">
-            Вход через Supabase. Кнопка редактирования и админ-панель доступны только пользователю с ролью admin в таблице profiles.
-          </p>
+      <div class="muted-text">Редактирование доступно только роли <b>admin</b>. Контент сохраняется в таблицу <b>site_content</b>, строка с id = 1.</div>
+      <div class="success" id="adminSuccess"></div>
+      <div class="error" id="adminError"></div>
+
+      <div class="admin-grid">
+        <div class="admin-card">
+          <h3>Тексты сайта</h3>
 
           <div class="field">
-            <label for="emailInput">Email</label>
-            <input type="email" id="emailInput" placeholder="Введите email">
+            <label for="sHeaderTitle">Заголовок в шапке</label>
+            <input id="sHeaderTitle">
           </div>
-
           <div class="field">
-            <label for="passwordInput">Пароль</label>
-            <input type="password" id="passwordInput" placeholder="Введите пароль">
+            <label for="sHeaderText">Текст в шапке</label>
+            <textarea id="sHeaderText"></textarea>
           </div>
-
-          <button class="btn" id="loginBtn">Войти</button>
-          <div class="error" id="loginError"></div>
-        </div>
-      </div>
-
-      <div id="adminView" class="hidden">
-        <div class="admin-toolbar">
-          <button class="btn gray" id="logoutBtn">Выйти</button>
-          <button class="btn secondary" id="resetDemoBtn">Сбросить данные сайта</button>
-          <a href="#siteSettingsCard" class="admin-jump">Тексты</a>
-          <a href="#jobsCard" class="admin-jump">Запись</a>
-          <a href="#eventsCard" class="admin-jump">События</a>
-          <a href="#teamCard" class="admin-jump">Команда</a>
-          <a href="#directionsCard" class="admin-jump">Направления</a>
-        </div>
-
-        <div class="admin-stats" id="adminStats"></div>
-
-        <div class="admin-grid">
-          <div class="admin-card full-span" id="siteSettingsCard">
-            <div class="admin-card-head">
-              <h3>Тексты сайта</h3>
-              <div class="edit-note" id="settingsEditNote">Можно менять основные заголовки и подписи без правки кода.</div>
-            </div>
-
-            <div class="field-grid-2">
-              <div class="field">
-                <label for="settingsHeaderLabel">Метка в шапке</label>
-                <input type="text" id="settingsHeaderLabel">
-              </div>
-              <div class="field">
-                <label for="settingsHeaderTitle">Главный заголовок</label>
-                <input type="text" id="settingsHeaderTitle">
-              </div>
-            </div>
-
-            <div class="field">
-              <label for="settingsHeaderText">Текст под заголовком</label>
-              <textarea id="settingsHeaderText"></textarea>
-            </div>
-
-            <div class="field-grid-2">
-              <div class="field">
-                <label for="settingsInfoTitle">Заголовок блока «Инфо»</label>
-                <input type="text" id="settingsInfoTitle">
-              </div>
-              <div class="field">
-                <label for="settingsInfoMark">Подпись в жёлтом блоке</label>
-                <input type="text" id="settingsInfoMark">
-              </div>
-            </div>
-
-            <div class="field">
-              <label for="settingsInfoText">Текст блока «Инфо»</label>
-              <textarea id="settingsInfoText"></textarea>
-            </div>
-
-            <div class="field-grid-2">
-              <div class="field">
-                <label for="settingsTeamTitle">Заголовок команды</label>
-                <input type="text" id="settingsTeamTitle">
-              </div>
-              <div class="field">
-                <label for="settingsEventsTitle">Заголовок блока мероприятий</label>
-                <input type="text" id="settingsEventsTitle">
-              </div>
-            </div>
-
-            <div class="field-grid-2">
-              <div class="field">
-                <label for="settingsCalendarBadge">Подпись у календаря</label>
-                <input type="text" id="settingsCalendarBadge">
-              </div>
-              <div class="field">
-                <label for="settingsEventsSummaryTitle">Заголовок подсказки</label>
-                <input type="text" id="settingsEventsSummaryTitle">
-              </div>
-            </div>
-
-            <div class="field">
-              <label for="settingsEventsSummaryText">Текст подсказки</label>
-              <textarea id="settingsEventsSummaryText"></textarea>
-            </div>
-
-            <div class="field-grid-2">
-              <div class="field">
-                <label for="settingsJobsTitle">Заголовок блока записи</label>
-                <input type="text" id="settingsJobsTitle">
-              </div>
-              <div class="field">
-                <label for="settingsJobsBadge">Подпись блока записи</label>
-                <input type="text" id="settingsJobsBadge">
-              </div>
-            </div>
-
-            <div class="field-grid-2">
-              <div class="field">
-                <label for="settingsDirectionsTitle">Заголовок направлений</label>
-                <input type="text" id="settingsDirectionsTitle">
-              </div>
-              <div class="field">
-                <label for="settingsDirectionsBadge">Подпись направлений</label>
-                <input type="text" id="settingsDirectionsBadge">
-              </div>
-            </div>
-
-            <div class="form-toolbar">
-              <button class="btn" id="saveSettingsBtn">Сохранить тексты</button>
-              <button class="btn gray" id="cancelSettingsBtn">Сбросить поля</button>
-            </div>
+          <div class="field">
+            <label for="sInfoTitle">Заголовок блока Инфо</label>
+            <input id="sInfoTitle">
           </div>
-
-          <div class="admin-card" id="jobsCard">
-            <div class="admin-card-head">
-              <h3>Запись в центр карьеры</h3>
-              <div class="edit-note" id="jobEditNote"></div>
-            </div>
-
-            <div class="field">
-              <label for="jobTitle">Название блока</label>
-              <input type="text" id="jobTitle">
-            </div>
-
-            <div class="field">
-              <label for="jobDirection">Категория / метка</label>
-              <input type="text" id="jobDirection" placeholder="Например: Консультация">
-            </div>
-
-            <div class="field">
-              <label for="jobDesc">Описание</label>
-              <textarea id="jobDesc"></textarea>
-            </div>
-
-            <div class="field">
-              <label for="jobLink">Ссылка на запись</label>
-              <input type="text" id="jobLink" placeholder="https://...">
-            </div>
-
-            <div class="form-toolbar">
-              <button class="btn" id="saveJobBtn">Сохранить</button>
-              <button class="btn gray" id="cancelJobEditBtn">Отменить</button>
-            </div>
-
-            <div class="list" id="jobsAdminList"></div>
+          <div class="field">
+            <label for="sInfoText">Текст блока Инфо</label>
+            <textarea id="sInfoText"></textarea>
           </div>
-
-          <div class="admin-card" id="eventsCard">
-            <div class="admin-card-head">
-              <h3>События</h3>
-              <div class="edit-note" id="eventEditNote"></div>
-            </div>
-
-            <div class="field">
-              <label for="eventTitle">Название события</label>
-              <input type="text" id="eventTitle">
-            </div>
-
-            <div class="field-grid-2">
-              <div class="field">
-                <label for="eventYear">Год</label>
-                <input type="number" id="eventYear" placeholder="2026">
-              </div>
-              <div class="field">
-                <label for="eventMonth">Месяц</label>
-                <select id="eventMonth"></select>
-              </div>
-            </div>
-
-            <div class="field-grid-2">
-              <div class="field">
-                <label for="eventDate">Дата месяца</label>
-                <input type="number" id="eventDate" min="1" max="31" placeholder="Например: 21">
-              </div>
-              <div class="field">
-                <label for="eventTime">Время</label>
-                <input type="text" id="eventTime" placeholder="Например: 16:00">
-              </div>
-            </div>
-
-            <div class="field">
-              <label for="eventPlace">Место / описание</label>
-              <textarea id="eventPlace"></textarea>
-            </div>
-
-            <div class="field">
-              <label for="eventLink">Ссылка для записи именно на это событие</label>
-              <input type="text" id="eventLink" placeholder="https://...">
-            </div>
-
-            <div class="field">
-              <label for="eventColor">Тип / цвет</label>
-              <select id="eventColor">
-                <option value="blue">Синий</option>
-                <option value="orange">Оранжевый</option>
-                <option value="green">Зелёный</option>
-              </select>
-            </div>
-
-            <div class="form-toolbar">
-              <button class="btn" id="saveEventBtn">Сохранить</button>
-              <button class="btn gray" id="cancelEventEditBtn">Отменить</button>
-            </div>
-
-            <div class="list" id="eventsAdminList"></div>
+          <div class="field">
+            <label for="sInfoMark">Плашка блока Инфо</label>
+            <input id="sInfoMark">
           </div>
-
-          <div class="admin-card" id="teamCard">
-            <div class="admin-card-head">
-              <h3>Команда</h3>
-              <div class="edit-note" id="memberEditNote"></div>
-            </div>
-
-            <div class="field">
-              <label for="memberName">ФИО</label>
-              <input type="text" id="memberName">
-            </div>
-
-            <div class="field">
-              <label for="memberRole">Должность</label>
-              <input type="text" id="memberRole">
-            </div>
-
-            <div class="field">
-              <label for="memberDesc">Описание</label>
-              <textarea id="memberDesc"></textarea>
-            </div>
-
-            <div class="field">
-              <label for="memberPhoto">Ссылка на фото</label>
-              <input type="text" id="memberPhoto" placeholder="https://...">
-            </div>
-
-            <div class="form-toolbar">
-              <button class="btn" id="saveMemberBtn">Сохранить</button>
-              <button class="btn gray" id="cancelMemberEditBtn">Отменить</button>
-            </div>
-
-            <div class="list" id="membersAdminList"></div>
+          <div class="field">
+            <label for="sJobsTitle">Заголовок блока записи</label>
+            <input id="sJobsTitle">
           </div>
-
-          <div class="admin-card" id="directionsCard">
-            <div class="admin-card-head">
-              <h3>Направления и ссылки</h3>
-              <div class="edit-note" id="directionEditNote"></div>
-            </div>
-
-            <div class="field">
-              <label for="directionName">Название направления</label>
-              <input type="text" id="directionName">
-            </div>
-
-            <div class="field">
-              <label for="directionSub">Подпись / описание</label>
-              <input type="text" id="directionSub">
-            </div>
-
-            <div class="field">
-              <label for="directionJobs">Ссылка на таблицу</label>
-              <textarea id="directionJobs" placeholder="https://..."></textarea>
-            </div>
-
-            <div class="form-toolbar">
-              <button class="btn" id="saveDirectionBtn">Сохранить</button>
-              <button class="btn gray" id="cancelDirectionEditBtn">Отменить</button>
-            </div>
-
-            <div class="list" id="directionsAdminList"></div>
+          <div class="field">
+            <label for="sEventsTitle">Заголовок блока мероприятий</label>
+            <input id="sEventsTitle">
+          </div>
+          <div class="field">
+            <label for="sTeamTitle">Заголовок команды</label>
+            <input id="sTeamTitle">
+          </div>
+          <div class="field">
+            <label for="sDirectionsTitle">Заголовок направлений</label>
+            <input id="sDirectionsTitle">
+          </div>
+          <div class="form-toolbar">
+            <button class="btn gray" id="applySettingsBtn" type="button">Применить на странице</button>
           </div>
         </div>
-      </div>
+
+        <div class="admin-card">
+          <h3>Запись в центр</h3>
+          <div class="edit-note" id="jobEditNote"></div>
+          <div class="field">
+            <label for="jobTitle">Название</label>
+            <input type="text" id="jobTitle">
+          </div>
+          <div class="field">
+            <label for="jobDirection">Категория</label>
+            <input type="text" id="jobDirection" placeholder="Например: Карьера">
+          </div>
+          <div class="field">
+            <label for="jobDesc">Описание</label>
+            <textarea id="jobDesc"></textarea>
+          </div>
+          <div class="field">
+            <label for="jobLink">Ссылка на запись</label>
+            <input type="text" id="jobLink" placeholder="https://...">
+          </div>
+          <div class="form-toolbar">
+            <button class="btn" id="saveJobBtn" type="button">Сохранить блок</button>
+            <button class="btn gray" id="cancelJobEditBtn" type="button">Отменить</button>
+          </div>
+          <div class="list" id="jobsAdminList"></div>
+        </div>
+
+        <div class="admin-card">
+          <h3>События</h3>
+          <div class="edit-note" id="eventEditNote"></div>
+          <div class="field">
+            <label for="eventTitle">Название события</label>
+            <input type="text" id="eventTitle">
+          </div>
+          <div class="field">
+            <label for="eventYear">Год</label>
+            <input type="number" id="eventYear" placeholder="2026">
+          </div>
+          <div class="field">
+            <label for="eventMonth">Месяц</label>
+            <select id="eventMonth"></select>
+          </div>
+          <div class="field">
+            <label for="eventDate">День месяца</label>
+            <input type="number" id="eventDate" min="1" max="31">
+          </div>
+          <div class="field">
+            <label for="eventTime">Время</label>
+            <input type="text" id="eventTime" placeholder="Например: 16:00">
+          </div>
+          <div class="field">
+            <label for="eventPlace">Описание / место</label>
+            <textarea id="eventPlace"></textarea>
+          </div>
+          <div class="field">
+            <label for="eventLink">Ссылка на запись на это событие</label>
+            <input type="text" id="eventLink" placeholder="https://...">
+          </div>
+          <div class="field">
+            <label for="eventColor">Цвет</label>
+            <select id="eventColor">
+              <option value="blue">Синий</option>
+              <option value="orange">Оранжевый</option>
+              <option value="green">Зелёный</option>
+            </select>
+          </div>
+          <div class="form-toolbar">
+            <button class="btn" id="saveEventBtn" type="button">Сохранить событие</button>
+            <button class="btn gray" id="cancelEventEditBtn" type="button">Отменить</button>
+          </div>
+          <div class="list" id="eventsAdminList"></div>
+        </div>
+
+        <div class="admin-card">
+          <h3>Команда</h3>
+          <div class="edit-note" id="memberEditNote"></div>
+          <div class="field">
+            <label for="memberName">ФИО</label>
+            <input type="text" id="memberName">
+          </div>
+          <div class="field">
+            <label for="memberRole">Должность</label>
+            <input type="text" id="memberRole">
+          </div>
+          <div class="field">
+            <label for="memberDesc">Описание</label>
+            <textarea id="memberDesc"></textarea>
+          </div>
+          <div class="field">
+            <label for="memberPhoto">Ссылка на фото</label>
+            <input type="text" id="memberPhoto" placeholder="https://...">
+          </div>
+          <div class="form-toolbar">
+            <button class="btn" id="saveMemberBtn" type="button">Сохранить сотрудника</button>
+            <button class="btn gray" id="cancelMemberEditBtn" type="button">Отменить</button>
+          </div>
+          <div class="list" id="membersAdminList"></div>
+        </div>
+
+        <div class="admin-card">
+          <h3>Направления</h3>
+          <div class="edit-note" id="directionEditNote"></div>
+          <div class="field">
+            <label for="directionName">Название направления</label>
+            <input type="text" id="directionName">
+          </div>
+          <div class="field">
+            <label for="directionSub">Короткое описание</label>
+            <input type="text" id="directionSub">
+          </div>
+          <div class="field">
+            <label for="directionDesc">Описание карточки</label>
+            <textarea id="directionDesc"></textarea>
+          </div>
+          <div class="field">
+            <label for="directionLink">Ссылка на таблицу</label>
+            <input type="text" id="directionLink" placeholder="https://...">
+          </div>
+          <div class="form-toolbar">
+            <button class="btn" id="saveDirectionBtn" type="button">Сохранить направление</button>
+            <button class="btn gray" id="cancelDirectionEditBtn" type="button">Отменить</button>
+          </div>
+          <div class="list" id="directionsAdminList"></div>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="modal" id="dayEventsModal">
-    <div class="modal-box" style="width:min(760px,100%);">
+    <div class="modal-box narrow">
       <div class="modal-head">
         <h2 class="modal-title" id="dayEventsTitle">События дня</h2>
-        <button class="close-btn" id="closeDayEventsBtn">Закрыть</button>
+        <button class="close-btn" id="closeDayEventsBtn" type="button">Закрыть</button>
       </div>
-      <div class="muted-text" id="dayEventsSubtitle">Здесь будет информация о выбранной дате.</div>
-      <div class="day-events-modal-list" id="dayEventsList"></div>
-      <div class="day-events-actions" id="dayEventsActions"></div>
+      <div class="day-event-list" id="dayEventsList"></div>
     </div>
   </div>
 
   <script>
+    function showRuntimeError(message) {
+      const box = document.getElementById('runtimeErrorBox');
+      const text = document.getElementById('runtimeErrorText');
+      if (box && text) {
+        text.textContent = String(message || 'Неизвестная ошибка');
+        box.style.display = 'block';
+      }
+    }
+
+    window.addEventListener('error', function(e) {
+      showRuntimeError((e && e.message ? e.message : 'JS error') + (e && e.filename ? '\\n' + e.filename + ':' + e.lineno : ''));
+    });
+
+    window.addEventListener('unhandledrejection', function(e) {
+      showRuntimeError(e && e.reason ? (e.reason.message || String(e.reason)) : 'Unhandled promise rejection');
+    });
+
     const SUPABASE_URL = "https://zxvqgqnwbkqmopaxtqcm.supabase.co";
     const SUPABASE_KEY = "sb_publishable_90CEm1Vf4QqF4p4C7DAsvw_c_eb78XE";
-    const CONTENT_SLUG = "main";
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+    const monthNames = ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"];
 
-    const MONTH_NAMES = [
-      "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
-      "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
-    ];
-
-    const initialState = {
+    const defaultState = {
+      settings: {
+        headerTitle: "Запись, мероприятия и команда центра карьеры",
+        headerText: "Площадка для студентов и выпускников: запись на консультации, карьерные события и полезные ссылки по направлениям обучения.",
+        infoTitle: "Инфо",
+        infoText: "Центр карьеры помогает студентам с поиском практики, подготовкой резюме и карьерными консультациями. На сайте можно записаться на нужный формат помощи, посмотреть мероприятия и открыть таблицы по направлениям.",
+        infoMark: "Запись и полезные ссылки доступны онлайн",
+        jobsTitle: "Запись в центр карьеры",
+        eventsTitle: "Мероприятия",
+        teamTitle: "Команда центра",
+        directionsTitle: "Направления и таблицы"
+      },
       jobs: [
         {
-          title: "Запись на карьерную консультацию",
-          direction: "Консультация",
-          desc: "Здесь можно оставить описание, зачем студенту нужна запись: помощь с резюме, поиск стажировки, подготовка к собеседованию и другие вопросы.",
-          link: "#"
-        },
-        {
-          title: "Запись на помощь с трудоустройством",
-          direction: "Трудоустройство",
-          desc: "Отдельный блок для записи студентов, которым нужна помощь с поиском вакансий, практики или стажировки.",
-          link: "#"
-        },
-        {
-          title: "Запись на разбор резюме",
+          title: "Консультация по резюме",
           direction: "Резюме",
-          desc: "Блок для индивидуальной записи на проверку резюме и рекомендаций по его улучшению.",
-          link: "#"
-        }
-      ],
-      events: [
-        {
-          title: "Ярмарка вакансий",
-          year: 2026,
-          month: 4,
-          day: 8,
-          time: "14:00",
-          place: "Актовый зал",
-          color: "blue",
+          desc: "Помощь с оформлением резюме, структурой, подачей навыков и опытом. Оставлено место под описание, зачем нужна эта запись.",
           link: "#"
         },
         {
-          title: "Встреча с работодателем",
-          year: 2026,
-          month: 4,
-          day: 13,
-          time: "12:30",
-          place: "Конференц-зал",
-          color: "orange",
+          title: "Помощь с поиском практики",
+          direction: "Практика",
+          desc: "Консультация по поиску практики и стажировок. Можно рассказать, на что откликаться и как подготовиться к первому этапу отбора.",
           link: "#"
         },
         {
           title: "Карьерная консультация",
-          year: 2026,
-          month: 4,
-          day: 21,
-          time: "16:00",
-          place: "Кабинет центра карьеры",
-          color: "green",
-          link: "#"
-        },
-        {
-          title: "Онлайн-вебинар по резюме",
-          year: 2026,
-          month: 4,
-          day: 21,
-          time: "17:30",
-          place: "Онлайн",
-          color: "blue",
-          link: "#"
-        },
-        {
-          title: "Разбор откликов",
-          year: 2026,
-          month: 4,
-          day: 21,
-          time: "18:30",
-          place: "Онлайн",
-          color: "orange",
-          link: "#"
-        },
-        {
-          title: "Летняя стажировка: встреча",
-          year: 2026,
-          month: 5,
-          day: 11,
-          time: "15:00",
-          place: "Конференц-зал",
-          color: "blue",
+          direction: "Карьера",
+          desc: "Индивидуальная запись для обсуждения карьерного маршрута, портфолио, подготовки к собеседованию и плана развития.",
           link: "#"
         }
+      ],
+      events: [
+        { title: "Ярмарка вакансий", year: 2026, month: 3, day: 14, time: "14:00", place: "Актовый зал, регистрация для студентов 2–4 курса", color: "blue", link: "#" },
+        { title: "Как составить резюме", year: 2026, month: 3, day: 18, time: "16:30", place: "Аудитория 212, практический мастер-класс", color: "green", link: "#" },
+        { title: "Тренинг по собеседованию", year: 2026, month: 3, day: 18, time: "18:00", place: "Аудитория 305, для выпускных групп", color: "orange", link: "#" }
       ],
       members: [
-        {
-          name: "Иванова Мария",
-          role: "Руководитель центра",
-          desc: "Координирует работу центра карьеры, взаимодействует с работодателями и сопровождает карьерные мероприятия.",
-          photo: ""
-        },
-        {
-          name: "Петров Алексей",
-          role: "Карьерный консультант",
-          desc: "Помогает студентам с выбором вакансий, подготовкой к собеседованиям и оформлением откликов.",
-          photo: ""
-        },
-        {
-          name: "Смирнова Анна",
-          role: "Куратор мероприятий",
-          desc: "Организует встречи с работодателями, ярмарки вакансий и запись участников через формы.",
-          photo: ""
-        },
-        {
-          name: "Кузнецов Дмитрий",
-          role: "Специалист по вакансиям",
-          desc: "Подбирает предложения по направлениям подготовки и обновляет раздел с вакансиями на сайте.",
-          photo: ""
-        }
+        { name: "Иванова Анастасия Петровна", role: "Руководитель центра", desc: "Координирует карьерные мероприятия, консультации и работу с работодателями.", photo: "" },
+        { name: "Смирнов Павел Игоревич", role: "Карьерный консультант", desc: "Помогает с резюме, собеседованиями и маршрутами трудоустройства.", photo: "" }
       ],
-      settings: {
-        headerLabel: "Центр карьеры колледжа",
-        headerTitle: "Запись в центр карьеры, мероприятия и команда центра",
-        headerText: "Площадка для студентов и выпускников: запись на консультации центра карьеры, карьерные события и полезные ссылки по направлениям обучения.",
-        infoTitle: "Инфо",
-        infoText: "Центр карьеры помогает студентам с трудоустройством, стажировками, практикой, резюме и подготовкой к собеседованиям. Ниже можно разместить запись на консультацию, а также оставить описание, зачем студенту обращаться в центр карьеры.",
-        infoMark: "Формы записи и регистрации доступны онлайн",
-        teamTitle: "Команда центра",
-        eventsTitle: "Мероприятия",
-        calendarBadge: "Календарь событий",
-        eventsSummaryTitle: "Как пользоваться календарём",
-        eventsSummaryText: "Нажмите на день с событиями, чтобы открыть подробную информацию и перейти к записи.",
-        jobsTitle: "Запись в центр карьеры",
-        jobsBadge: "Онлайн-запись",
-        directionsTitle: "Направления обучения",
-        directionsBadge: "Ссылки на таблицы"
-      },
       directions: [
-        {
-          name: "ИСИП",
-          sub: "Информационные системы и программирование",
-          link: "#"
-        },
-        {
-          name: "ГД",
-          sub: "Графический дизайн",
-          link: "#"
-        },
-        {
-          name: "ДОУ",
-          sub: "Документационное обеспечение управления",
-          link: "#"
-        },
-        {
-          name: "СКФД",
-          sub: "Профиль работы с данными и сопровождением",
-          link: "#"
-        }
+        { name: "ИСИП", sub: "Информационные системы", desc: "Ссылка на таблицу с актуальными вакансиями и практикой по направлению.", link: "#" },
+        { name: "Дизайн", sub: "Графика и интерфейсы", desc: "Ссылка на таблицу с предложениями и полезными материалами по направлению.", link: "#" },
+        { name: "Экономика", sub: "Аналитика и финансы", desc: "Ссылка на таблицу с вакансиями и стажировками для студентов направления.", link: "#" },
+        { name: "Юриспруденция", sub: "Правовые дисциплины", desc: "Ссылка на таблицу с подборкой возможностей и полезных ссылок.", link: "#" }
       ]
     };
 
-    let state = JSON.parse(JSON.stringify(initialState));
-    let currentProfile = null;
-    let isBootstrapping = true;
-
+    let state = JSON.parse(JSON.stringify(defaultState));
     let currentCalendarYear = 2026;
-    let currentCalendarMonth = 4; // май = 4
-
+    let currentCalendarMonth = 3;
+    let currentProfile = null;
     let editingJobIndex = null;
     let editingEventIndex = null;
     let editingMemberIndex = null;
     let editingDirectionIndex = null;
-    let selectedDayEvents = [];
 
-    const jobsGrid = document.getElementById("jobsGrid");
+    const headerTitle = document.getElementById("headerTitle");
+    const headerText = document.getElementById("headerText");
+    const infoTitle = document.getElementById("infoTitle");
+    const infoText = document.getElementById("infoText");
+    const infoMark = document.getElementById("infoMark");
+    const jobsTitle = document.getElementById("jobsTitle");
+    const eventsTitle = document.getElementById("eventsTitle");
+    const teamTitle = document.getElementById("teamTitle");
+    const directionsTitle = document.getElementById("directionsTitle");
+
     const teamGrid = document.getElementById("teamGrid");
+    const jobsGrid = document.getElementById("jobsGrid");
+    const directionsGrid = document.getElementById("directionsGrid");
     const calendarGrid = document.getElementById("calendarGrid");
     const calendarMonthTitle = document.getElementById("calendarMonthTitle");
-    const directionsGrid = document.getElementById("directionsGrid");
 
-    const headerLabelText = document.getElementById("headerLabelText");
-    const headerTitleText = document.getElementById("headerTitleText");
-    const headerTextBlock = document.getElementById("headerTextBlock");
-    const infoTitleText = document.getElementById("infoTitleText");
-    const infoTextBlock = document.getElementById("infoTextBlock");
-    const infoMarkText = document.getElementById("infoMarkText");
-    const teamTitleText = document.getElementById("teamTitleText");
-    const eventsTitleText = document.getElementById("eventsTitleText");
-    const calendarBadgeText = document.getElementById("calendarBadgeText");
-    const eventsSummaryTitleText = document.getElementById("eventsSummaryTitleText");
-    const eventsSummaryText = document.getElementById("eventsSummaryText");
-    const jobsTitleText = document.getElementById("jobsTitleText");
-    const jobsBadgeText = document.getElementById("jobsBadgeText");
-    const directionsTitleText = document.getElementById("directionsTitleText");
-    const directionsBadgeText = document.getElementById("directionsBadgeText");
-
-    const prevMonthBtn = document.getElementById("prevMonthBtn");
-    const nextMonthBtn = document.getElementById("nextMonthBtn");
-
+    const accountModal = document.getElementById("accountModal");
     const adminModal = document.getElementById("adminModal");
+    const dayEventsModal = document.getElementById("dayEventsModal");
+
+    const accountOpenBtn = document.getElementById("accountOpenBtn");
+    const logoutTopBtn = document.getElementById("logoutTopBtn");
     const openAdminBtn = document.getElementById("openAdminBtn");
+    const closeAccountBtn = document.getElementById("closeAccountBtn");
     const closeAdminBtn = document.getElementById("closeAdminBtn");
+    const closeDayEventsBtn = document.getElementById("closeDayEventsBtn");
 
     const loginView = document.getElementById("loginView");
-    const adminView = document.getElementById("adminView");
+    const accountView = document.getElementById("accountView");
+    const accountInfoText = document.getElementById("accountInfoText");
+    const accountModalTitle = document.getElementById("accountModalTitle");
+
     const emailInput = document.getElementById("emailInput");
     const passwordInput = document.getElementById("passwordInput");
     const loginBtn = document.getElementById("loginBtn");
-    const loginError = document.getElementById("loginError");
     const logoutBtn = document.getElementById("logoutBtn");
-    const resetDemoBtn = document.getElementById("resetDemoBtn");
+    const loginError = document.getElementById("loginError");
 
-    const jobsAdminList = document.getElementById("jobsAdminList");
-    const eventsAdminList = document.getElementById("eventsAdminList");
-    const membersAdminList = document.getElementById("membersAdminList");
-    const directionsAdminList = document.getElementById("directionsAdminList");
-    const adminStats = document.getElementById("adminStats");
+    const adminSuccess = document.getElementById("adminSuccess");
+    const adminError = document.getElementById("adminError");
 
-    const jobTitle = document.getElementById("jobTitle");
+    const sHeaderTitle = document.getElementById("sHeaderTitle");
+    const sHeaderText = document.getElementById("sHeaderText");
+    const sInfoTitle = document.getElementById("sInfoTitle");
+    const sInfoText = document.getElementById("sInfoText");
+    const sInfoMark = document.getElementById("sInfoMark");
+    const sJobsTitle = document.getElementById("sJobsTitle");
+    const sEventsTitle = document.getElementById("sEventsTitle");
+    const sTeamTitle = document.getElementById("sTeamTitle");
+    const sDirectionsTitle = document.getElementById("sDirectionsTitle");
+
+    const jobTitleInput = document.getElementById("jobTitle");
     const jobDirection = document.getElementById("jobDirection");
     const jobDesc = document.getElementById("jobDesc");
     const jobLink = document.getElementById("jobLink");
-    const saveJobBtn = document.getElementById("saveJobBtn");
-    const cancelJobEditBtn = document.getElementById("cancelJobEditBtn");
     const jobEditNote = document.getElementById("jobEditNote");
 
-    const eventTitle = document.getElementById("eventTitle");
+    const eventTitleInput = document.getElementById("eventTitle");
     const eventYear = document.getElementById("eventYear");
     const eventMonth = document.getElementById("eventMonth");
     const eventDate = document.getElementById("eventDate");
@@ -1601,652 +941,425 @@
     const eventPlace = document.getElementById("eventPlace");
     const eventLink = document.getElementById("eventLink");
     const eventColor = document.getElementById("eventColor");
-    const saveEventBtn = document.getElementById("saveEventBtn");
-    const cancelEventEditBtn = document.getElementById("cancelEventEditBtn");
     const eventEditNote = document.getElementById("eventEditNote");
 
     const memberName = document.getElementById("memberName");
     const memberRole = document.getElementById("memberRole");
     const memberDesc = document.getElementById("memberDesc");
     const memberPhoto = document.getElementById("memberPhoto");
-    const saveMemberBtn = document.getElementById("saveMemberBtn");
-    const cancelMemberEditBtn = document.getElementById("cancelMemberEditBtn");
     const memberEditNote = document.getElementById("memberEditNote");
 
     const directionName = document.getElementById("directionName");
     const directionSub = document.getElementById("directionSub");
-    const directionJobs = document.getElementById("directionJobs");
-
-    const dayEventsModal = document.getElementById("dayEventsModal");
-    const closeDayEventsBtn = document.getElementById("closeDayEventsBtn");
-    const dayEventsTitle = document.getElementById("dayEventsTitle");
-    const dayEventsSubtitle = document.getElementById("dayEventsSubtitle");
-    const dayEventsList = document.getElementById("dayEventsList");
-    const dayEventsActions = document.getElementById("dayEventsActions");
-    const settingsHeaderLabel = document.getElementById("settingsHeaderLabel");
-    const settingsHeaderTitle = document.getElementById("settingsHeaderTitle");
-    const settingsHeaderText = document.getElementById("settingsHeaderText");
-    const settingsInfoTitle = document.getElementById("settingsInfoTitle");
-    const settingsInfoText = document.getElementById("settingsInfoText");
-    const settingsInfoMark = document.getElementById("settingsInfoMark");
-    const settingsTeamTitle = document.getElementById("settingsTeamTitle");
-    const settingsEventsTitle = document.getElementById("settingsEventsTitle");
-    const settingsCalendarBadge = document.getElementById("settingsCalendarBadge");
-    const settingsEventsSummaryTitle = document.getElementById("settingsEventsSummaryTitle");
-    const settingsEventsSummaryText = document.getElementById("settingsEventsSummaryText");
-    const settingsJobsTitle = document.getElementById("settingsJobsTitle");
-    const settingsJobsBadge = document.getElementById("settingsJobsBadge");
-    const settingsDirectionsTitle = document.getElementById("settingsDirectionsTitle");
-    const settingsDirectionsBadge = document.getElementById("settingsDirectionsBadge");
-    const saveSettingsBtn = document.getElementById("saveSettingsBtn");
-    const cancelSettingsBtn = document.getElementById("cancelSettingsBtn");
-
-    const saveDirectionBtn = document.getElementById("saveDirectionBtn");
-    const cancelDirectionEditBtn = document.getElementById("cancelDirectionEditBtn");
+    const directionDesc = document.getElementById("directionDesc");
+    const directionLink = document.getElementById("directionLink");
     const directionEditNote = document.getElementById("directionEditNote");
 
-    async function getCurrentSession() {
-      const { data, error } = await supabase.auth.getSession();
-      if (error) throw error;
-      return data.session || null;
+    function normalizeStr(value) {
+      return String(value || "").trim();
     }
 
-    async function fetchCurrentProfile() {
-      const session = await getCurrentSession();
-      if (!session) return null;
-
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("id, email, role")
-        .eq("id", session.user.id)
-        .single();
-
-      if (error) throw error;
-      return data;
+    function safeLink(url) {
+      const x = normalizeStr(url);
+      return x || "#";
     }
 
-    async function loadStateFromDatabase() {
-      const { data, error } = await supabase
-        .from("site_content")
-        .select("data")
-        .eq("slug", CONTENT_SLUG)
-        .maybeSingle();
-
-      if (error) throw error;
-      const dbState = data?.data;
-
-      if (!dbState || typeof dbState !== "object") {
-        state = JSON.parse(JSON.stringify(initialState));
-        return;
-      }
-
-      state = {
-        ...JSON.parse(JSON.stringify(initialState)),
-        ...dbState,
-        settings: { ...initialState.settings, ...(dbState.settings || {}) }
-      };
+    function cloneDefaultState() {
+      return JSON.parse(JSON.stringify(defaultState));
     }
 
-    async function persistState() {
-      const session = await getCurrentSession();
-      if (!session) throw new Error("Сессия не найдена");
-
-      const { error } = await supabase
-        .from("site_content")
-        .upsert(
-          [{
-            slug: CONTENT_SLUG,
-            data: state,
-            updated_by: session.user.id,
-            updated_at: new Date().toISOString()
-          }],
-          { onConflict: "slug" }
-        );
-
-      if (error) throw error;
-    }
-
-    function showSaveError(error) {
-      console.error(error);
-      const message = error?.message || "Не удалось сохранить данные";
-      alert(message);
-    }
-
-    async function updateAuthUi() {
-      try {
-        currentProfile = await fetchCurrentProfile();
-      } catch (error) {
-        console.error(error);
-        currentProfile = null;
-      }
-
-      const isAdmin = currentProfile?.role === "admin";
-      openAdminBtn.style.display = isAdmin ? "inline-flex" : "none";
-
-      if (isAdmin) {
-        loginView.classList.add("hidden");
-        adminView.classList.remove("hidden");
-      } else {
-        adminView.classList.add("hidden");
-        loginView.classList.remove("hidden");
-      }
-    }
-
-    function syncSettingsToPage() {
-      const s = state.settings || initialState.settings;
-      headerLabelText.textContent = s.headerLabel;
-      headerTitleText.textContent = s.headerTitle;
-      headerTextBlock.textContent = s.headerText;
-      infoTitleText.textContent = s.infoTitle;
-      infoTextBlock.textContent = s.infoText;
-      infoMarkText.textContent = s.infoMark;
-      teamTitleText.textContent = s.teamTitle;
-      eventsTitleText.textContent = s.eventsTitle;
-      calendarBadgeText.textContent = s.calendarBadge;
-      eventsSummaryTitleText.textContent = s.eventsSummaryTitle;
-      eventsSummaryText.textContent = s.eventsSummaryText;
-      jobsTitleText.textContent = s.jobsTitle;
-      jobsBadgeText.textContent = s.jobsBadge;
-      directionsTitleText.textContent = s.directionsTitle;
-      directionsBadgeText.textContent = s.directionsBadge;
-    }
-
-    function updateAdminStats() {
-      adminStats.innerHTML = `
-        <div class="admin-stat">Блоков записи: ${state.jobs.length}</div>
-        <div class="admin-stat">Событий: ${state.events.length}</div>
-        <div class="admin-stat">Сотрудников: ${state.members.length}</div>
-        <div class="admin-stat">Направлений: ${state.directions.length}</div>
-      `;
-    }
-
-    function fillSettingsForm() {
-      const s = state.settings;
-      settingsHeaderLabel.value = s.headerLabel;
-      settingsHeaderTitle.value = s.headerTitle;
-      settingsHeaderText.value = s.headerText;
-      settingsInfoTitle.value = s.infoTitle;
-      settingsInfoText.value = s.infoText;
-      settingsInfoMark.value = s.infoMark;
-      settingsTeamTitle.value = s.teamTitle;
-      settingsEventsTitle.value = s.eventsTitle;
-      settingsCalendarBadge.value = s.calendarBadge;
-      settingsEventsSummaryTitle.value = s.eventsSummaryTitle;
-      settingsEventsSummaryText.value = s.eventsSummaryText;
-      settingsJobsTitle.value = s.jobsTitle;
-      settingsJobsBadge.value = s.jobsBadge;
-      settingsDirectionsTitle.value = s.directionsTitle;
-      settingsDirectionsBadge.value = s.directionsBadge;
-    }
-
-    async function saveSettings() {
-      state.settings = {
-        headerLabel: settingsHeaderLabel.value.trim() || initialState.settings.headerLabel,
-        headerTitle: settingsHeaderTitle.value.trim() || initialState.settings.headerTitle,
-        headerText: settingsHeaderText.value.trim() || initialState.settings.headerText,
-        infoTitle: settingsInfoTitle.value.trim() || initialState.settings.infoTitle,
-        infoText: settingsInfoText.value.trim() || initialState.settings.infoText,
-        infoMark: settingsInfoMark.value.trim() || initialState.settings.infoMark,
-        teamTitle: settingsTeamTitle.value.trim() || initialState.settings.teamTitle,
-        eventsTitle: settingsEventsTitle.value.trim() || initialState.settings.eventsTitle,
-        calendarBadge: settingsCalendarBadge.value.trim() || initialState.settings.calendarBadge,
-        eventsSummaryTitle: settingsEventsSummaryTitle.value.trim() || initialState.settings.eventsSummaryTitle,
-        eventsSummaryText: settingsEventsSummaryText.value.trim() || initialState.settings.eventsSummaryText,
-        jobsTitle: settingsJobsTitle.value.trim() || initialState.settings.jobsTitle,
-        jobsBadge: settingsJobsBadge.value.trim() || initialState.settings.jobsBadge,
-        directionsTitle: settingsDirectionsTitle.value.trim() || initialState.settings.directionsTitle,
-        directionsBadge: settingsDirectionsBadge.value.trim() || initialState.settings.directionsBadge
-      };
-      try {
-        await persistState();
-        syncSettingsToPage();
-        fillSettingsForm();
-      } catch (error) {
-        showSaveError(error);
-      }
-    }
-
-    function fillMonthSelect() {
-      eventMonth.innerHTML = MONTH_NAMES.map((name, index) =>
-        `<option value="${index}">${name}</option>`
-      ).join("");
-    }
-
-    function escapeHtml(str) {
-      return String(str)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
-
-    function shortEventTitle(title) {
-      return title.length > 18 ? title.slice(0, 18) + "…" : title;
-    }
-
-    function getColorClass(color) {
-      if (color === "orange") return "event-orange";
-      if (color === "green") return "event-green";
-      return "event-blue";
-    }
-
-    function getInitials(name) {
-      const parts = name.trim().split(/\s+/).filter(Boolean);
-      return parts.slice(0, 2).map(p => p[0]?.toUpperCase() || "").join("");
-    }
-
-    function renderJobs() {
-      jobsGrid.innerHTML = "";
-      state.jobs.forEach(job => {
-        const card = document.createElement("div");
-        card.className = "job-card";
-        card.innerHTML = `
-          <div class="job-tag">${escapeHtml(job.direction)}</div>
-          <h3 class="job-title">${escapeHtml(job.title)}</h3>
-          <p class="job-text">${escapeHtml(job.desc)}</p>
-          <a href="${escapeHtml(job.link || "#")}" class="job-btn" target="_blank" rel="noopener noreferrer">Перейти к записи</a>
-        `;
-        jobsGrid.appendChild(card);
-      });
+    function renderSettings() {
+      headerTitle.textContent = state.settings.headerTitle;
+      headerText.textContent = state.settings.headerText;
+      infoTitle.textContent = state.settings.infoTitle;
+      infoText.textContent = state.settings.infoText;
+      infoMark.textContent = state.settings.infoMark;
+      jobsTitle.textContent = state.settings.jobsTitle;
+      eventsTitle.textContent = state.settings.eventsTitle;
+      teamTitle.textContent = state.settings.teamTitle;
+      directionsTitle.textContent = state.settings.directionsTitle;
     }
 
     function renderTeam() {
-      teamGrid.innerHTML = "";
-      state.members.forEach(member => {
-        const photoStyle = member.photo ? `background-image:url('${member.photo.replaceAll("'", "\\'")}');` : "";
-        const photoClass = member.photo ? "team-photo" : "team-photo placeholder";
-        const card = document.createElement("div");
-        card.className = "team-card";
-        card.innerHTML = `
-          <div class="team-top">
-            <div class="${photoClass}" style="${photoStyle}">
-              ${member.photo ? "" : `<span style="position:relative;z-index:2;">${escapeHtml(getInitials(member.name))}</span>`}
+      if (!state.members.length) {
+        teamGrid.innerHTML = '<div class="muted-text">Сотрудники пока не добавлены.</div>';
+        return;
+      }
+
+      teamGrid.innerHTML = state.members.map((item) => {
+        const initials = item.name.split(" ").map(x => x[0]).slice(0,2).join("").toUpperCase();
+        const photoStyle = item.photo ? `style="background-image:url('${item.photo.replace(/'/g, "%27")}')"` : "";
+        return `
+          <div class="team-card">
+            <div class="team-top">
+              <div class="team-photo" ${photoStyle}>${item.photo ? "" : initials}</div>
+              <div>
+                <h3 class="team-name">${item.name}</h3>
+                <p class="team-role">${item.role}</p>
+              </div>
             </div>
-            <div>
-              <h3 class="team-name">${escapeHtml(member.name)}</h3>
-              <div class="team-role">${escapeHtml(member.role)}</div>
-            </div>
+            <p class="team-desc">${item.desc}</p>
           </div>
-          <p class="team-desc">${escapeHtml(member.desc)}</p>
         `;
-        teamGrid.appendChild(card);
-      });
+      }).join("");
     }
 
-    function renderCalendar() {
-      calendarGrid.innerHTML = "";
-
-      calendarMonthTitle.textContent = `${MONTH_NAMES[currentCalendarMonth]} ${currentCalendarYear}`;
-
-      const firstDay = new Date(currentCalendarYear, currentCalendarMonth, 1);
-      const firstWeekDay = (firstDay.getDay() + 6) % 7; // Пн=0
-      const daysInMonth = new Date(currentCalendarYear, currentCalendarMonth + 1, 0).getDate();
-      const daysInPrevMonth = new Date(currentCalendarYear, currentCalendarMonth, 0).getDate();
-
-      for (let i = 0; i < firstWeekDay; i++) {
-        const prevDayNumber = daysInPrevMonth - firstWeekDay + i + 1;
-        const cell = document.createElement("div");
-        cell.className = "day muted";
-        cell.innerHTML = `<div class="day-number">${prevDayNumber}</div>`;
-        calendarGrid.appendChild(cell);
+    function renderJobs() {
+      if (!state.jobs.length) {
+        jobsGrid.innerHTML = '<div class="muted-text">Блоки записи пока не добавлены.</div>';
+        return;
       }
 
-      for (let day = 1; day <= daysInMonth; day++) {
-        const dayEvents = state.events
-          .filter(e => e.year === currentCalendarYear && e.month === currentCalendarMonth && e.day === day)
-          .sort((a, b) => a.time.localeCompare(b.time));
-
-        const cell = document.createElement("div");
-        cell.className = `day${dayEvents.length ? " has-events" : ""}`;
-
-        let eventsHtml = "";
-        if (dayEvents.length) {
-          const visible = dayEvents.slice(0, 2);
-          eventsHtml += `<div class="day-events">`;
-          visible.forEach(event => {
-            eventsHtml += `
-              <span class="mini-event ${getColorClass(event.color)}">
-                ${escapeHtml(event.time)} · ${escapeHtml(shortEventTitle(event.title))}
-              </span>
-            `;
-          });
-          if (dayEvents.length > 2) {
-            eventsHtml += `<span class="event-more">+${dayEvents.length - 2} событие</span>`;
-          }
-          eventsHtml += `</div>`;
-          cell.addEventListener("click", () => openDayEventsModal(day, dayEvents));
-        }
-
-        cell.innerHTML = `
-          <div class="day-number">${day}</div>
-          ${eventsHtml}
-        `;
-        calendarGrid.appendChild(cell);
-      }
-
-      const usedCells = firstWeekDay + daysInMonth;
-      const tailCells = Math.ceil(usedCells / 7) * 7 - usedCells;
-
-      for (let i = 1; i <= tailCells; i++) {
-        const cell = document.createElement("div");
-        cell.className = "day muted";
-        cell.innerHTML = `<div class="day-number">${i}</div>`;
-        calendarGrid.appendChild(cell);
-      }
+      jobsGrid.innerHTML = state.jobs.map((item) => `
+        <div class="job-card">
+          <div class="job-tag">${item.direction || "Запись"}</div>
+          <h3 class="job-title">${item.title}</h3>
+          <p class="job-text">${item.desc || "Описание пока не добавлено."}</p>
+          <a class="job-btn" href="${safeLink(item.link)}" target="_blank" rel="noopener noreferrer">Записаться</a>
+        </div>
+      `).join("");
     }
 
     function renderDirections() {
-      directionsGrid.innerHTML = "";
-      state.directions.forEach(direction => {
-        const card = document.createElement("div");
-        card.className = "direction-card";
-        card.innerHTML = `
+      if (!state.directions.length) {
+        directionsGrid.innerHTML = '<div class="muted-text">Направления пока не добавлены.</div>';
+        return;
+      }
+
+      directionsGrid.innerHTML = state.directions.map((item) => `
+        <div class="direction-card">
           <div class="direction-top">
-            <h3 class="direction-title">${escapeHtml(direction.name)}</h3>
-            <p class="direction-sub">${escapeHtml(direction.sub)}</p>
+            <h3 class="direction-title">${item.name}</h3>
+            <p class="direction-sub">${item.sub || ""}</p>
           </div>
           <div class="direction-body">
-            <a href="${escapeHtml(direction.link || "#")}" class="direction-link" target="_blank" rel="noopener noreferrer">Открыть таблицу</a>
+            <p>${item.desc || "Описание пока не добавлено."}</p>
+            <a class="direction-link" href="${safeLink(item.link)}" target="_blank" rel="noopener noreferrer">Открыть таблицу</a>
           </div>
-        `;
-        directionsGrid.appendChild(card);
-      });
+        </div>
+      `).join("");
     }
 
-
-    function formatFullDate(day) {
-      return `${day} ${MONTH_NAMES[currentCalendarMonth].toLowerCase()} ${currentCalendarYear}`;
+    function getEventsForDay(year, month, day) {
+      return state.events.filter((item) => item.year === year && item.month === month && item.day === day);
     }
 
-    function openDayEventsModal(day, events) {
-      selectedDayEvents = [...events];
-      dayEventsTitle.textContent = `События на ${formatFullDate(day)}`;
-      dayEventsSubtitle.textContent = "Нажмите на кнопку у нужного события, чтобы записаться именно на него.";
-      dayEventsList.innerHTML = "";
-      dayEventsActions.innerHTML = "";
+    function openDayEventsModal(year, month, day) {
+      const events = getEventsForDay(year, month, day);
+      if (!events.length) return;
 
-      if (!selectedDayEvents.length) {
-        dayEventsList.innerHTML = `<div class="day-events-empty">На выбранную дату событий нет.</div>`;
-      } else {
-        selectedDayEvents.forEach(event => {
-          const item = document.createElement("div");
-          item.className = "day-event-card";
-          item.innerHTML = `
-            <div class="day-event-time">${escapeHtml(event.time)}</div>
-            <h3 class="day-event-title">${escapeHtml(event.title)}</h3>
-            <p class="day-event-text">${escapeHtml(event.place)}</p>
-            <a href="${escapeHtml(event.link || "#")}" class="event-register-btn" target="_blank" rel="noopener noreferrer">Записаться на это событие</a>
-          `;
-          dayEventsList.appendChild(item);
-        });
-      }
+      document.getElementById("dayEventsTitle").textContent = `${day} ${monthNames[month]} ${year}`;
+      document.getElementById("dayEventsList").innerHTML = events.map((item) => `
+        <div class="day-event-card">
+          <h3 class="item-title" style="margin-bottom:6px;">${item.title}</h3>
+          <div class="day-event-meta">
+            <div><b>Время:</b> ${item.time || "Не указано"}</div>
+            <div><b>Описание:</b> ${item.place || "Не указано"}</div>
+          </div>
+          <a class="job-btn" href="${safeLink(item.link)}" target="_blank" rel="noopener noreferrer">Записаться на это событие</a>
+        </div>
+      `).join("");
 
       dayEventsModal.classList.add("show");
     }
 
-    function closeDayEventsModal() {
-      dayEventsModal.classList.remove("show");
-    }
+    function renderCalendar() {
+      calendarMonthTitle.textContent = `${monthNames[currentCalendarMonth]} ${currentCalendarYear}`;
+      calendarGrid.innerHTML = "";
 
-    function renderJobsAdmin() {
-      jobsAdminList.innerHTML = "";
-      state.jobs.forEach((job, index) => {
-        const item = document.createElement("div");
-        item.className = "item";
-        item.innerHTML = `
-          <h4 class="item-title">${escapeHtml(job.title)}</h4>
-          <p class="item-text"><b>Категория:</b> ${escapeHtml(job.direction)}</p>
-          <p class="item-text">${escapeHtml(job.desc)}</p>
-          <p class="item-text"><b>Ссылка:</b> ${escapeHtml(job.link || "#")}</p>
-          <div class="item-actions">
-            <button class="small-btn" onclick="startEditJob(${index})">Редактировать</button>
-            <button class="small-btn delete" onclick="deleteJob(${index})">Удалить</button>
+      const firstDate = new Date(currentCalendarYear, currentCalendarMonth, 1);
+      const daysInMonth = new Date(currentCalendarYear, currentCalendarMonth + 1, 0).getDate();
+      let startWeekday = firstDate.getDay();
+      if (startWeekday === 0) startWeekday = 7;
+
+      const totalCells = 42;
+      const prevMonthDays = new Date(currentCalendarYear, currentCalendarMonth, 0).getDate();
+
+      for (let i = 1; i <= totalCells; i++) {
+        let dayNumber = 0;
+        let cellMonth = currentCalendarMonth;
+        let cellYear = currentCalendarYear;
+        let muted = false;
+
+        if (i < startWeekday) {
+          dayNumber = prevMonthDays - (startWeekday - i - 1);
+          cellMonth = currentCalendarMonth - 1;
+          if (cellMonth < 0) { cellMonth = 11; cellYear--; }
+          muted = true;
+        } else if (i >= startWeekday + daysInMonth) {
+          dayNumber = i - (startWeekday + daysInMonth) + 1;
+          cellMonth = currentCalendarMonth + 1;
+          if (cellMonth > 11) { cellMonth = 0; cellYear++; }
+          muted = true;
+        } else {
+          dayNumber = i - startWeekday + 1;
+        }
+
+        const events = getEventsForDay(cellYear, cellMonth, dayNumber);
+        const day = document.createElement("div");
+        day.className = `day${muted ? " muted" : ""}${events.length ? " has-events" : ""}`;
+        day.innerHTML = `
+          <div class="day-number">${dayNumber}</div>
+          <div class="day-events">
+            ${events.slice(0, 2).map((item) => `<div class="mini-event event-${item.color || "blue"}">${item.time ? item.time + " · " : ""}${item.title}</div>`).join("")}
+            ${events.length > 2 ? `<span class="event-more">+ ещё ${events.length - 2}</span>` : ""}
           </div>
         `;
-        jobsAdminList.appendChild(item);
-      });
+
+        if (!muted && events.length) {
+          day.addEventListener("click", () => openDayEventsModal(cellYear, cellMonth, dayNumber));
+        }
+
+        calendarGrid.appendChild(day);
+      }
     }
 
-    function renderEventsAdmin() {
-      eventsAdminList.innerHTML = "";
-      state.events.forEach((event, index) => {
-        const item = document.createElement("div");
-        item.className = "item";
-        item.innerHTML = `
-          <h4 class="item-title">${escapeHtml(event.title)}</h4>
-          <p class="item-text"><b>Дата:</b> ${event.day} ${MONTH_NAMES[event.month].toLowerCase()} ${event.year}, ${escapeHtml(event.time)}</p>
-          <p class="item-text"><b>Место:</b> ${escapeHtml(event.place)}</p>
-          <p class="item-text"><b>Ссылка на запись:</b> ${escapeHtml(event.link || "#")}</p>
-          <div class="item-actions">
-            <button class="small-btn" onclick="startEditEvent(${index})">Редактировать</button>
-            <button class="small-btn delete" onclick="deleteEvent(${index})">Удалить</button>
-          </div>
-        `;
-        eventsAdminList.appendChild(item);
-      });
+    function fillMonthSelect() {
+      eventMonth.innerHTML = monthNames.map((name, index) => `<option value="${index}">${name}</option>`).join("");
     }
 
-    function renderMembersAdmin() {
-      membersAdminList.innerHTML = "";
-      state.members.forEach((member, index) => {
-        const item = document.createElement("div");
-        item.className = "item";
-        item.innerHTML = `
-          <h4 class="item-title">${escapeHtml(member.name)}</h4>
-          <p class="item-text"><b>Должность:</b> ${escapeHtml(member.role)}</p>
-          <p class="item-text">${escapeHtml(member.desc)}</p>
-          <p class="item-text"><b>Фото:</b> ${escapeHtml(member.photo || "—")}</p>
-          <div class="item-actions">
-            <button class="small-btn" onclick="startEditMember(${index})">Редактировать</button>
-            <button class="small-btn delete" onclick="deleteMember(${index})">Удалить</button>
-          </div>
-        `;
-        membersAdminList.appendChild(item);
-      });
+    function fillSettingsForm() {
+      sHeaderTitle.value = state.settings.headerTitle || "";
+      sHeaderText.value = state.settings.headerText || "";
+      sInfoTitle.value = state.settings.infoTitle || "";
+      sInfoText.value = state.settings.infoText || "";
+      sInfoMark.value = state.settings.infoMark || "";
+      sJobsTitle.value = state.settings.jobsTitle || "";
+      sEventsTitle.value = state.settings.eventsTitle || "";
+      sTeamTitle.value = state.settings.teamTitle || "";
+      sDirectionsTitle.value = state.settings.directionsTitle || "";
     }
 
-    function renderDirectionsAdmin() {
-      directionsAdminList.innerHTML = "";
-      state.directions.forEach((direction, index) => {
-        const item = document.createElement("div");
-        item.className = "item";
-        item.innerHTML = `
-          <h4 class="item-title">${escapeHtml(direction.name)}</h4>
-          <p class="item-text"><b>Описание:</b> ${escapeHtml(direction.sub)}</p>
-          <p class="item-text"><b>Ссылка:</b> ${escapeHtml(direction.link || "#")}</p>
-          <div class="item-actions">
-            <button class="small-btn" onclick="startEditDirection(${index})">Редактировать</button>
-            <button class="small-btn delete" onclick="deleteDirection(${index})">Удалить</button>
-          </div>
-        `;
-        directionsAdminList.appendChild(item);
-      });
-    }
-
-    function renderAll() {
-      syncSettingsToPage();
-      updateAdminStats();
-      renderJobs();
-      renderTeam();
-      renderCalendar();
-      renderDirections();
-      renderJobsAdmin();
-      renderEventsAdmin();
-      renderMembersAdmin();
-      renderDirectionsAdmin();
+    function applySettingsFromForm() {
+      state.settings.headerTitle = normalizeStr(sHeaderTitle.value);
+      state.settings.headerText = normalizeStr(sHeaderText.value);
+      state.settings.infoTitle = normalizeStr(sInfoTitle.value);
+      state.settings.infoText = normalizeStr(sInfoText.value);
+      state.settings.infoMark = normalizeStr(sInfoMark.value);
+      state.settings.jobsTitle = normalizeStr(sJobsTitle.value);
+      state.settings.eventsTitle = normalizeStr(sEventsTitle.value);
+      state.settings.teamTitle = normalizeStr(sTeamTitle.value);
+      state.settings.directionsTitle = normalizeStr(sDirectionsTitle.value);
+      renderSettings();
     }
 
     function clearJobForm() {
-      jobTitle.value = "";
+      editingJobIndex = null;
+      jobTitleInput.value = "";
       jobDirection.value = "";
       jobDesc.value = "";
       jobLink.value = "";
-      editingJobIndex = null;
       jobEditNote.textContent = "";
-      saveJobBtn.textContent = "Сохранить";
+      document.getElementById("saveJobBtn").textContent = "Сохранить блок";
     }
 
     function clearEventForm() {
-      eventTitle.value = "";
+      editingEventIndex = null;
+      eventTitleInput.value = "";
       eventYear.value = currentCalendarYear;
       eventMonth.value = currentCalendarMonth;
       eventDate.value = "";
       eventTime.value = "";
       eventPlace.value = "";
-      eventLink.value = "#";
+      eventLink.value = "";
       eventColor.value = "blue";
-      editingEventIndex = null;
       eventEditNote.textContent = "";
-      saveEventBtn.textContent = "Сохранить";
+      document.getElementById("saveEventBtn").textContent = "Сохранить событие";
     }
 
     function clearMemberForm() {
+      editingMemberIndex = null;
       memberName.value = "";
       memberRole.value = "";
       memberDesc.value = "";
       memberPhoto.value = "";
-      editingMemberIndex = null;
       memberEditNote.textContent = "";
-      saveMemberBtn.textContent = "Сохранить";
+      document.getElementById("saveMemberBtn").textContent = "Сохранить сотрудника";
     }
 
     function clearDirectionForm() {
+      editingDirectionIndex = null;
       directionName.value = "";
       directionSub.value = "";
-      directionJobs.value = "#";
-      editingDirectionIndex = null;
+      directionDesc.value = "";
+      directionLink.value = "";
       directionEditNote.textContent = "";
-      saveDirectionBtn.textContent = "Сохранить";
+      document.getElementById("saveDirectionBtn").textContent = "Сохранить направление";
     }
 
-    async function saveJob() {
-      const title = jobTitle.value.trim();
-      const direction = jobDirection.value.trim();
-      const desc = jobDesc.value.trim();
-      const link = jobLink.value.trim() || "#";
-      if (!title || !direction || !desc) return;
+    function saveJobLocal() {
+      const item = {
+        title: normalizeStr(jobTitleInput.value),
+        direction: normalizeStr(jobDirection.value),
+        desc: normalizeStr(jobDesc.value),
+        link: safeLink(jobLink.value)
+      };
+      if (!item.title) return;
 
-      const payload = { title, direction, desc, link };
-
-      if (editingJobIndex === null) {
-        state.jobs.push(payload);
-      } else {
-        state.jobs[editingJobIndex] = payload;
-      }
+      if (editingJobIndex === null) state.jobs.push(item);
+      else state.jobs[editingJobIndex] = item;
 
       clearJobForm();
-      try {
-        await persistState();
-        renderAll();
-      } catch (error) {
-        showSaveError(error);
-      }
+      renderJobs();
+      renderJobsAdminList();
     }
 
-    async function saveEvent() {
-      const title = eventTitle.value.trim();
-      const year = Number(eventYear.value);
-      const month = Number(eventMonth.value);
-      const day = Number(eventDate.value);
-      const time = eventTime.value.trim();
-      const place = eventPlace.value.trim();
-      const link = eventLink.value.trim() || "#";
-      const color = eventColor.value;
+    function saveEventLocal() {
+      const item = {
+        title: normalizeStr(eventTitleInput.value),
+        year: Number(eventYear.value) || currentCalendarYear,
+        month: Number(eventMonth.value),
+        day: Number(eventDate.value),
+        time: normalizeStr(eventTime.value),
+        place: normalizeStr(eventPlace.value),
+        link: safeLink(eventLink.value),
+        color: normalizeStr(eventColor.value) || "blue"
+      };
+      if (!item.title || !item.day) return;
 
-      if (!title || !year || month < 0 || month > 11 || !day || day < 1 || day > 31 || !time || !place) return;
-
-      const payload = { title, year, month, day, time, place, color, link };
-
-      if (editingEventIndex === null) {
-        state.events.push(payload);
-      } else {
-        state.events[editingEventIndex] = payload;
-      }
+      if (editingEventIndex === null) state.events.push(item);
+      else state.events[editingEventIndex] = item;
 
       clearEventForm();
-      try {
-        await persistState();
-        renderAll();
-      } catch (error) {
-        showSaveError(error);
-      }
+      renderCalendar();
+      renderEventsAdminList();
     }
 
-    async function saveMember() {
-      const name = memberName.value.trim();
-      const role = memberRole.value.trim();
-      const desc = memberDesc.value.trim();
-      const photo = memberPhoto.value.trim();
+    function saveMemberLocal() {
+      const item = {
+        name: normalizeStr(memberName.value),
+        role: normalizeStr(memberRole.value),
+        desc: normalizeStr(memberDesc.value),
+        photo: normalizeStr(memberPhoto.value)
+      };
+      if (!item.name) return;
 
-      if (!name || !role || !desc) return;
-
-      const payload = { name, role, desc, photo };
-
-      if (editingMemberIndex === null) {
-        state.members.push(payload);
-      } else {
-        state.members[editingMemberIndex] = payload;
-      }
+      if (editingMemberIndex === null) state.members.push(item);
+      else state.members[editingMemberIndex] = item;
 
       clearMemberForm();
-      try {
-        await persistState();
-        renderAll();
-      } catch (error) {
-        showSaveError(error);
-      }
+      renderTeam();
+      renderMembersAdminList();
     }
 
-    async function saveDirection() {
-      const name = directionName.value.trim();
-      const sub = directionSub.value.trim();
-      const link = directionJobs.value.trim() || "#";
+    function saveDirectionLocal() {
+      const item = {
+        name: normalizeStr(directionName.value),
+        sub: normalizeStr(directionSub.value),
+        desc: normalizeStr(directionDesc.value),
+        link: safeLink(directionLink.value)
+      };
+      if (!item.name) return;
 
-      if (!name || !sub) return;
-
-      const payload = { name, sub, link };
-
-      if (editingDirectionIndex === null) {
-        state.directions.push(payload);
-      } else {
-        state.directions[editingDirectionIndex] = payload;
-      }
+      if (editingDirectionIndex === null) state.directions.push(item);
+      else state.directions[editingDirectionIndex] = item;
 
       clearDirectionForm();
-      closeDayEventsModal();
-      try {
-        await persistState();
-        renderAll();
-      } catch (error) {
-        showSaveError(error);
-      }
+      renderDirections();
+      renderDirectionsAdminList();
+    }
+
+    function renderJobsAdminList() {
+      const root = document.getElementById("jobsAdminList");
+      root.innerHTML = state.jobs.map((item, index) => `
+        <div class="item">
+          <h4 class="item-title">${item.title}</h4>
+          <p class="item-text"><b>Категория:</b> ${item.direction || "—"}</p>
+          <p class="item-text">${item.desc || "—"}</p>
+          <p class="item-text"><b>Ссылка:</b> ${item.link || "—"}</p>
+          <div class="item-actions">
+            <button class="small-btn" type="button" onclick="startEditJob(${index})">Редактировать</button>
+            <button class="small-btn delete" type="button" onclick="deleteJob(${index})">Удалить</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function renderEventsAdminList() {
+      const root = document.getElementById("eventsAdminList");
+      root.innerHTML = state.events.map((item, index) => `
+        <div class="item">
+          <h4 class="item-title">${item.title}</h4>
+          <p class="item-text"><b>Дата:</b> ${item.day} ${monthNames[item.month]} ${item.year}</p>
+          <p class="item-text"><b>Время:</b> ${item.time || "—"}</p>
+          <p class="item-text"><b>Описание:</b> ${item.place || "—"}</p>
+          <p class="item-text"><b>Ссылка:</b> ${item.link || "—"}</p>
+          <div class="item-actions">
+            <button class="small-btn" type="button" onclick="startEditEvent(${index})">Редактировать</button>
+            <button class="small-btn delete" type="button" onclick="deleteEvent(${index})">Удалить</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function renderMembersAdminList() {
+      const root = document.getElementById("membersAdminList");
+      root.innerHTML = state.members.map((item, index) => `
+        <div class="item">
+          <h4 class="item-title">${item.name}</h4>
+          <p class="item-text"><b>Должность:</b> ${item.role || "—"}</p>
+          <p class="item-text">${item.desc || "—"}</p>
+          <div class="item-actions">
+            <button class="small-btn" type="button" onclick="startEditMember(${index})">Редактировать</button>
+            <button class="small-btn delete" type="button" onclick="deleteMember(${index})">Удалить</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function renderDirectionsAdminList() {
+      const root = document.getElementById("directionsAdminList");
+      root.innerHTML = state.directions.map((item, index) => `
+        <div class="item">
+          <h4 class="item-title">${item.name}</h4>
+          <p class="item-text"><b>Подпись:</b> ${item.sub || "—"}</p>
+          <p class="item-text">${item.desc || "—"}</p>
+          <p class="item-text"><b>Ссылка:</b> ${item.link || "—"}</p>
+          <div class="item-actions">
+            <button class="small-btn" type="button" onclick="startEditDirection(${index})">Редактировать</button>
+            <button class="small-btn delete" type="button" onclick="deleteDirection(${index})">Удалить</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function renderAll() {
+      renderSettings();
+      renderTeam();
+      renderJobs();
+      renderDirections();
+      renderCalendar();
+      fillSettingsForm();
+      renderJobsAdminList();
+      renderEventsAdminList();
+      renderMembersAdminList();
+      renderDirectionsAdminList();
     }
 
     function startEditJob(index) {
       const item = state.jobs[index];
       editingJobIndex = index;
-      jobTitle.value = item.title;
+      jobTitleInput.value = item.title;
       jobDirection.value = item.direction;
       jobDesc.value = item.desc;
-      jobLink.value = item.link || "#";
+      jobLink.value = item.link || "";
       jobEditNote.textContent = `Редактируется блок записи #${index + 1}`;
-      saveJobBtn.textContent = "Обновить";
+      document.getElementById("saveJobBtn").textContent = "Обновить блок";
     }
 
     function startEditEvent(index) {
       const item = state.events[index];
       editingEventIndex = index;
-      eventTitle.value = item.title;
+      eventTitleInput.value = item.title;
       eventYear.value = item.year;
       eventMonth.value = item.month;
       eventDate.value = item.day;
       eventTime.value = item.time;
       eventPlace.value = item.place;
-      eventLink.value = item.link || "#";
+      eventLink.value = item.link || "";
       eventColor.value = item.color;
       eventEditNote.textContent = `Редактируется событие #${index + 1}`;
-      saveEventBtn.textContent = "Обновить";
+      document.getElementById("saveEventBtn").textContent = "Обновить событие";
     }
 
     function startEditMember(index) {
@@ -2257,7 +1370,7 @@
       memberDesc.value = item.desc;
       memberPhoto.value = item.photo || "";
       memberEditNote.textContent = `Редактируется сотрудник #${index + 1}`;
-      saveMemberBtn.textContent = "Обновить";
+      document.getElementById("saveMemberBtn").textContent = "Обновить сотрудника";
     }
 
     function startEditDirection(index) {
@@ -2265,53 +1378,192 @@
       editingDirectionIndex = index;
       directionName.value = item.name;
       directionSub.value = item.sub;
-      directionJobs.value = item.link || "#";
+      directionDesc.value = item.desc;
+      directionLink.value = item.link || "";
       directionEditNote.textContent = `Редактируется направление #${index + 1}`;
-      saveDirectionBtn.textContent = "Обновить";
+      document.getElementById("saveDirectionBtn").textContent = "Обновить направление";
     }
 
-    async function deleteJob(index) {
+    function deleteJob(index) {
       state.jobs.splice(index, 1);
       if (editingJobIndex === index) clearJobForm();
-      try {
-        await persistState();
-        renderAll();
-      } catch (error) {
-        showSaveError(error);
-      }
+      renderJobs();
+      renderJobsAdminList();
     }
 
-    async function deleteEvent(index) {
+    function deleteEvent(index) {
       state.events.splice(index, 1);
       if (editingEventIndex === index) clearEventForm();
-      try {
-        await persistState();
-        renderAll();
-      } catch (error) {
-        showSaveError(error);
-      }
+      renderCalendar();
+      renderEventsAdminList();
     }
 
-    async function deleteMember(index) {
+    function deleteMember(index) {
       state.members.splice(index, 1);
       if (editingMemberIndex === index) clearMemberForm();
-      try {
-        await persistState();
-        renderAll();
-      } catch (error) {
-        showSaveError(error);
+      renderTeam();
+      renderMembersAdminList();
+    }
+
+    function deleteDirection(index) {
+      state.directions.splice(index, 1);
+      if (editingDirectionIndex === index) clearDirectionForm();
+      renderDirections();
+      renderDirectionsAdminList();
+    }
+
+    async function fetchProfile(session) {
+      if (!session) return null;
+      const { data, error } = await sb
+        .from("profiles")
+        .select("id,email,role")
+        .eq("id", session.user.id)
+        .single();
+
+      if (error) {
+        return null;
+      }
+      return data;
+    }
+
+    async function updateAuthUI() {
+      const { data: { session } } = await sb.auth.getSession();
+      currentProfile = await fetchProfile(session);
+
+      if (!session) {
+        accountOpenBtn.textContent = "Войти";
+        logoutTopBtn.classList.add("hidden");
+        openAdminBtn.classList.add("hidden");
+        accountInfoText.textContent = "";
+        loginView.classList.remove("hidden");
+        accountView.classList.add("hidden");
+        return;
+      }
+
+      accountOpenBtn.textContent = "Аккаунт";
+      logoutTopBtn.classList.remove("hidden");
+      accountInfoText.textContent = `Вы вошли как ${currentProfile?.email || session.user.email}. Роль: ${currentProfile?.role || "не определена"}`;
+      loginView.classList.add("hidden");
+      accountView.classList.remove("hidden");
+
+      if (currentProfile?.role === "admin") {
+        openAdminBtn.classList.remove("hidden");
+      } else {
+        openAdminBtn.classList.add("hidden");
       }
     }
 
-    async function deleteDirection(index) {
-      state.directions.splice(index, 1);
-      if (editingDirectionIndex === index) clearDirectionForm();
-      try {
-        await persistState();
-        renderAll();
-      } catch (error) {
-        showSaveError(error);
+    async function login() {
+      loginError.textContent = "";
+      const email = normalizeStr(emailInput.value);
+      const password = passwordInput.value;
+
+      const { error } = await sb.auth.signInWithPassword({ email, password });
+      if (error) {
+        loginError.textContent = error.message || "Ошибка входа";
+        return;
       }
+
+      accountModal.classList.remove("show");
+      passwordInput.value = "";
+      await updateAuthUI();
+    }
+
+    async function logout() {
+      await sb.auth.signOut();
+      adminModal.classList.remove("show");
+      accountModal.classList.remove("show");
+      await updateAuthUI();
+    }
+
+    async function loadStateFromDatabase() {
+      const { data, error } = await sb
+        .from("site_content")
+        .select("content")
+        .eq("id", 1)
+        .maybeSingle();
+
+      if (error) {
+        showRuntimeError("Ошибка чтения site_content: " + (error.message || error));
+        state = cloneDefaultState();
+        renderAll();
+        return;
+      }
+
+      if (data && data.content) {
+        state = {
+          settings: Object.assign({}, defaultState.settings, data.content.settings || {}),
+          jobs: Array.isArray(data.content.jobs) ? data.content.jobs : cloneDefaultState().jobs,
+          events: Array.isArray(data.content.events) ? data.content.events : cloneDefaultState().events,
+          members: Array.isArray(data.content.members) ? data.content.members : cloneDefaultState().members,
+          directions: Array.isArray(data.content.directions) ? data.content.directions : cloneDefaultState().directions
+        };
+      } else {
+        state = cloneDefaultState();
+      }
+
+      const firstEvent = state.events[0];
+      if (firstEvent) {
+        currentCalendarYear = Number(firstEvent.year) || currentCalendarYear;
+        currentCalendarMonth = Number(firstEvent.month) || currentCalendarMonth;
+      }
+
+      renderAll();
+    }
+
+    async function saveStateToDatabase() {
+      adminSuccess.textContent = "";
+      adminError.textContent = "";
+
+      const { data: { session } } = await sb.auth.getSession();
+      const profile = await fetchProfile(session);
+
+      if (!session || !profile || profile.role !== "admin") {
+        adminError.textContent = "Нет доступа к админке. Войдите под аккаунтом с ролью admin.";
+        return;
+      }
+
+      applySettingsFromForm();
+
+      const payload = {
+        id: 1,
+        content: state
+      };
+
+      const { error } = await sb
+        .from("site_content")
+        .upsert(payload, { onConflict: "id" });
+
+      if (error) {
+        adminError.textContent = error.message || "Ошибка сохранения";
+        return;
+      }
+
+      adminSuccess.textContent = "Изменения сохранены в базу.";
+    }
+
+    function openAccountModal() {
+      updateAuthUI().then(() => {
+        accountModal.classList.add("show");
+      });
+    }
+
+    function openAdminModal() {
+      if (!currentProfile || currentProfile.role !== "admin") {
+        adminError.textContent = "Нет доступа к админке. Войдите под аккаунтом с ролью admin.";
+        accountModal.classList.add("show");
+        return;
+      }
+      adminError.textContent = "";
+      adminSuccess.textContent = "";
+      fillSettingsForm();
+      adminModal.classList.add("show");
+    }
+
+    function closeModals() {
+      accountModal.classList.remove("show");
+      adminModal.classList.remove("show");
+      dayEventsModal.classList.remove("show");
     }
 
     function changeMonth(step) {
@@ -2326,122 +1578,43 @@
       renderCalendar();
     }
 
-    openAdminBtn.addEventListener("click", async () => {
-      await updateAuthUi();
-      adminModal.classList.add("show");
+    document.getElementById("applySettingsBtn").addEventListener("click", () => {
+      applySettingsFromForm();
+      renderSettings();
     });
 
-    closeAdminBtn.addEventListener("click", () => {
-      adminModal.classList.remove("show");
+    document.getElementById("saveJobBtn").addEventListener("click", saveJobLocal);
+    document.getElementById("saveEventBtn").addEventListener("click", saveEventLocal);
+    document.getElementById("saveMemberBtn").addEventListener("click", saveMemberLocal);
+    document.getElementById("saveDirectionBtn").addEventListener("click", saveDirectionLocal);
+
+    document.getElementById("cancelJobEditBtn").addEventListener("click", clearJobForm);
+    document.getElementById("cancelEventEditBtn").addEventListener("click", clearEventForm);
+    document.getElementById("cancelMemberEditBtn").addEventListener("click", clearMemberForm);
+    document.getElementById("cancelDirectionEditBtn").addEventListener("click", clearDirectionForm);
+
+    document.getElementById("saveAllBtn").addEventListener("click", saveStateToDatabase);
+
+    accountOpenBtn.addEventListener("click", openAccountModal);
+    openAdminBtn.addEventListener("click", openAdminModal);
+    closeAccountBtn.addEventListener("click", closeModals);
+    closeAdminBtn.addEventListener("click", closeModals);
+    closeDayEventsBtn.addEventListener("click", closeModals);
+
+    logoutBtn.addEventListener("click", logout);
+    logoutTopBtn.addEventListener("click", logout);
+    loginBtn.addEventListener("click", login);
+
+    accountModal.addEventListener("click", (e) => { if (e.target === accountModal) accountModal.classList.remove("show"); });
+    adminModal.addEventListener("click", (e) => { if (e.target === adminModal) adminModal.classList.remove("show"); });
+    dayEventsModal.addEventListener("click", (e) => { if (e.target === dayEventsModal) dayEventsModal.classList.remove("show"); });
+
+    document.getElementById("prevMonthBtn").addEventListener("click", () => changeMonth(-1));
+    document.getElementById("nextMonthBtn").addEventListener("click", () => changeMonth(1));
+
+    sb.auth.onAuthStateChange(() => {
+      updateAuthUI();
     });
-
-    adminModal.addEventListener("click", (e) => {
-      if (e.target === adminModal) adminModal.classList.remove("show");
-    });
-
-    closeDayEventsBtn.addEventListener("click", closeDayEventsModal);
-
-    dayEventsModal.addEventListener("click", (e) => {
-      if (e.target === dayEventsModal) closeDayEventsModal();
-    });
-
-    loginBtn.addEventListener("click", async () => {
-      try {
-        loginError.textContent = "";
-        const email = emailInput.value.trim();
-        const password = passwordInput.value;
-        if (!email || !password) {
-          loginError.textContent = "Введите email и пароль";
-          return;
-        }
-
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) {
-          loginError.textContent = error.message || "Ошибка входа";
-          return;
-        }
-
-        passwordInput.value = "";
-        await updateAuthUi();
-        if (currentProfile?.role === "admin") {
-          await loadStateFromDatabase();
-          fillSettingsForm();
-          clearEventForm();
-          renderAll();
-        } else {
-          loginError.textContent = "У этого аккаунта нет роли admin";
-          await supabase.auth.signOut();
-          await updateAuthUi();
-        }
-      } catch (error) {
-        loginError.textContent = error?.message || "Ошибка входа";
-      }
-    });
-
-    logoutBtn.addEventListener("click", async () => {
-      await supabase.auth.signOut();
-      adminView.classList.add("hidden");
-      loginView.classList.remove("hidden");
-      passwordInput.value = "";
-      await updateAuthUi();
-    });
-
-    resetDemoBtn.addEventListener("click", async () => {
-      if (!confirm("Сбросить данные сайта к исходному шаблону?")) return;
-      state = JSON.parse(JSON.stringify(initialState));
-      currentCalendarYear = 2026;
-      currentCalendarMonth = 4;
-      clearJobForm();
-      clearEventForm();
-      clearMemberForm();
-      clearDirectionForm();
-      closeDayEventsModal();
-      try {
-        await persistState();
-        renderAll();
-      } catch (error) {
-        showSaveError(error);
-      }
-    });
-
-    saveSettingsBtn.addEventListener("click", saveSettings);
-    cancelSettingsBtn.addEventListener("click", fillSettingsForm);
-
-    saveJobBtn.addEventListener("click", saveJob);
-    saveEventBtn.addEventListener("click", saveEvent);
-    saveMemberBtn.addEventListener("click", saveMember);
-    saveDirectionBtn.addEventListener("click", saveDirection);
-
-    cancelJobEditBtn.addEventListener("click", clearJobForm);
-    cancelEventEditBtn.addEventListener("click", clearEventForm);
-    cancelMemberEditBtn.addEventListener("click", clearMemberForm);
-    cancelDirectionEditBtn.addEventListener("click", clearDirectionForm);
-
-    prevMonthBtn.addEventListener("click", () => changeMonth(-1));
-    nextMonthBtn.addEventListener("click", () => changeMonth(1));
-
-    async function bootstrap() {
-      fillMonthSelect();
-      try {
-        await loadStateFromDatabase();
-      } catch (error) {
-        console.error(error);
-        state = JSON.parse(JSON.stringify(initialState));
-      }
-
-      fillSettingsForm();
-      clearEventForm();
-      renderAll();
-      await updateAuthUi();
-
-      supabase.auth.onAuthStateChange(async () => {
-        await updateAuthUi();
-      });
-
-      isBootstrapping = false;
-    }
-
-    bootstrap();
 
     window.startEditJob = startEditJob;
     window.startEditEvent = startEditEvent;
@@ -2451,6 +1624,14 @@
     window.deleteEvent = deleteEvent;
     window.deleteMember = deleteMember;
     window.deleteDirection = deleteDirection;
+
+    fillMonthSelect();
+    clearJobForm();
+    clearEventForm();
+    clearMemberForm();
+    clearDirectionForm();
+    updateAuthUI();
+    loadStateFromDatabase();
   </script>
 </body>
 </html>
