@@ -1,0 +1,2004 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Центр карьеры колледжа</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    :root {
+      --text: #1f2a44;
+      --muted: #5d6b86;
+      --line: rgba(96, 114, 158, 0.14);
+      --panel: rgba(255, 255, 255, 0.92);
+      --blue1: #2558c7;
+      --blue2: #3b82f6;
+      --purple: #7b5cff;
+      --orange1: #ff8f3c;
+      --orange2: #ff5f6d;
+      --green1: #12b886;
+      --green2: #00a884;
+      --shadow: 0 18px 42px rgba(71, 92, 133, 0.10);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 18px;
+      --radius-sm: 14px;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(255, 197, 90, 0.22), transparent 24%),
+        radial-gradient(circle at top right, rgba(76, 133, 255, 0.24), transparent 22%),
+        radial-gradient(circle at bottom left, rgba(123, 100, 255, 0.14), transparent 20%),
+        linear-gradient(135deg, #eef5ff 0%, #fffdf7 48%, #f6f2ff 100%);
+    }
+
+    .bg-pattern {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.22;
+      background-image:
+        linear-gradient(rgba(72, 95, 150, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(72, 95, 150, 0.08) 1px, transparent 1px);
+      background-size: 34px 34px;
+      z-index: 0;
+    }
+
+    header {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--blue1) 0%, var(--blue2) 42%, var(--purple) 100%);
+      color: white;
+      padding: 28px 36px 30px;
+      z-index: 1;
+    }
+
+    header::before,
+    header::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+    }
+
+    header::before {
+      width: 220px;
+      height: 220px;
+      right: 40px;
+      top: -90px;
+    }
+
+    header::after {
+      width: 160px;
+      height: 160px;
+      left: 22%;
+      bottom: -70px;
+    }
+
+    .header-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .header-topline {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .header-label {
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.9;
+      margin-bottom: 8px;
+    }
+
+    .header-title {
+      margin: 0;
+      font-size: 40px;
+      line-height: 1.1;
+    }
+
+    .header-text {
+      margin: 14px 0 0;
+      max-width: 760px;
+      font-size: 16px;
+      line-height: 1.55;
+      color: rgba(255,255,255,0.94);
+    }
+
+    .admin-open-btn {
+      border: 1px solid rgba(255,255,255,0.24);
+      background: rgba(255,255,255,0.12);
+      color: white;
+      padding: 11px 16px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      backdrop-filter: blur(5px);
+    }
+
+    .top-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .top-links a {
+      text-decoration: none;
+      color: white;
+      font-size: 14px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.22);
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 24px 18px 50px;
+    }
+
+    .row-2 {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .panel {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 100% 0%, rgba(76, 133, 255, 0.10), transparent 28%),
+        radial-gradient(circle at 0% 100%, rgba(255, 180, 74, 0.10), transparent 22%);
+    }
+
+    .panel-content {
+      position: relative;
+      z-index: 1;
+      padding: 24px;
+    }
+
+    .panel-title {
+      margin: 0 0 16px;
+      font-size: 24px;
+      color: #243250;
+    }
+
+    .panel-text {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.65;
+      color: #576884;
+    }
+
+    .info-mark {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 11px 15px;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 700;
+      color: #5f4700;
+      background: linear-gradient(135deg, #fff4ca, #ffe3a3);
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .team-card {
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(246,249,255,0.94));
+      border: 1px solid rgba(93, 114, 160, 0.12);
+      min-height: 180px;
+    }
+
+    .team-top {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+
+    .team-photo {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      flex: 0 0 72px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 22px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #7ea7ff, #4a63ff);
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 10px 22px rgba(74, 99, 255, 0.22);
+    }
+
+    .team-photo.placeholder::before {
+      content: "";
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.85);
+      top: 12px;
+      left: 22px;
+    }
+
+    .team-photo.placeholder::after {
+      content: "";
+      position: absolute;
+      width: 42px;
+      height: 24px;
+      border-radius: 20px 20px 8px 8px;
+      background: rgba(255,255,255,0.85);
+      left: 15px;
+      bottom: 10px;
+    }
+
+    .team-name {
+      margin: 0;
+      font-size: 17px;
+      color: #243250;
+    }
+
+    .team-role {
+      margin: 6px 0 0;
+      font-size: 13px;
+      font-weight: 700;
+      color: #4a63c9;
+    }
+
+    .team-desc {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.55;
+      color: #62728f;
+    }
+
+    .calendar-wrap {
+      margin-bottom: 20px;
+    }
+
+    .calendar-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .calendar-tools {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .calendar-nav-btn {
+      border: none;
+      cursor: pointer;
+      color: white;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 9px 12px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--blue1), var(--purple));
+    }
+
+    .calendar-month {
+      font-size: 18px;
+      font-weight: 700;
+      color: #25324f;
+      min-width: 160px;
+      text-align: center;
+    }
+
+    .calendar-mark,
+    .head-badge {
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #4f6184;
+      background: linear-gradient(135deg, #eef3ff, #f3ebff);
+    }
+
+    .calendar-weekdays,
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .calendar-weekdays {
+      margin-bottom: 10px;
+    }
+
+    .weekday {
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: #687894;
+      text-transform: uppercase;
+    }
+
+    .day {
+      min-height: 110px;
+      border-radius: var(--radius-md);
+      background: rgba(247, 250, 255, 0.96);
+      border: 1px solid rgba(92, 115, 164, 0.10);
+      padding: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .day.has-events {
+      cursor: pointer;
+    }
+
+    .day.has-events:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(82, 97, 135, 0.10);
+      border-color: rgba(76, 133, 255, 0.28);
+    }
+
+    .day.muted {
+      opacity: 0.35;
+    }
+
+    .day-number {
+      font-size: 14px;
+      font-weight: 700;
+      color: #31415f;
+      line-height: 1;
+    }
+
+    .day-events {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 2px;
+    }
+
+    .mini-event {
+      display: block;
+      width: 100%;
+      padding: 5px 7px;
+      border-radius: 9px;
+      font-size: 10px;
+      line-height: 1.2;
+      font-weight: 700;
+      color: white;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      pointer-events: none;
+    }
+
+    .event-blue { background: linear-gradient(135deg, var(--blue2), var(--blue1)); }
+    .event-orange { background: linear-gradient(135deg, #ff9a3d, #ff5d67); }
+    .event-green { background: linear-gradient(135deg, var(--green1), var(--green2)); }
+
+    .event-more {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      color: #5f6f8b;
+      padding-left: 2px;
+    }
+
+    .calendar-bottom {
+      margin-top: 18px;
+    }
+
+    .events-summary {
+      border-radius: var(--radius-md);
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(246,250,255,0.94));
+      border: 1px solid rgba(92, 115, 164, 0.10);
+      padding: 14px;
+    }
+
+    .events-summary-title {
+      margin: 0 0 10px;
+      font-size: 15px;
+      font-weight: 700;
+      color: #283755;
+    }
+
+    .summary-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .summary-item {
+      display: grid;
+      grid-template-columns: 12px 1fr;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .summary-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-top: 3px;
+    }
+
+    .summary-text {
+      font-size: 13px;
+      line-height: 1.45;
+      color: #53637f;
+    }
+
+    .summary-text b {
+      color: #233250;
+    }
+
+    .jobs-panel {
+      margin-bottom: 20px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .jobs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .job-card {
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(248,251,255,0.94));
+      border: 1px solid rgba(94, 116, 160, 0.12);
+      min-height: 220px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .job-card::after {
+      content: "";
+      position: absolute;
+      right: -20px;
+      bottom: -20px;
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: rgba(76, 133, 255, 0.08);
+    }
+
+    .job-tag {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #2457c5;
+      background: #eaf1ff;
+    }
+
+    .job-title {
+      margin: 0 0 8px;
+      font-size: 18px;
+      color: #22314e;
+    }
+
+    .job-text {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.55;
+      color: #5a6a87;
+      margin-bottom: 50px;
+    }
+
+    .job-btn {
+      position: absolute;
+      left: 18px;
+      bottom: 18px;
+      text-decoration: none;
+      color: white;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--orange1), var(--orange2));
+    }
+
+    .direction-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: #2457c5;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 11px 14px;
+      border-radius: 12px;
+      background: #eef4ff;
+      border: 1px solid rgba(76, 133, 255, 0.18);
+    }
+
+    .direction-link:hover {
+      background: #e5efff;
+    }
+
+    .day-events-modal-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .day-event-card {
+      padding: 14px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(246,249,255,0.94));
+      border: 1px solid rgba(93, 114, 160, 0.12);
+    }
+
+    .day-event-time {
+      display: inline-block;
+      margin-bottom: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #2457c5;
+      background: #eaf1ff;
+    }
+
+    .day-event-title {
+      margin: 0 0 8px;
+      font-size: 18px;
+      color: #22314e;
+    }
+
+    .day-event-text {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.55;
+      color: #5a6a87;
+    }
+
+    .day-events-empty {
+      font-size: 14px;
+      line-height: 1.55;
+      color: #60708b;
+    }
+
+    .day-events-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .directions-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 10px;
+    }
+
+    .direction-card {
+      overflow: hidden;
+      border-radius: 24px;
+      background: white;
+      border: 1px solid rgba(96, 116, 157, 0.12);
+      box-shadow: 0 12px 28px rgba(82, 97, 135, 0.08);
+    }
+
+    .direction-top {
+      padding: 18px;
+      color: white;
+      position: relative;
+    }
+
+    .direction-top::after {
+      content: "";
+      position: absolute;
+      right: -16px;
+      top: -16px;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.14);
+    }
+
+    .direction-card:nth-child(1) .direction-top { background: linear-gradient(135deg, var(--blue1), #4a8cff); }
+    .direction-card:nth-child(2) .direction-top { background: linear-gradient(135deg, var(--green2), #23c59b); }
+    .direction-card:nth-child(3) .direction-top { background: linear-gradient(135deg, #ff8d3d, #ff5e6d); }
+    .direction-card:nth-child(4) .direction-top { background: linear-gradient(135deg, var(--purple), #b265ff); }
+
+    .direction-title {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .direction-sub {
+      margin: 8px 0 0;
+      font-size: 13px;
+      line-height: 1.45;
+      opacity: 0.95;
+    }
+
+    .direction-body {
+      padding: 16px 18px 18px;
+    }
+
+    .mini-job-row {
+      padding: 10px 0;
+      border-bottom: 1px solid #edf1f7;
+      font-size: 14px;
+      line-height: 1.45;
+      color: #33435f;
+    }
+
+    .mini-job-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(14, 21, 38, 0.58);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 1000;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-box {
+      width: min(1200px, 100%);
+      max-height: 92vh;
+      overflow: auto;
+      border-radius: 28px;
+      background: rgba(255,255,255,0.97);
+      box-shadow: 0 24px 70px rgba(22, 33, 61, 0.28);
+      border: 1px solid rgba(108, 126, 170, 0.16);
+      padding: 22px;
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .modal-title {
+      margin: 0;
+      font-size: 28px;
+      color: #243250;
+    }
+
+    .close-btn, .btn, .small-btn {
+      border: none;
+      cursor: pointer;
+      font-family: Arial, sans-serif;
+    }
+
+    .close-btn {
+      padding: 10px 14px;
+      border-radius: 12px;
+      color: white;
+      font-size: 14px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #7d8aa3, #5f6b83);
+    }
+
+    .login-wrap {
+      max-width: 430px;
+      margin: 18px auto 6px;
+    }
+
+    .field {
+      margin-bottom: 12px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #31415f;
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid #d7dff0;
+      background: white;
+      font-size: 14px;
+      font-family: Arial, sans-serif;
+      color: #233250;
+      outline: none;
+    }
+
+    .field textarea {
+      min-height: 96px;
+      resize: vertical;
+    }
+
+    .btn {
+      padding: 12px 16px;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 700;
+      color: white;
+      background: linear-gradient(135deg, var(--blue1), var(--purple));
+    }
+
+    .btn.secondary {
+      background: linear-gradient(135deg, var(--orange1), var(--orange2));
+    }
+
+    .btn.gray {
+      background: linear-gradient(135deg, #8b97ad, #6b768d);
+    }
+
+    .small-btn {
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      color: white;
+      background: linear-gradient(135deg, var(--blue1), var(--purple));
+    }
+
+    .small-btn.delete {
+      background: linear-gradient(135deg, var(--orange1), var(--orange2));
+    }
+
+    .muted-text {
+      color: #60708b;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .error {
+      margin-top: 10px;
+      color: #d63a3a;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .admin-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 8px;
+    }
+
+    .admin-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(248,251,255,0.94));
+      border: 1px solid rgba(94, 116, 160, 0.12);
+      border-radius: 22px;
+      padding: 18px;
+    }
+
+    .admin-card h3 {
+      margin: 0 0 14px;
+      font-size: 20px;
+      color: #243250;
+    }
+
+    .list {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .item {
+      padding: 14px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(246,249,255,0.94));
+      border: 1px solid rgba(93, 114, 160, 0.12);
+    }
+
+    .item-title {
+      margin: 0 0 8px;
+      font-size: 16px;
+      color: #243250;
+    }
+
+    .item-text {
+      margin: 0 0 6px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #5e6d88;
+    }
+
+    .item-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .form-toolbar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+      margin-bottom: 6px;
+    }
+
+    .edit-note {
+      font-size: 13px;
+      color: #4a63c9;
+      font-weight: 700;
+      margin-bottom: 10px;
+      min-height: 18px;
+    }
+
+    @media (max-width: 1100px) {
+      .row-2,
+      .jobs-grid,
+      .directions-grid,
+      .admin-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      header {
+        padding: 24px 18px 26px;
+      }
+
+      .header-title {
+        font-size: 31px;
+      }
+
+      .container {
+        padding: 16px 12px 34px;
+      }
+
+      .team-grid,
+      .jobs-grid,
+      .directions-grid,
+      .admin-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .calendar-weekdays,
+      .calendar-grid {
+        gap: 6px;
+      }
+
+      .day {
+        min-height: 90px;
+        padding: 8px;
+      }
+
+      .mini-event {
+        font-size: 9px;
+        padding: 4px 6px;
+      }
+
+      .panel-content,
+      .modal-box {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-pattern"></div>
+
+  <header>
+    <div class="header-inner">
+      <div class="header-topline">
+        <div>
+          <div class="header-label">Центр карьеры колледжа</div>
+          <h1 class="header-title">Запись в центр карьеры, мероприятия и команда центра</h1>
+          <p class="header-text">
+            Площадка для студентов и выпускников: запись на консультации центра карьеры,
+            карьерные события и полезные ссылки по направлениям обучения.
+          </p>
+        </div>
+
+        <button class="admin-open-btn" id="openAdminBtn">Админка</button>
+      </div>
+
+      <div class="top-links">
+        <a href="#info">Инфо</a>
+        <a href="#team">Команда</a>
+        <a href="#events">Мероприятия</a>
+        <a href="#jobs">Запись</a>
+        <a href="#directions">Направления</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="row-2">
+      <article class="panel" id="info">
+        <div class="panel-content">
+          <h2 class="panel-title">Инфо</h2>
+          <p class="panel-text">
+            Центр карьеры помогает студентам с трудоустройством, стажировками, практикой,
+            резюме и подготовкой к собеседованиям. Ниже можно разместить запись на консультацию,
+            а также оставить описание, зачем студенту обращаться в центр карьеры.
+          </p>
+          <div class="info-mark">Формы записи и регистрации доступны онлайн</div>
+        </div>
+      </article>
+
+      <article class="panel" id="team">
+        <div class="panel-content">
+          <h2 class="panel-title">Команда центра</h2>
+          <div class="team-grid" id="teamGrid"></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="panel calendar-wrap" id="events">
+      <div class="panel-content">
+        <div class="calendar-head">
+          <h2 class="panel-title" style="margin: 0;">Мероприятия</h2>
+
+          <div class="calendar-tools">
+            <button class="calendar-nav-btn" id="prevMonthBtn">← Назад</button>
+            <div class="calendar-month" id="calendarMonthTitle"></div>
+            <button class="calendar-nav-btn" id="nextMonthBtn">Вперёд →</button>
+            <div class="calendar-mark">Календарь событий</div>
+          </div>
+        </div>
+
+        <div class="calendar-weekdays">
+          <div class="weekday">Пн</div>
+          <div class="weekday">Вт</div>
+          <div class="weekday">Ср</div>
+          <div class="weekday">Чт</div>
+          <div class="weekday">Пт</div>
+          <div class="weekday">Сб</div>
+          <div class="weekday">Вс</div>
+        </div>
+
+        <div class="calendar-grid" id="calendarGrid"></div>
+
+        <div class="calendar-bottom">
+          <div class="events-summary">
+            <h3 class="events-summary-title">Как пользоваться календарём</h3>
+            <div class="summary-text">Нажмите на день с событиями, чтобы открыть подробную информацию и перейти к записи.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel jobs-panel" id="jobs">
+      <div class="panel-content">
+        <div class="section-head">
+          <h2 class="panel-title" style="margin: 0;">Запись в центр карьеры</h2>
+          <div class="head-badge">Онлайн-запись</div>
+        </div>
+
+        <div class="jobs-grid" id="jobsGrid"></div>
+      </div>
+    </section>
+
+    <section class="panel" id="directions">
+      <div class="panel-content">
+        <div class="section-head">
+          <h2 class="panel-title" style="margin: 0;">Направления обучения</h2>
+          <div class="head-badge">Ссылки на таблицы</div>
+        </div>
+
+        <div class="directions-grid" id="directionsGrid"></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal" id="adminModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h2 class="modal-title">Админ-панель</h2>
+        <button class="close-btn" id="closeAdminBtn">Закрыть</button>
+      </div>
+
+      <div id="loginView">
+        <div class="login-wrap">
+          <p class="muted-text">
+            Демонстрационная версия. Пароль проверяется только в браузере.
+          </p>
+
+          <div class="field">
+            <label for="passwordInput">Пароль</label>
+            <input type="password" id="passwordInput" placeholder="Введите пароль">
+          </div>
+
+          <button class="btn" id="loginBtn">Войти</button>
+          <div class="error" id="loginError"></div>
+        </div>
+      </div>
+
+      <div id="adminView" class="hidden">
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px;">
+          <button class="btn gray" id="logoutBtn">Выйти</button>
+          <button class="btn secondary" id="resetDemoBtn">Сбросить демо-данные</button>
+        </div>
+
+        <div class="admin-grid">
+          <div class="admin-card">
+            <h3>Запись в центр карьеры</h3>
+            <div class="edit-note" id="jobEditNote"></div>
+
+            <div class="field">
+              <label for="jobTitle">Название блока</label>
+              <input type="text" id="jobTitle">
+            </div>
+
+            <div class="field">
+              <label for="jobDirection">Категория / метка</label>
+              <input type="text" id="jobDirection" placeholder="Например: ИСИП">
+            </div>
+
+            <div class="field">
+              <label for="jobDesc">Описание</label>
+              <textarea id="jobDesc"></textarea>
+            </div>
+
+            <div class="field">
+              <label for="jobLink">Ссылка на запись</label>
+              <input type="text" id="jobLink" placeholder="https://...">
+            </div>
+
+            <div class="form-toolbar">
+              <button class="btn" id="saveJobBtn">Сохранить</button>
+              <button class="btn gray" id="cancelJobEditBtn">Отменить</button>
+            </div>
+
+            <div class="list" id="jobsAdminList"></div>
+          </div>
+
+          <div class="admin-card">
+            <h3>События</h3>
+            <div class="edit-note" id="eventEditNote"></div>
+
+            <div class="field">
+              <label for="eventTitle">Название события</label>
+              <input type="text" id="eventTitle">
+            </div>
+
+            <div class="field">
+              <label for="eventYear">Год</label>
+              <input type="number" id="eventYear" placeholder="2026">
+            </div>
+
+            <div class="field">
+              <label for="eventMonth">Месяц</label>
+              <select id="eventMonth"></select>
+            </div>
+
+            <div class="field">
+              <label for="eventDate">Дата месяца</label>
+              <input type="number" id="eventDate" min="1" max="31" placeholder="Например: 21">
+            </div>
+
+            <div class="field">
+              <label for="eventTime">Время</label>
+              <input type="text" id="eventTime" placeholder="Например: 16:00">
+            </div>
+
+            <div class="field">
+              <label for="eventPlace">Место / описание</label>
+              <textarea id="eventPlace"></textarea>
+            </div>
+
+            <div class="field">
+              <label for="eventColor">Тип / цвет</label>
+              <select id="eventColor">
+                <option value="blue">Синий</option>
+                <option value="orange">Оранжевый</option>
+                <option value="green">Зелёный</option>
+              </select>
+            </div>
+
+            <div class="form-toolbar">
+              <button class="btn" id="saveEventBtn">Сохранить</button>
+              <button class="btn gray" id="cancelEventEditBtn">Отменить</button>
+            </div>
+
+            <div class="list" id="eventsAdminList"></div>
+          </div>
+
+          <div class="admin-card">
+            <h3>Команда</h3>
+            <div class="edit-note" id="memberEditNote"></div>
+
+            <div class="field">
+              <label for="memberName">ФИО</label>
+              <input type="text" id="memberName">
+            </div>
+
+            <div class="field">
+              <label for="memberRole">Должность</label>
+              <input type="text" id="memberRole">
+            </div>
+
+            <div class="field">
+              <label for="memberDesc">Описание</label>
+              <textarea id="memberDesc"></textarea>
+            </div>
+
+            <div class="field">
+              <label for="memberPhoto">Ссылка на фото</label>
+              <input type="text" id="memberPhoto" placeholder="https://...">
+            </div>
+
+            <div class="form-toolbar">
+              <button class="btn" id="saveMemberBtn">Сохранить</button>
+              <button class="btn gray" id="cancelMemberEditBtn">Отменить</button>
+            </div>
+
+            <div class="list" id="membersAdminList"></div>
+          </div>
+
+          <div class="admin-card">
+            <h3>Направления и ссылки</h3>
+            <div class="edit-note" id="directionEditNote"></div>
+
+            <div class="field">
+              <label for="directionName">Название направления</label>
+              <input type="text" id="directionName">
+            </div>
+
+            <div class="field">
+              <label for="directionSub">Подпись / описание</label>
+              <input type="text" id="directionSub">
+            </div>
+
+            <div class="field">
+              <label for="directionJobs">Ссылка на таблицу</label>
+              <textarea id="directionJobs" placeholder="https://..."></textarea>
+            </div>
+
+            <div class="form-toolbar">
+              <button class="btn" id="saveDirectionBtn">Сохранить</button>
+              <button class="btn gray" id="cancelDirectionEditBtn">Отменить</button>
+            </div>
+
+            <div class="list" id="directionsAdminList"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="dayEventsModal">
+    <div class="modal-box" style="width:min(760px,100%);">
+      <div class="modal-head">
+        <h2 class="modal-title" id="dayEventsTitle">События дня</h2>
+        <button class="close-btn" id="closeDayEventsBtn">Закрыть</button>
+      </div>
+      <div class="muted-text" id="dayEventsSubtitle">Здесь будет информация о выбранной дате.</div>
+      <div class="day-events-modal-list" id="dayEventsList"></div>
+      <div class="day-events-actions">
+        <a href="#" class="btn" id="dayEventsFormBtn">Записаться</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const ADMIN_PASSWORD = "12345";
+    const YANDEX_FORM_LINK = "#";
+
+    const MONTH_NAMES = [
+      "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
+      "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
+    ];
+
+    const initialState = {
+      jobs: [
+        {
+          title: "Запись на карьерную консультацию",
+          direction: "Консультация",
+          desc: "Здесь можно оставить описание, зачем студенту нужна запись: помощь с резюме, поиск стажировки, подготовка к собеседованию и другие вопросы.",
+          link: "#"
+        },
+        {
+          title: "Запись на помощь с трудоустройством",
+          direction: "Трудоустройство",
+          desc: "Отдельный блок для записи студентов, которым нужна помощь с поиском вакансий, практики или стажировки.",
+          link: "#"
+        },
+        {
+          title: "Запись на разбор резюме",
+          direction: "Резюме",
+          desc: "Блок для индивидуальной записи на проверку резюме и рекомендаций по его улучшению.",
+          link: "#"
+        }
+      ],
+      events: [
+        {
+          title: "Ярмарка вакансий",
+          year: 2026,
+          month: 4,
+          day: 8,
+          time: "14:00",
+          place: "Актовый зал",
+          color: "blue"
+        },
+        {
+          title: "Встреча с работодателем",
+          year: 2026,
+          month: 4,
+          day: 13,
+          time: "12:30",
+          place: "Конференц-зал",
+          color: "orange"
+        },
+        {
+          title: "Карьерная консультация",
+          year: 2026,
+          month: 4,
+          day: 21,
+          time: "16:00",
+          place: "Кабинет центра карьеры",
+          color: "green"
+        },
+        {
+          title: "Онлайн-вебинар по резюме",
+          year: 2026,
+          month: 4,
+          day: 21,
+          time: "17:30",
+          place: "Онлайн",
+          color: "blue"
+        },
+        {
+          title: "Разбор откликов",
+          year: 2026,
+          month: 4,
+          day: 21,
+          time: "18:30",
+          place: "Онлайн",
+          color: "orange"
+        },
+        {
+          title: "Летняя стажировка: встреча",
+          year: 2026,
+          month: 5,
+          day: 11,
+          time: "15:00",
+          place: "Конференц-зал",
+          color: "blue"
+        }
+      ],
+      members: [
+        {
+          name: "Иванова Мария",
+          role: "Руководитель центра",
+          desc: "Координирует работу центра карьеры, взаимодействует с работодателями и сопровождает карьерные мероприятия.",
+          photo: ""
+        },
+        {
+          name: "Петров Алексей",
+          role: "Карьерный консультант",
+          desc: "Помогает студентам с выбором вакансий, подготовкой к собеседованиям и оформлением откликов.",
+          photo: ""
+        },
+        {
+          name: "Смирнова Анна",
+          role: "Куратор мероприятий",
+          desc: "Организует встречи с работодателями, ярмарки вакансий и запись участников через формы.",
+          photo: ""
+        },
+        {
+          name: "Кузнецов Дмитрий",
+          role: "Специалист по вакансиям",
+          desc: "Подбирает предложения по направлениям подготовки и обновляет раздел с вакансиями на сайте.",
+          photo: ""
+        }
+      ],
+      directions: [
+        {
+          name: "ИСИП",
+          sub: "Информационные системы и программирование",
+          link: "#"
+        },
+        {
+          name: "ГД",
+          sub: "Графический дизайн",
+          link: "#"
+        },
+        {
+          name: "ДОУ",
+          sub: "Документационное обеспечение управления",
+          link: "#"
+        },
+        {
+          name: "СКФД",
+          sub: "Профиль работы с данными и сопровождением",
+          link: "#"
+        }
+      ]
+    };
+
+    let state = JSON.parse(JSON.stringify(initialState));
+
+    let currentCalendarYear = 2026;
+    let currentCalendarMonth = 4; // май = 4
+
+    let editingJobIndex = null;
+    let editingEventIndex = null;
+    let editingMemberIndex = null;
+    let editingDirectionIndex = null;
+    let selectedDayEvents = [];
+
+    const jobsGrid = document.getElementById("jobsGrid");
+    const teamGrid = document.getElementById("teamGrid");
+    const calendarGrid = document.getElementById("calendarGrid");
+    const calendarMonthTitle = document.getElementById("calendarMonthTitle");
+    const directionsGrid = document.getElementById("directionsGrid");
+
+    const prevMonthBtn = document.getElementById("prevMonthBtn");
+    const nextMonthBtn = document.getElementById("nextMonthBtn");
+
+    const adminModal = document.getElementById("adminModal");
+    const openAdminBtn = document.getElementById("openAdminBtn");
+    const closeAdminBtn = document.getElementById("closeAdminBtn");
+
+    const loginView = document.getElementById("loginView");
+    const adminView = document.getElementById("adminView");
+    const passwordInput = document.getElementById("passwordInput");
+    const loginBtn = document.getElementById("loginBtn");
+    const loginError = document.getElementById("loginError");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const resetDemoBtn = document.getElementById("resetDemoBtn");
+
+    const jobsAdminList = document.getElementById("jobsAdminList");
+    const eventsAdminList = document.getElementById("eventsAdminList");
+    const membersAdminList = document.getElementById("membersAdminList");
+    const directionsAdminList = document.getElementById("directionsAdminList");
+
+    const jobTitle = document.getElementById("jobTitle");
+    const jobDirection = document.getElementById("jobDirection");
+    const jobDesc = document.getElementById("jobDesc");
+    const jobLink = document.getElementById("jobLink");
+    const saveJobBtn = document.getElementById("saveJobBtn");
+    const cancelJobEditBtn = document.getElementById("cancelJobEditBtn");
+    const jobEditNote = document.getElementById("jobEditNote");
+
+    const eventTitle = document.getElementById("eventTitle");
+    const eventYear = document.getElementById("eventYear");
+    const eventMonth = document.getElementById("eventMonth");
+    const eventDate = document.getElementById("eventDate");
+    const eventTime = document.getElementById("eventTime");
+    const eventPlace = document.getElementById("eventPlace");
+    const eventColor = document.getElementById("eventColor");
+    const saveEventBtn = document.getElementById("saveEventBtn");
+    const cancelEventEditBtn = document.getElementById("cancelEventEditBtn");
+    const eventEditNote = document.getElementById("eventEditNote");
+
+    const memberName = document.getElementById("memberName");
+    const memberRole = document.getElementById("memberRole");
+    const memberDesc = document.getElementById("memberDesc");
+    const memberPhoto = document.getElementById("memberPhoto");
+    const saveMemberBtn = document.getElementById("saveMemberBtn");
+    const cancelMemberEditBtn = document.getElementById("cancelMemberEditBtn");
+    const memberEditNote = document.getElementById("memberEditNote");
+
+    const directionName = document.getElementById("directionName");
+    const directionSub = document.getElementById("directionSub");
+    const directionJobs = document.getElementById("directionJobs");
+
+    const dayEventsModal = document.getElementById("dayEventsModal");
+    const closeDayEventsBtn = document.getElementById("closeDayEventsBtn");
+    const dayEventsTitle = document.getElementById("dayEventsTitle");
+    const dayEventsSubtitle = document.getElementById("dayEventsSubtitle");
+    const dayEventsList = document.getElementById("dayEventsList");
+    const dayEventsFormBtn = document.getElementById("dayEventsFormBtn");
+    const saveDirectionBtn = document.getElementById("saveDirectionBtn");
+    const cancelDirectionEditBtn = document.getElementById("cancelDirectionEditBtn");
+    const directionEditNote = document.getElementById("directionEditNote");
+
+    function fillMonthSelect() {
+      eventMonth.innerHTML = MONTH_NAMES.map((name, index) =>
+        `<option value="${index}">${name}</option>`
+      ).join("");
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function shortEventTitle(title) {
+      return title.length > 18 ? title.slice(0, 18) + "…" : title;
+    }
+
+    function getColorClass(color) {
+      if (color === "orange") return "event-orange";
+      if (color === "green") return "event-green";
+      return "event-blue";
+    }
+
+    function getInitials(name) {
+      const parts = name.trim().split(/\s+/).filter(Boolean);
+      return parts.slice(0, 2).map(p => p[0]?.toUpperCase() || "").join("");
+    }
+
+    function renderJobs() {
+      jobsGrid.innerHTML = "";
+      state.jobs.forEach(job => {
+        const card = document.createElement("div");
+        card.className = "job-card";
+        card.innerHTML = `
+          <div class="job-tag">${escapeHtml(job.direction)}</div>
+          <h3 class="job-title">${escapeHtml(job.title)}</h3>
+          <p class="job-text">${escapeHtml(job.desc)}</p>
+          <a href="${escapeHtml(job.link || "#")}" class="job-btn" target="_blank" rel="noopener noreferrer">Перейти к записи</a>
+        `;
+        jobsGrid.appendChild(card);
+      });
+    }
+
+    function renderTeam() {
+      teamGrid.innerHTML = "";
+      state.members.forEach(member => {
+        const photoStyle = member.photo ? `background-image:url('${member.photo.replaceAll("'", "\\'")}');` : "";
+        const photoClass = member.photo ? "team-photo" : "team-photo placeholder";
+        const card = document.createElement("div");
+        card.className = "team-card";
+        card.innerHTML = `
+          <div class="team-top">
+            <div class="${photoClass}" style="${photoStyle}">
+              ${member.photo ? "" : `<span style="position:relative;z-index:2;">${escapeHtml(getInitials(member.name))}</span>`}
+            </div>
+            <div>
+              <h3 class="team-name">${escapeHtml(member.name)}</h3>
+              <div class="team-role">${escapeHtml(member.role)}</div>
+            </div>
+          </div>
+          <p class="team-desc">${escapeHtml(member.desc)}</p>
+        `;
+        teamGrid.appendChild(card);
+      });
+    }
+
+    function renderCalendar() {
+      calendarGrid.innerHTML = "";
+
+      calendarMonthTitle.textContent = `${MONTH_NAMES[currentCalendarMonth]} ${currentCalendarYear}`;
+
+      const firstDay = new Date(currentCalendarYear, currentCalendarMonth, 1);
+      const firstWeekDay = (firstDay.getDay() + 6) % 7; // Пн=0
+      const daysInMonth = new Date(currentCalendarYear, currentCalendarMonth + 1, 0).getDate();
+      const daysInPrevMonth = new Date(currentCalendarYear, currentCalendarMonth, 0).getDate();
+
+      for (let i = 0; i < firstWeekDay; i++) {
+        const prevDayNumber = daysInPrevMonth - firstWeekDay + i + 1;
+        const cell = document.createElement("div");
+        cell.className = "day muted";
+        cell.innerHTML = `<div class="day-number">${prevDayNumber}</div>`;
+        calendarGrid.appendChild(cell);
+      }
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dayEvents = state.events
+          .filter(e => e.year === currentCalendarYear && e.month === currentCalendarMonth && e.day === day)
+          .sort((a, b) => a.time.localeCompare(b.time));
+
+        const cell = document.createElement("div");
+        cell.className = `day${dayEvents.length ? " has-events" : ""}`;
+
+        let eventsHtml = "";
+        if (dayEvents.length) {
+          const visible = dayEvents.slice(0, 2);
+          eventsHtml += `<div class="day-events">`;
+          visible.forEach(event => {
+            eventsHtml += `
+              <span class="mini-event ${getColorClass(event.color)}">
+                ${escapeHtml(event.time)} · ${escapeHtml(shortEventTitle(event.title))}
+              </span>
+            `;
+          });
+          if (dayEvents.length > 2) {
+            eventsHtml += `<span class="event-more">+${dayEvents.length - 2} событие</span>`;
+          }
+          eventsHtml += `</div>`;
+          cell.addEventListener("click", () => openDayEventsModal(day, dayEvents));
+        }
+
+        cell.innerHTML = `
+          <div class="day-number">${day}</div>
+          ${eventsHtml}
+        `;
+        calendarGrid.appendChild(cell);
+      }
+
+      const usedCells = firstWeekDay + daysInMonth;
+      const tailCells = Math.ceil(usedCells / 7) * 7 - usedCells;
+
+      for (let i = 1; i <= tailCells; i++) {
+        const cell = document.createElement("div");
+        cell.className = "day muted";
+        cell.innerHTML = `<div class="day-number">${i}</div>`;
+        calendarGrid.appendChild(cell);
+      }
+    }
+
+    function renderDirections() {
+      directionsGrid.innerHTML = "";
+      state.directions.forEach(direction => {
+        const card = document.createElement("div");
+        card.className = "direction-card";
+        card.innerHTML = `
+          <div class="direction-top">
+            <h3 class="direction-title">${escapeHtml(direction.name)}</h3>
+            <p class="direction-sub">${escapeHtml(direction.sub)}</p>
+          </div>
+          <div class="direction-body">
+            <a href="${escapeHtml(direction.link || "#")}" class="direction-link" target="_blank" rel="noopener noreferrer">Открыть вакансии</a>
+          </div>
+        `;
+        directionsGrid.appendChild(card);
+      });
+    }
+
+
+    function formatFullDate(day) {
+      return `${day} ${MONTH_NAMES[currentCalendarMonth].toLowerCase()} ${currentCalendarYear}`;
+    }
+
+    function openDayEventsModal(day, events) {
+      selectedDayEvents = [...events];
+      dayEventsTitle.textContent = `События на ${formatFullDate(day)}`;
+      dayEventsSubtitle.textContent = "Ниже показана подробная информация по выбранному дню.";
+      dayEventsList.innerHTML = "";
+
+      if (!selectedDayEvents.length) {
+        dayEventsList.innerHTML = `<div class="day-events-empty">На выбранную дату событий нет.</div>`;
+      } else {
+        selectedDayEvents.forEach(event => {
+          const item = document.createElement("div");
+          item.className = "day-event-card";
+          item.innerHTML = `
+            <div class="day-event-time">${escapeHtml(event.time)}</div>
+            <h3 class="day-event-title">${escapeHtml(event.title)}</h3>
+            <p class="day-event-text">${escapeHtml(event.place)}</p>
+          `;
+          dayEventsList.appendChild(item);
+        });
+      }
+
+      dayEventsFormBtn.href = YANDEX_FORM_LINK;
+      dayEventsModal.classList.add("show");
+    }
+
+    function closeDayEventsModal() {
+      dayEventsModal.classList.remove("show");
+    }
+
+    function renderJobsAdmin() {
+      jobsAdminList.innerHTML = "";
+      state.jobs.forEach((job, index) => {
+        const item = document.createElement("div");
+        item.className = "item";
+        item.innerHTML = `
+          <h4 class="item-title">${escapeHtml(job.title)}</h4>
+          <p class="item-text"><b>Категория:</b> ${escapeHtml(job.direction)}</p>
+          <p class="item-text">${escapeHtml(job.desc)}</p>
+          <div class="item-actions">
+            <button class="small-btn" onclick="startEditJob(${index})">Редактировать</button>
+            <button class="small-btn delete" onclick="deleteJob(${index})">Удалить</button>
+          </div>
+        `;
+        jobsAdminList.appendChild(item);
+      });
+    }
+
+    function renderEventsAdmin() {
+      eventsAdminList.innerHTML = "";
+      state.events.forEach((event, index) => {
+        const item = document.createElement("div");
+        item.className = "item";
+        item.innerHTML = `
+          <h4 class="item-title">${escapeHtml(event.title)}</h4>
+          <p class="item-text"><b>Дата:</b> ${event.day} ${MONTH_NAMES[event.month].toLowerCase()} ${event.year}, ${escapeHtml(event.time)}</p>
+          <p class="item-text"><b>Место:</b> ${escapeHtml(event.place)}</p>
+          <div class="item-actions">
+            <button class="small-btn" onclick="startEditEvent(${index})">Редактировать</button>
+            <button class="small-btn delete" onclick="deleteEvent(${index})">Удалить</button>
+          </div>
+        `;
+        eventsAdminList.appendChild(item);
+      });
+    }
+
+    function renderMembersAdmin() {
+      membersAdminList.innerHTML = "";
+      state.members.forEach((member, index) => {
+        const item = document.createElement("div");
+        item.className = "item";
+        item.innerHTML = `
+          <h4 class="item-title">${escapeHtml(member.name)}</h4>
+          <p class="item-text"><b>Должность:</b> ${escapeHtml(member.role)}</p>
+          <p class="item-text">${escapeHtml(member.desc)}</p>
+          <div class="item-actions">
+            <button class="small-btn" onclick="startEditMember(${index})">Редактировать</button>
+            <button class="small-btn delete" onclick="deleteMember(${index})">Удалить</button>
+          </div>
+        `;
+        membersAdminList.appendChild(item);
+      });
+    }
+
+    function renderDirectionsAdmin() {
+      directionsAdminList.innerHTML = "";
+      state.directions.forEach((direction, index) => {
+        const item = document.createElement("div");
+        item.className = "item";
+        item.innerHTML = `
+          <h4 class="item-title">${escapeHtml(direction.name)}</h4>
+          <p class="item-text"><b>Описание:</b> ${escapeHtml(direction.sub)}</p>
+          <p class="item-text"><b>Ссылка:</b> ${escapeHtml(direction.link || "#")}</p>
+          <div class="item-actions">
+            <button class="small-btn" onclick="startEditDirection(${index})">Редактировать</button>
+            <button class="small-btn delete" onclick="deleteDirection(${index})">Удалить</button>
+          </div>
+        `;
+        directionsAdminList.appendChild(item);
+      });
+    }
+
+    function renderAll() {
+      renderJobs();
+      renderTeam();
+      renderCalendar();
+      renderDirections();
+      renderJobsAdmin();
+      renderEventsAdmin();
+      renderMembersAdmin();
+      renderDirectionsAdmin();
+    }
+
+    function clearJobForm() {
+      jobTitle.value = "";
+      jobDirection.value = "";
+      jobDesc.value = "";
+      jobLink.value = "";
+      editingJobIndex = null;
+      jobEditNote.textContent = "";
+      saveJobBtn.textContent = "Сохранить";
+    }
+
+    function clearEventForm() {
+      eventTitle.value = "";
+      eventYear.value = currentCalendarYear;
+      eventMonth.value = currentCalendarMonth;
+      eventDate.value = "";
+      eventTime.value = "";
+      eventPlace.value = "";
+      eventColor.value = "blue";
+      editingEventIndex = null;
+      eventEditNote.textContent = "";
+      saveEventBtn.textContent = "Сохранить";
+    }
+
+    function clearMemberForm() {
+      memberName.value = "";
+      memberRole.value = "";
+      memberDesc.value = "";
+      memberPhoto.value = "";
+      editingMemberIndex = null;
+      memberEditNote.textContent = "";
+      saveMemberBtn.textContent = "Сохранить";
+    }
+
+    function clearDirectionForm() {
+      directionName.value = "";
+      directionSub.value = "";
+      directionJobs.value = "#";
+      editingDirectionIndex = null;
+      directionEditNote.textContent = "";
+      saveDirectionBtn.textContent = "Сохранить";
+    }
+
+    function saveJob() {
+      const title = jobTitle.value.trim();
+      const direction = jobDirection.value.trim();
+      const desc = jobDesc.value.trim();
+      const link = jobLink.value.trim() || "#";
+      if (!title || !direction || !desc) return;
+
+      const payload = { title, direction, desc, link };
+
+      if (editingJobIndex === null) {
+        state.jobs.push(payload);
+      } else {
+        state.jobs[editingJobIndex] = payload;
+      }
+
+      clearJobForm();
+      renderAll();
+    }
+
+    function saveEvent() {
+      const title = eventTitle.value.trim();
+      const year = Number(eventYear.value);
+      const month = Number(eventMonth.value);
+      const day = Number(eventDate.value);
+      const time = eventTime.value.trim();
+      const place = eventPlace.value.trim();
+      const color = eventColor.value;
+
+      if (!title || !year || month < 0 || month > 11 || !day || day < 1 || day > 31 || !time || !place) return;
+
+      const payload = { title, year, month, day, time, place, color };
+
+      if (editingEventIndex === null) {
+        state.events.push(payload);
+      } else {
+        state.events[editingEventIndex] = payload;
+      }
+
+      clearEventForm();
+      renderAll();
+    }
+
+    function saveMember() {
+      const name = memberName.value.trim();
+      const role = memberRole.value.trim();
+      const desc = memberDesc.value.trim();
+      const photo = memberPhoto.value.trim();
+
+      if (!name || !role || !desc) return;
+
+      const payload = { name, role, desc, photo };
+
+      if (editingMemberIndex === null) {
+        state.members.push(payload);
+      } else {
+        state.members[editingMemberIndex] = payload;
+      }
+
+      clearMemberForm();
+      renderAll();
+    }
+
+    function saveDirection() {
+      const name = directionName.value.trim();
+      const sub = directionSub.value.trim();
+      const link = directionJobs.value.trim() || "#";
+
+      if (!name || !sub) return;
+
+      const payload = { name, sub, link };
+
+      if (editingDirectionIndex === null) {
+        state.directions.push(payload);
+      } else {
+        state.directions[editingDirectionIndex] = payload;
+      }
+
+      clearDirectionForm();
+      closeDayEventsModal();
+      renderAll();
+    }
+
+    function startEditJob(index) {
+      const item = state.jobs[index];
+      editingJobIndex = index;
+      jobTitle.value = item.title;
+      jobDirection.value = item.direction;
+      jobDesc.value = item.desc;
+      jobLink.value = item.link || "#";
+      jobEditNote.textContent = `Редактируется блок записи #${index + 1}`;
+      saveJobBtn.textContent = "Обновить";
+    }
+
+    function startEditEvent(index) {
+      const item = state.events[index];
+      editingEventIndex = index;
+      eventTitle.value = item.title;
+      eventYear.value = item.year;
+      eventMonth.value = item.month;
+      eventDate.value = item.day;
+      eventTime.value = item.time;
+      eventPlace.value = item.place;
+      eventColor.value = item.color;
+      eventEditNote.textContent = `Редактируется событие #${index + 1}`;
+      saveEventBtn.textContent = "Обновить";
+    }
+
+    function startEditMember(index) {
+      const item = state.members[index];
+      editingMemberIndex = index;
+      memberName.value = item.name;
+      memberRole.value = item.role;
+      memberDesc.value = item.desc;
+      memberPhoto.value = item.photo || "";
+      memberEditNote.textContent = `Редактируется сотрудник #${index + 1}`;
+      saveMemberBtn.textContent = "Обновить";
+    }
+
+    function startEditDirection(index) {
+      const item = state.directions[index];
+      editingDirectionIndex = index;
+      directionName.value = item.name;
+      directionSub.value = item.sub;
+      directionJobs.value = item.link || "#";
+      directionEditNote.textContent = `Редактируется направление #${index + 1}`;
+      saveDirectionBtn.textContent = "Обновить";
+    }
+
+    function deleteJob(index) {
+      state.jobs.splice(index, 1);
+      if (editingJobIndex === index) clearJobForm();
+      renderAll();
+    }
+
+    function deleteEvent(index) {
+      state.events.splice(index, 1);
+      if (editingEventIndex === index) clearEventForm();
+      renderAll();
+    }
+
+    function deleteMember(index) {
+      state.members.splice(index, 1);
+      if (editingMemberIndex === index) clearMemberForm();
+      renderAll();
+    }
+
+    function deleteDirection(index) {
+      state.directions.splice(index, 1);
+      if (editingDirectionIndex === index) clearDirectionForm();
+      renderAll();
+    }
+
+    function changeMonth(step) {
+      currentCalendarMonth += step;
+      if (currentCalendarMonth < 0) {
+        currentCalendarMonth = 11;
+        currentCalendarYear--;
+      } else if (currentCalendarMonth > 11) {
+        currentCalendarMonth = 0;
+        currentCalendarYear++;
+      }
+      renderCalendar();
+    }
+
+    openAdminBtn.addEventListener("click", () => {
+      adminModal.classList.add("show");
+    });
+
+    closeAdminBtn.addEventListener("click", () => {
+      adminModal.classList.remove("show");
+    });
+
+    adminModal.addEventListener("click", (e) => {
+      if (e.target === adminModal) adminModal.classList.remove("show");
+    });
+
+    closeDayEventsBtn.addEventListener("click", closeDayEventsModal);
+
+    dayEventsModal.addEventListener("click", (e) => {
+      if (e.target === dayEventsModal) closeDayEventsModal();
+    });
+
+    loginBtn.addEventListener("click", () => {
+      if (passwordInput.value === ADMIN_PASSWORD) {
+        loginView.classList.add("hidden");
+        adminView.classList.remove("hidden");
+        loginError.textContent = "";
+      } else {
+        loginError.textContent = "Неверный пароль";
+      }
+    });
+
+    logoutBtn.addEventListener("click", () => {
+      adminView.classList.add("hidden");
+      loginView.classList.remove("hidden");
+      passwordInput.value = "";
+    });
+
+    resetDemoBtn.addEventListener("click", () => {
+      state = JSON.parse(JSON.stringify(initialState));
+      currentCalendarYear = 2026;
+      currentCalendarMonth = 4;
+      clearJobForm();
+      clearEventForm();
+      clearMemberForm();
+      clearDirectionForm();
+      closeDayEventsModal();
+      renderAll();
+    });
+
+    saveJobBtn.addEventListener("click", saveJob);
+    saveEventBtn.addEventListener("click", saveEvent);
+    saveMemberBtn.addEventListener("click", saveMember);
+    saveDirectionBtn.addEventListener("click", saveDirection);
+
+    cancelJobEditBtn.addEventListener("click", clearJobForm);
+    cancelEventEditBtn.addEventListener("click", clearEventForm);
+    cancelMemberEditBtn.addEventListener("click", clearMemberForm);
+    cancelDirectionEditBtn.addEventListener("click", clearDirectionForm);
+
+    prevMonthBtn.addEventListener("click", () => changeMonth(-1));
+    nextMonthBtn.addEventListener("click", () => changeMonth(1));
+
+    fillMonthSelect();
+    clearEventForm();
+    renderAll();
+
+    window.startEditJob = startEditJob;
+    window.startEditEvent = startEditEvent;
+    window.startEditMember = startEditMember;
+    window.startEditDirection = startEditDirection;
+    window.deleteJob = deleteJob;
+    window.deleteEvent = deleteEvent;
+    window.deleteMember = deleteMember;
+    window.deleteDirection = deleteDirection;
+  </script>
+</body>
+</html>
