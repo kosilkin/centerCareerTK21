@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Центр карьеры колледжа</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     * { box-sizing: border-box; }
 
@@ -497,6 +498,7 @@
     .job-card {
       border-radius: var(--radius-lg);
       padding: 18px;
+      padding-bottom: 84px;
       background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(248,251,255,0.94));
       border: 1px solid rgba(94, 116, 160, 0.12);
       min-height: 220px;
@@ -537,7 +539,6 @@
       font-size: 14px;
       line-height: 1.55;
       color: #5a6a87;
-      margin-bottom: 50px;
     }
 
     .job-btn {
@@ -905,6 +906,9 @@
     }
 
     @media (max-width: 760px) {
+      .field-grid-2 {
+        grid-template-columns: 1fr;
+      }
       header {
         padding: 24px 18px 26px;
       }
@@ -953,9 +957,9 @@
     <div class="header-inner">
       <div class="header-topline">
         <div>
-          <div class="header-label">Центр карьеры колледжа</div>
-          <h1 class="header-title">Запись в центр карьеры, мероприятия и команда центра</h1>
-          <p class="header-text">
+          <div class="header-label" id="headerLabelText">Центр карьеры колледжа</div>
+          <h1 class="header-title" id="headerTitleText">Запись в центр карьеры, мероприятия и команда центра</h1>
+          <p class="header-text" id="headerTextBlock">
             Площадка для студентов и выпускников: запись на консультации центра карьеры,
             карьерные события и полезные ссылки по направлениям обучения.
           </p>
@@ -978,19 +982,19 @@
     <section class="row-2">
       <article class="panel" id="info">
         <div class="panel-content">
-          <h2 class="panel-title">Инфо</h2>
-          <p class="panel-text">
+          <h2 class="panel-title" id="infoTitleText">Инфо</h2>
+          <p class="panel-text" id="infoTextBlock">
             Центр карьеры помогает студентам с трудоустройством, стажировками, практикой,
             резюме и подготовкой к собеседованиям. Ниже можно разместить запись на консультацию,
             а также оставить описание, зачем студенту обращаться в центр карьеры.
           </p>
-          <div class="info-mark">Формы записи и регистрации доступны онлайн</div>
+          <div class="info-mark" id="infoMarkText">Формы записи и регистрации доступны онлайн</div>
         </div>
       </article>
 
       <article class="panel" id="team">
         <div class="panel-content">
-          <h2 class="panel-title">Команда центра</h2>
+          <h2 class="panel-title" id="teamTitleText">Команда центра</h2>
           <div class="team-grid" id="teamGrid"></div>
         </div>
       </article>
@@ -999,13 +1003,13 @@
     <section class="panel calendar-wrap" id="events">
       <div class="panel-content">
         <div class="calendar-head">
-          <h2 class="panel-title" style="margin: 0;">Мероприятия</h2>
+          <h2 class="panel-title" style="margin: 0;" id="eventsTitleText">Мероприятия</h2>
 
           <div class="calendar-tools">
             <button class="calendar-nav-btn" id="prevMonthBtn">← Назад</button>
             <div class="calendar-month" id="calendarMonthTitle"></div>
             <button class="calendar-nav-btn" id="nextMonthBtn">Вперёд →</button>
-            <div class="calendar-mark">Календарь событий</div>
+            <div class="calendar-mark" id="calendarBadgeText">Календарь событий</div>
           </div>
         </div>
 
@@ -1023,8 +1027,8 @@
 
         <div class="calendar-bottom">
           <div class="events-summary">
-            <h3 class="events-summary-title">Как пользоваться календарём</h3>
-            <div class="summary-text">Нажмите на день с событиями, чтобы открыть подробную информацию и перейти к записи.</div>
+            <h3 class="events-summary-title" id="eventsSummaryTitleText">Как пользоваться календарём</h3>
+            <div class="summary-text" id="eventsSummaryText">Нажмите на день с событиями, чтобы открыть подробную информацию и перейти к записи.</div>
           </div>
         </div>
       </div>
@@ -1033,8 +1037,8 @@
     <section class="panel jobs-panel" id="jobs">
       <div class="panel-content">
         <div class="section-head">
-          <h2 class="panel-title" style="margin: 0;">Запись в центр карьеры</h2>
-          <div class="head-badge">Онлайн-запись</div>
+          <h2 class="panel-title" style="margin: 0;" id="jobsTitleText">Запись в центр карьеры</h2>
+          <div class="head-badge" id="jobsBadgeText">Онлайн-запись</div>
         </div>
 
         <div class="jobs-grid" id="jobsGrid"></div>
@@ -1044,8 +1048,8 @@
     <section class="panel" id="directions">
       <div class="panel-content">
         <div class="section-head">
-          <h2 class="panel-title" style="margin: 0;">Направления обучения</h2>
-          <div class="head-badge">Ссылки на таблицы</div>
+          <h2 class="panel-title" style="margin: 0;" id="directionsTitleText">Направления обучения</h2>
+          <div class="head-badge" id="directionsBadgeText">Ссылки на таблицы</div>
         </div>
 
         <div class="directions-grid" id="directionsGrid"></div>
@@ -1063,8 +1067,13 @@
       <div id="loginView">
         <div class="login-wrap">
           <p class="muted-text">
-            Демонстрационная версия. Пароль проверяется только в браузере.
+            Вход через Supabase. Кнопка редактирования и админ-панель доступны только пользователю с ролью admin в таблице profiles.
           </p>
+
+          <div class="field">
+            <label for="emailInput">Email</label>
+            <input type="email" id="emailInput" placeholder="Введите email">
+          </div>
 
           <div class="field">
             <label for="passwordInput">Пароль</label>
@@ -1077,15 +1086,117 @@
       </div>
 
       <div id="adminView" class="hidden">
-        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px;">
+        <div class="admin-toolbar">
           <button class="btn gray" id="logoutBtn">Выйти</button>
-          <button class="btn secondary" id="resetDemoBtn">Сбросить демо-данные</button>
+          <button class="btn secondary" id="resetDemoBtn">Сбросить данные сайта</button>
+          <a href="#siteSettingsCard" class="admin-jump">Тексты</a>
+          <a href="#jobsCard" class="admin-jump">Запись</a>
+          <a href="#eventsCard" class="admin-jump">События</a>
+          <a href="#teamCard" class="admin-jump">Команда</a>
+          <a href="#directionsCard" class="admin-jump">Направления</a>
         </div>
 
+        <div class="admin-stats" id="adminStats"></div>
+
         <div class="admin-grid">
-          <div class="admin-card">
-            <h3>Запись в центр карьеры</h3>
-            <div class="edit-note" id="jobEditNote"></div>
+          <div class="admin-card full-span" id="siteSettingsCard">
+            <div class="admin-card-head">
+              <h3>Тексты сайта</h3>
+              <div class="edit-note" id="settingsEditNote">Можно менять основные заголовки и подписи без правки кода.</div>
+            </div>
+
+            <div class="field-grid-2">
+              <div class="field">
+                <label for="settingsHeaderLabel">Метка в шапке</label>
+                <input type="text" id="settingsHeaderLabel">
+              </div>
+              <div class="field">
+                <label for="settingsHeaderTitle">Главный заголовок</label>
+                <input type="text" id="settingsHeaderTitle">
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="settingsHeaderText">Текст под заголовком</label>
+              <textarea id="settingsHeaderText"></textarea>
+            </div>
+
+            <div class="field-grid-2">
+              <div class="field">
+                <label for="settingsInfoTitle">Заголовок блока «Инфо»</label>
+                <input type="text" id="settingsInfoTitle">
+              </div>
+              <div class="field">
+                <label for="settingsInfoMark">Подпись в жёлтом блоке</label>
+                <input type="text" id="settingsInfoMark">
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="settingsInfoText">Текст блока «Инфо»</label>
+              <textarea id="settingsInfoText"></textarea>
+            </div>
+
+            <div class="field-grid-2">
+              <div class="field">
+                <label for="settingsTeamTitle">Заголовок команды</label>
+                <input type="text" id="settingsTeamTitle">
+              </div>
+              <div class="field">
+                <label for="settingsEventsTitle">Заголовок блока мероприятий</label>
+                <input type="text" id="settingsEventsTitle">
+              </div>
+            </div>
+
+            <div class="field-grid-2">
+              <div class="field">
+                <label for="settingsCalendarBadge">Подпись у календаря</label>
+                <input type="text" id="settingsCalendarBadge">
+              </div>
+              <div class="field">
+                <label for="settingsEventsSummaryTitle">Заголовок подсказки</label>
+                <input type="text" id="settingsEventsSummaryTitle">
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="settingsEventsSummaryText">Текст подсказки</label>
+              <textarea id="settingsEventsSummaryText"></textarea>
+            </div>
+
+            <div class="field-grid-2">
+              <div class="field">
+                <label for="settingsJobsTitle">Заголовок блока записи</label>
+                <input type="text" id="settingsJobsTitle">
+              </div>
+              <div class="field">
+                <label for="settingsJobsBadge">Подпись блока записи</label>
+                <input type="text" id="settingsJobsBadge">
+              </div>
+            </div>
+
+            <div class="field-grid-2">
+              <div class="field">
+                <label for="settingsDirectionsTitle">Заголовок направлений</label>
+                <input type="text" id="settingsDirectionsTitle">
+              </div>
+              <div class="field">
+                <label for="settingsDirectionsBadge">Подпись направлений</label>
+                <input type="text" id="settingsDirectionsBadge">
+              </div>
+            </div>
+
+            <div class="form-toolbar">
+              <button class="btn" id="saveSettingsBtn">Сохранить тексты</button>
+              <button class="btn gray" id="cancelSettingsBtn">Сбросить поля</button>
+            </div>
+          </div>
+
+          <div class="admin-card" id="jobsCard">
+            <div class="admin-card-head">
+              <h3>Запись в центр карьеры</h3>
+              <div class="edit-note" id="jobEditNote"></div>
+            </div>
 
             <div class="field">
               <label for="jobTitle">Название блока</label>
@@ -1094,7 +1205,7 @@
 
             <div class="field">
               <label for="jobDirection">Категория / метка</label>
-              <input type="text" id="jobDirection" placeholder="Например: ИСИП">
+              <input type="text" id="jobDirection" placeholder="Например: Консультация">
             </div>
 
             <div class="field">
@@ -1115,38 +1226,47 @@
             <div class="list" id="jobsAdminList"></div>
           </div>
 
-          <div class="admin-card">
-            <h3>События</h3>
-            <div class="edit-note" id="eventEditNote"></div>
+          <div class="admin-card" id="eventsCard">
+            <div class="admin-card-head">
+              <h3>События</h3>
+              <div class="edit-note" id="eventEditNote"></div>
+            </div>
 
             <div class="field">
               <label for="eventTitle">Название события</label>
               <input type="text" id="eventTitle">
             </div>
 
-            <div class="field">
-              <label for="eventYear">Год</label>
-              <input type="number" id="eventYear" placeholder="2026">
+            <div class="field-grid-2">
+              <div class="field">
+                <label for="eventYear">Год</label>
+                <input type="number" id="eventYear" placeholder="2026">
+              </div>
+              <div class="field">
+                <label for="eventMonth">Месяц</label>
+                <select id="eventMonth"></select>
+              </div>
             </div>
 
-            <div class="field">
-              <label for="eventMonth">Месяц</label>
-              <select id="eventMonth"></select>
-            </div>
-
-            <div class="field">
-              <label for="eventDate">Дата месяца</label>
-              <input type="number" id="eventDate" min="1" max="31" placeholder="Например: 21">
-            </div>
-
-            <div class="field">
-              <label for="eventTime">Время</label>
-              <input type="text" id="eventTime" placeholder="Например: 16:00">
+            <div class="field-grid-2">
+              <div class="field">
+                <label for="eventDate">Дата месяца</label>
+                <input type="number" id="eventDate" min="1" max="31" placeholder="Например: 21">
+              </div>
+              <div class="field">
+                <label for="eventTime">Время</label>
+                <input type="text" id="eventTime" placeholder="Например: 16:00">
+              </div>
             </div>
 
             <div class="field">
               <label for="eventPlace">Место / описание</label>
               <textarea id="eventPlace"></textarea>
+            </div>
+
+            <div class="field">
+              <label for="eventLink">Ссылка для записи именно на это событие</label>
+              <input type="text" id="eventLink" placeholder="https://...">
             </div>
 
             <div class="field">
@@ -1166,9 +1286,11 @@
             <div class="list" id="eventsAdminList"></div>
           </div>
 
-          <div class="admin-card">
-            <h3>Команда</h3>
-            <div class="edit-note" id="memberEditNote"></div>
+          <div class="admin-card" id="teamCard">
+            <div class="admin-card-head">
+              <h3>Команда</h3>
+              <div class="edit-note" id="memberEditNote"></div>
+            </div>
 
             <div class="field">
               <label for="memberName">ФИО</label>
@@ -1198,9 +1320,11 @@
             <div class="list" id="membersAdminList"></div>
           </div>
 
-          <div class="admin-card">
-            <h3>Направления и ссылки</h3>
-            <div class="edit-note" id="directionEditNote"></div>
+          <div class="admin-card" id="directionsCard">
+            <div class="admin-card-head">
+              <h3>Направления и ссылки</h3>
+              <div class="edit-note" id="directionEditNote"></div>
+            </div>
 
             <div class="field">
               <label for="directionName">Название направления</label>
@@ -1226,6 +1350,7 @@
           </div>
         </div>
       </div>
+      </div>
     </div>
   </div>
 
@@ -1237,15 +1362,16 @@
       </div>
       <div class="muted-text" id="dayEventsSubtitle">Здесь будет информация о выбранной дате.</div>
       <div class="day-events-modal-list" id="dayEventsList"></div>
-      <div class="day-events-actions">
-        <a href="#" class="btn" id="dayEventsFormBtn">Записаться</a>
-      </div>
+      <div class="day-events-actions" id="dayEventsActions"></div>
     </div>
   </div>
 
   <script>
-    const ADMIN_PASSWORD = "12345";
-    const YANDEX_FORM_LINK = "#";
+    const SUPABASE_URL = "https://zxvqgqnwbkqmopaxtqcm.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_90CEm1Vf4QqF4p4C7DAsvw_c_eb78XE";
+    const CONTENT_SLUG = "main";
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
 
     const MONTH_NAMES = [
       "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
@@ -1281,7 +1407,8 @@
           day: 8,
           time: "14:00",
           place: "Актовый зал",
-          color: "blue"
+          color: "blue",
+          link: "#"
         },
         {
           title: "Встреча с работодателем",
@@ -1290,7 +1417,8 @@
           day: 13,
           time: "12:30",
           place: "Конференц-зал",
-          color: "orange"
+          color: "orange",
+          link: "#"
         },
         {
           title: "Карьерная консультация",
@@ -1299,7 +1427,8 @@
           day: 21,
           time: "16:00",
           place: "Кабинет центра карьеры",
-          color: "green"
+          color: "green",
+          link: "#"
         },
         {
           title: "Онлайн-вебинар по резюме",
@@ -1308,7 +1437,8 @@
           day: 21,
           time: "17:30",
           place: "Онлайн",
-          color: "blue"
+          color: "blue",
+          link: "#"
         },
         {
           title: "Разбор откликов",
@@ -1317,7 +1447,8 @@
           day: 21,
           time: "18:30",
           place: "Онлайн",
-          color: "orange"
+          color: "orange",
+          link: "#"
         },
         {
           title: "Летняя стажировка: встреча",
@@ -1326,7 +1457,8 @@
           day: 11,
           time: "15:00",
           place: "Конференц-зал",
-          color: "blue"
+          color: "blue",
+          link: "#"
         }
       ],
       members: [
@@ -1355,6 +1487,23 @@
           photo: ""
         }
       ],
+      settings: {
+        headerLabel: "Центр карьеры колледжа",
+        headerTitle: "Запись в центр карьеры, мероприятия и команда центра",
+        headerText: "Площадка для студентов и выпускников: запись на консультации центра карьеры, карьерные события и полезные ссылки по направлениям обучения.",
+        infoTitle: "Инфо",
+        infoText: "Центр карьеры помогает студентам с трудоустройством, стажировками, практикой, резюме и подготовкой к собеседованиям. Ниже можно разместить запись на консультацию, а также оставить описание, зачем студенту обращаться в центр карьеры.",
+        infoMark: "Формы записи и регистрации доступны онлайн",
+        teamTitle: "Команда центра",
+        eventsTitle: "Мероприятия",
+        calendarBadge: "Календарь событий",
+        eventsSummaryTitle: "Как пользоваться календарём",
+        eventsSummaryText: "Нажмите на день с событиями, чтобы открыть подробную информацию и перейти к записи.",
+        jobsTitle: "Запись в центр карьеры",
+        jobsBadge: "Онлайн-запись",
+        directionsTitle: "Направления обучения",
+        directionsBadge: "Ссылки на таблицы"
+      },
       directions: [
         {
           name: "ИСИП",
@@ -1380,6 +1529,8 @@
     };
 
     let state = JSON.parse(JSON.stringify(initialState));
+    let currentProfile = null;
+    let isBootstrapping = true;
 
     let currentCalendarYear = 2026;
     let currentCalendarMonth = 4; // май = 4
@@ -1396,6 +1547,22 @@
     const calendarMonthTitle = document.getElementById("calendarMonthTitle");
     const directionsGrid = document.getElementById("directionsGrid");
 
+    const headerLabelText = document.getElementById("headerLabelText");
+    const headerTitleText = document.getElementById("headerTitleText");
+    const headerTextBlock = document.getElementById("headerTextBlock");
+    const infoTitleText = document.getElementById("infoTitleText");
+    const infoTextBlock = document.getElementById("infoTextBlock");
+    const infoMarkText = document.getElementById("infoMarkText");
+    const teamTitleText = document.getElementById("teamTitleText");
+    const eventsTitleText = document.getElementById("eventsTitleText");
+    const calendarBadgeText = document.getElementById("calendarBadgeText");
+    const eventsSummaryTitleText = document.getElementById("eventsSummaryTitleText");
+    const eventsSummaryText = document.getElementById("eventsSummaryText");
+    const jobsTitleText = document.getElementById("jobsTitleText");
+    const jobsBadgeText = document.getElementById("jobsBadgeText");
+    const directionsTitleText = document.getElementById("directionsTitleText");
+    const directionsBadgeText = document.getElementById("directionsBadgeText");
+
     const prevMonthBtn = document.getElementById("prevMonthBtn");
     const nextMonthBtn = document.getElementById("nextMonthBtn");
 
@@ -1405,6 +1572,7 @@
 
     const loginView = document.getElementById("loginView");
     const adminView = document.getElementById("adminView");
+    const emailInput = document.getElementById("emailInput");
     const passwordInput = document.getElementById("passwordInput");
     const loginBtn = document.getElementById("loginBtn");
     const loginError = document.getElementById("loginError");
@@ -1415,6 +1583,7 @@
     const eventsAdminList = document.getElementById("eventsAdminList");
     const membersAdminList = document.getElementById("membersAdminList");
     const directionsAdminList = document.getElementById("directionsAdminList");
+    const adminStats = document.getElementById("adminStats");
 
     const jobTitle = document.getElementById("jobTitle");
     const jobDirection = document.getElementById("jobDirection");
@@ -1430,6 +1599,7 @@
     const eventDate = document.getElementById("eventDate");
     const eventTime = document.getElementById("eventTime");
     const eventPlace = document.getElementById("eventPlace");
+    const eventLink = document.getElementById("eventLink");
     const eventColor = document.getElementById("eventColor");
     const saveEventBtn = document.getElementById("saveEventBtn");
     const cancelEventEditBtn = document.getElementById("cancelEventEditBtn");
@@ -1452,10 +1622,189 @@
     const dayEventsTitle = document.getElementById("dayEventsTitle");
     const dayEventsSubtitle = document.getElementById("dayEventsSubtitle");
     const dayEventsList = document.getElementById("dayEventsList");
-    const dayEventsFormBtn = document.getElementById("dayEventsFormBtn");
+    const dayEventsActions = document.getElementById("dayEventsActions");
+    const settingsHeaderLabel = document.getElementById("settingsHeaderLabel");
+    const settingsHeaderTitle = document.getElementById("settingsHeaderTitle");
+    const settingsHeaderText = document.getElementById("settingsHeaderText");
+    const settingsInfoTitle = document.getElementById("settingsInfoTitle");
+    const settingsInfoText = document.getElementById("settingsInfoText");
+    const settingsInfoMark = document.getElementById("settingsInfoMark");
+    const settingsTeamTitle = document.getElementById("settingsTeamTitle");
+    const settingsEventsTitle = document.getElementById("settingsEventsTitle");
+    const settingsCalendarBadge = document.getElementById("settingsCalendarBadge");
+    const settingsEventsSummaryTitle = document.getElementById("settingsEventsSummaryTitle");
+    const settingsEventsSummaryText = document.getElementById("settingsEventsSummaryText");
+    const settingsJobsTitle = document.getElementById("settingsJobsTitle");
+    const settingsJobsBadge = document.getElementById("settingsJobsBadge");
+    const settingsDirectionsTitle = document.getElementById("settingsDirectionsTitle");
+    const settingsDirectionsBadge = document.getElementById("settingsDirectionsBadge");
+    const saveSettingsBtn = document.getElementById("saveSettingsBtn");
+    const cancelSettingsBtn = document.getElementById("cancelSettingsBtn");
+
     const saveDirectionBtn = document.getElementById("saveDirectionBtn");
     const cancelDirectionEditBtn = document.getElementById("cancelDirectionEditBtn");
     const directionEditNote = document.getElementById("directionEditNote");
+
+    async function getCurrentSession() {
+      const { data, error } = await supabase.auth.getSession();
+      if (error) throw error;
+      return data.session || null;
+    }
+
+    async function fetchCurrentProfile() {
+      const session = await getCurrentSession();
+      if (!session) return null;
+
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("id, email, role")
+        .eq("id", session.user.id)
+        .single();
+
+      if (error) throw error;
+      return data;
+    }
+
+    async function loadStateFromDatabase() {
+      const { data, error } = await supabase
+        .from("site_content")
+        .select("data")
+        .eq("slug", CONTENT_SLUG)
+        .maybeSingle();
+
+      if (error) throw error;
+      const dbState = data?.data;
+
+      if (!dbState || typeof dbState !== "object") {
+        state = JSON.parse(JSON.stringify(initialState));
+        return;
+      }
+
+      state = {
+        ...JSON.parse(JSON.stringify(initialState)),
+        ...dbState,
+        settings: { ...initialState.settings, ...(dbState.settings || {}) }
+      };
+    }
+
+    async function persistState() {
+      const session = await getCurrentSession();
+      if (!session) throw new Error("Сессия не найдена");
+
+      const { error } = await supabase
+        .from("site_content")
+        .upsert(
+          [{
+            slug: CONTENT_SLUG,
+            data: state,
+            updated_by: session.user.id,
+            updated_at: new Date().toISOString()
+          }],
+          { onConflict: "slug" }
+        );
+
+      if (error) throw error;
+    }
+
+    function showSaveError(error) {
+      console.error(error);
+      const message = error?.message || "Не удалось сохранить данные";
+      alert(message);
+    }
+
+    async function updateAuthUi() {
+      try {
+        currentProfile = await fetchCurrentProfile();
+      } catch (error) {
+        console.error(error);
+        currentProfile = null;
+      }
+
+      const isAdmin = currentProfile?.role === "admin";
+      openAdminBtn.style.display = isAdmin ? "inline-flex" : "none";
+
+      if (isAdmin) {
+        loginView.classList.add("hidden");
+        adminView.classList.remove("hidden");
+      } else {
+        adminView.classList.add("hidden");
+        loginView.classList.remove("hidden");
+      }
+    }
+
+    function syncSettingsToPage() {
+      const s = state.settings || initialState.settings;
+      headerLabelText.textContent = s.headerLabel;
+      headerTitleText.textContent = s.headerTitle;
+      headerTextBlock.textContent = s.headerText;
+      infoTitleText.textContent = s.infoTitle;
+      infoTextBlock.textContent = s.infoText;
+      infoMarkText.textContent = s.infoMark;
+      teamTitleText.textContent = s.teamTitle;
+      eventsTitleText.textContent = s.eventsTitle;
+      calendarBadgeText.textContent = s.calendarBadge;
+      eventsSummaryTitleText.textContent = s.eventsSummaryTitle;
+      eventsSummaryText.textContent = s.eventsSummaryText;
+      jobsTitleText.textContent = s.jobsTitle;
+      jobsBadgeText.textContent = s.jobsBadge;
+      directionsTitleText.textContent = s.directionsTitle;
+      directionsBadgeText.textContent = s.directionsBadge;
+    }
+
+    function updateAdminStats() {
+      adminStats.innerHTML = `
+        <div class="admin-stat">Блоков записи: ${state.jobs.length}</div>
+        <div class="admin-stat">Событий: ${state.events.length}</div>
+        <div class="admin-stat">Сотрудников: ${state.members.length}</div>
+        <div class="admin-stat">Направлений: ${state.directions.length}</div>
+      `;
+    }
+
+    function fillSettingsForm() {
+      const s = state.settings;
+      settingsHeaderLabel.value = s.headerLabel;
+      settingsHeaderTitle.value = s.headerTitle;
+      settingsHeaderText.value = s.headerText;
+      settingsInfoTitle.value = s.infoTitle;
+      settingsInfoText.value = s.infoText;
+      settingsInfoMark.value = s.infoMark;
+      settingsTeamTitle.value = s.teamTitle;
+      settingsEventsTitle.value = s.eventsTitle;
+      settingsCalendarBadge.value = s.calendarBadge;
+      settingsEventsSummaryTitle.value = s.eventsSummaryTitle;
+      settingsEventsSummaryText.value = s.eventsSummaryText;
+      settingsJobsTitle.value = s.jobsTitle;
+      settingsJobsBadge.value = s.jobsBadge;
+      settingsDirectionsTitle.value = s.directionsTitle;
+      settingsDirectionsBadge.value = s.directionsBadge;
+    }
+
+    async function saveSettings() {
+      state.settings = {
+        headerLabel: settingsHeaderLabel.value.trim() || initialState.settings.headerLabel,
+        headerTitle: settingsHeaderTitle.value.trim() || initialState.settings.headerTitle,
+        headerText: settingsHeaderText.value.trim() || initialState.settings.headerText,
+        infoTitle: settingsInfoTitle.value.trim() || initialState.settings.infoTitle,
+        infoText: settingsInfoText.value.trim() || initialState.settings.infoText,
+        infoMark: settingsInfoMark.value.trim() || initialState.settings.infoMark,
+        teamTitle: settingsTeamTitle.value.trim() || initialState.settings.teamTitle,
+        eventsTitle: settingsEventsTitle.value.trim() || initialState.settings.eventsTitle,
+        calendarBadge: settingsCalendarBadge.value.trim() || initialState.settings.calendarBadge,
+        eventsSummaryTitle: settingsEventsSummaryTitle.value.trim() || initialState.settings.eventsSummaryTitle,
+        eventsSummaryText: settingsEventsSummaryText.value.trim() || initialState.settings.eventsSummaryText,
+        jobsTitle: settingsJobsTitle.value.trim() || initialState.settings.jobsTitle,
+        jobsBadge: settingsJobsBadge.value.trim() || initialState.settings.jobsBadge,
+        directionsTitle: settingsDirectionsTitle.value.trim() || initialState.settings.directionsTitle,
+        directionsBadge: settingsDirectionsBadge.value.trim() || initialState.settings.directionsBadge
+      };
+      try {
+        await persistState();
+        syncSettingsToPage();
+        fillSettingsForm();
+      } catch (error) {
+        showSaveError(error);
+      }
+    }
 
     function fillMonthSelect() {
       eventMonth.innerHTML = MONTH_NAMES.map((name, index) =>
@@ -1598,7 +1947,7 @@
             <p class="direction-sub">${escapeHtml(direction.sub)}</p>
           </div>
           <div class="direction-body">
-            <a href="${escapeHtml(direction.link || "#")}" class="direction-link" target="_blank" rel="noopener noreferrer">Открыть вакансии</a>
+            <a href="${escapeHtml(direction.link || "#")}" class="direction-link" target="_blank" rel="noopener noreferrer">Открыть таблицу</a>
           </div>
         `;
         directionsGrid.appendChild(card);
@@ -1613,8 +1962,9 @@
     function openDayEventsModal(day, events) {
       selectedDayEvents = [...events];
       dayEventsTitle.textContent = `События на ${formatFullDate(day)}`;
-      dayEventsSubtitle.textContent = "Ниже показана подробная информация по выбранному дню.";
+      dayEventsSubtitle.textContent = "Нажмите на кнопку у нужного события, чтобы записаться именно на него.";
       dayEventsList.innerHTML = "";
+      dayEventsActions.innerHTML = "";
 
       if (!selectedDayEvents.length) {
         dayEventsList.innerHTML = `<div class="day-events-empty">На выбранную дату событий нет.</div>`;
@@ -1626,12 +1976,12 @@
             <div class="day-event-time">${escapeHtml(event.time)}</div>
             <h3 class="day-event-title">${escapeHtml(event.title)}</h3>
             <p class="day-event-text">${escapeHtml(event.place)}</p>
+            <a href="${escapeHtml(event.link || "#")}" class="event-register-btn" target="_blank" rel="noopener noreferrer">Записаться на это событие</a>
           `;
           dayEventsList.appendChild(item);
         });
       }
 
-      dayEventsFormBtn.href = YANDEX_FORM_LINK;
       dayEventsModal.classList.add("show");
     }
 
@@ -1648,6 +1998,7 @@
           <h4 class="item-title">${escapeHtml(job.title)}</h4>
           <p class="item-text"><b>Категория:</b> ${escapeHtml(job.direction)}</p>
           <p class="item-text">${escapeHtml(job.desc)}</p>
+          <p class="item-text"><b>Ссылка:</b> ${escapeHtml(job.link || "#")}</p>
           <div class="item-actions">
             <button class="small-btn" onclick="startEditJob(${index})">Редактировать</button>
             <button class="small-btn delete" onclick="deleteJob(${index})">Удалить</button>
@@ -1666,6 +2017,7 @@
           <h4 class="item-title">${escapeHtml(event.title)}</h4>
           <p class="item-text"><b>Дата:</b> ${event.day} ${MONTH_NAMES[event.month].toLowerCase()} ${event.year}, ${escapeHtml(event.time)}</p>
           <p class="item-text"><b>Место:</b> ${escapeHtml(event.place)}</p>
+          <p class="item-text"><b>Ссылка на запись:</b> ${escapeHtml(event.link || "#")}</p>
           <div class="item-actions">
             <button class="small-btn" onclick="startEditEvent(${index})">Редактировать</button>
             <button class="small-btn delete" onclick="deleteEvent(${index})">Удалить</button>
@@ -1684,6 +2036,7 @@
           <h4 class="item-title">${escapeHtml(member.name)}</h4>
           <p class="item-text"><b>Должность:</b> ${escapeHtml(member.role)}</p>
           <p class="item-text">${escapeHtml(member.desc)}</p>
+          <p class="item-text"><b>Фото:</b> ${escapeHtml(member.photo || "—")}</p>
           <div class="item-actions">
             <button class="small-btn" onclick="startEditMember(${index})">Редактировать</button>
             <button class="small-btn delete" onclick="deleteMember(${index})">Удалить</button>
@@ -1712,6 +2065,8 @@
     }
 
     function renderAll() {
+      syncSettingsToPage();
+      updateAdminStats();
       renderJobs();
       renderTeam();
       renderCalendar();
@@ -1739,6 +2094,7 @@
       eventDate.value = "";
       eventTime.value = "";
       eventPlace.value = "";
+      eventLink.value = "#";
       eventColor.value = "blue";
       editingEventIndex = null;
       eventEditNote.textContent = "";
@@ -1764,7 +2120,7 @@
       saveDirectionBtn.textContent = "Сохранить";
     }
 
-    function saveJob() {
+    async function saveJob() {
       const title = jobTitle.value.trim();
       const direction = jobDirection.value.trim();
       const desc = jobDesc.value.trim();
@@ -1780,21 +2136,27 @@
       }
 
       clearJobForm();
-      renderAll();
+      try {
+        await persistState();
+        renderAll();
+      } catch (error) {
+        showSaveError(error);
+      }
     }
 
-    function saveEvent() {
+    async function saveEvent() {
       const title = eventTitle.value.trim();
       const year = Number(eventYear.value);
       const month = Number(eventMonth.value);
       const day = Number(eventDate.value);
       const time = eventTime.value.trim();
       const place = eventPlace.value.trim();
+      const link = eventLink.value.trim() || "#";
       const color = eventColor.value;
 
       if (!title || !year || month < 0 || month > 11 || !day || day < 1 || day > 31 || !time || !place) return;
 
-      const payload = { title, year, month, day, time, place, color };
+      const payload = { title, year, month, day, time, place, color, link };
 
       if (editingEventIndex === null) {
         state.events.push(payload);
@@ -1803,10 +2165,15 @@
       }
 
       clearEventForm();
-      renderAll();
+      try {
+        await persistState();
+        renderAll();
+      } catch (error) {
+        showSaveError(error);
+      }
     }
 
-    function saveMember() {
+    async function saveMember() {
       const name = memberName.value.trim();
       const role = memberRole.value.trim();
       const desc = memberDesc.value.trim();
@@ -1823,10 +2190,15 @@
       }
 
       clearMemberForm();
-      renderAll();
+      try {
+        await persistState();
+        renderAll();
+      } catch (error) {
+        showSaveError(error);
+      }
     }
 
-    function saveDirection() {
+    async function saveDirection() {
       const name = directionName.value.trim();
       const sub = directionSub.value.trim();
       const link = directionJobs.value.trim() || "#";
@@ -1843,7 +2215,12 @@
 
       clearDirectionForm();
       closeDayEventsModal();
-      renderAll();
+      try {
+        await persistState();
+        renderAll();
+      } catch (error) {
+        showSaveError(error);
+      }
     }
 
     function startEditJob(index) {
@@ -1866,6 +2243,7 @@
       eventDate.value = item.day;
       eventTime.value = item.time;
       eventPlace.value = item.place;
+      eventLink.value = item.link || "#";
       eventColor.value = item.color;
       eventEditNote.textContent = `Редактируется событие #${index + 1}`;
       saveEventBtn.textContent = "Обновить";
@@ -1892,28 +2270,48 @@
       saveDirectionBtn.textContent = "Обновить";
     }
 
-    function deleteJob(index) {
+    async function deleteJob(index) {
       state.jobs.splice(index, 1);
       if (editingJobIndex === index) clearJobForm();
-      renderAll();
+      try {
+        await persistState();
+        renderAll();
+      } catch (error) {
+        showSaveError(error);
+      }
     }
 
-    function deleteEvent(index) {
+    async function deleteEvent(index) {
       state.events.splice(index, 1);
       if (editingEventIndex === index) clearEventForm();
-      renderAll();
+      try {
+        await persistState();
+        renderAll();
+      } catch (error) {
+        showSaveError(error);
+      }
     }
 
-    function deleteMember(index) {
+    async function deleteMember(index) {
       state.members.splice(index, 1);
       if (editingMemberIndex === index) clearMemberForm();
-      renderAll();
+      try {
+        await persistState();
+        renderAll();
+      } catch (error) {
+        showSaveError(error);
+      }
     }
 
-    function deleteDirection(index) {
+    async function deleteDirection(index) {
       state.directions.splice(index, 1);
       if (editingDirectionIndex === index) clearDirectionForm();
-      renderAll();
+      try {
+        await persistState();
+        renderAll();
+      } catch (error) {
+        showSaveError(error);
+      }
     }
 
     function changeMonth(step) {
@@ -1928,7 +2326,8 @@
       renderCalendar();
     }
 
-    openAdminBtn.addEventListener("click", () => {
+    openAdminBtn.addEventListener("click", async () => {
+      await updateAuthUi();
       adminModal.classList.add("show");
     });
 
@@ -1946,23 +2345,49 @@
       if (e.target === dayEventsModal) closeDayEventsModal();
     });
 
-    loginBtn.addEventListener("click", () => {
-      if (passwordInput.value === ADMIN_PASSWORD) {
-        loginView.classList.add("hidden");
-        adminView.classList.remove("hidden");
+    loginBtn.addEventListener("click", async () => {
+      try {
         loginError.textContent = "";
-      } else {
-        loginError.textContent = "Неверный пароль";
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+        if (!email || !password) {
+          loginError.textContent = "Введите email и пароль";
+          return;
+        }
+
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) {
+          loginError.textContent = error.message || "Ошибка входа";
+          return;
+        }
+
+        passwordInput.value = "";
+        await updateAuthUi();
+        if (currentProfile?.role === "admin") {
+          await loadStateFromDatabase();
+          fillSettingsForm();
+          clearEventForm();
+          renderAll();
+        } else {
+          loginError.textContent = "У этого аккаунта нет роли admin";
+          await supabase.auth.signOut();
+          await updateAuthUi();
+        }
+      } catch (error) {
+        loginError.textContent = error?.message || "Ошибка входа";
       }
     });
 
-    logoutBtn.addEventListener("click", () => {
+    logoutBtn.addEventListener("click", async () => {
+      await supabase.auth.signOut();
       adminView.classList.add("hidden");
       loginView.classList.remove("hidden");
       passwordInput.value = "";
+      await updateAuthUi();
     });
 
-    resetDemoBtn.addEventListener("click", () => {
+    resetDemoBtn.addEventListener("click", async () => {
+      if (!confirm("Сбросить данные сайта к исходному шаблону?")) return;
       state = JSON.parse(JSON.stringify(initialState));
       currentCalendarYear = 2026;
       currentCalendarMonth = 4;
@@ -1971,8 +2396,16 @@
       clearMemberForm();
       clearDirectionForm();
       closeDayEventsModal();
-      renderAll();
+      try {
+        await persistState();
+        renderAll();
+      } catch (error) {
+        showSaveError(error);
+      }
     });
+
+    saveSettingsBtn.addEventListener("click", saveSettings);
+    cancelSettingsBtn.addEventListener("click", fillSettingsForm);
 
     saveJobBtn.addEventListener("click", saveJob);
     saveEventBtn.addEventListener("click", saveEvent);
@@ -1987,9 +2420,28 @@
     prevMonthBtn.addEventListener("click", () => changeMonth(-1));
     nextMonthBtn.addEventListener("click", () => changeMonth(1));
 
-    fillMonthSelect();
-    clearEventForm();
-    renderAll();
+    async function bootstrap() {
+      fillMonthSelect();
+      try {
+        await loadStateFromDatabase();
+      } catch (error) {
+        console.error(error);
+        state = JSON.parse(JSON.stringify(initialState));
+      }
+
+      fillSettingsForm();
+      clearEventForm();
+      renderAll();
+      await updateAuthUi();
+
+      supabase.auth.onAuthStateChange(async () => {
+        await updateAuthUi();
+      });
+
+      isBootstrapping = false;
+    }
+
+    bootstrap();
 
     window.startEditJob = startEditJob;
     window.startEditEvent = startEditEvent;
