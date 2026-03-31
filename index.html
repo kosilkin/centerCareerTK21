@@ -452,8 +452,104 @@
       padding: 12px 14px; font: 14px/1.45 Arial,sans-serif; display:none; box-shadow: 0 8px 24px rgba(0,0,0,.12)
     }
 
+    .slot-list { display:grid; gap:8px; margin:12px 0 0; }
+    .slot-chip {
+      display:flex; justify-content:space-between; align-items:center; gap:10px;
+      padding:10px 12px; border-radius:12px; background:#eef3ff; color:#31415f; font-size:13px; font-weight:700;
+    }
+    .slot-chip.full { background:#fff0f0; color:#a33a3a; }
+    .booking-note { margin-top:10px; color:#60708b; font-size:13px; line-height:1.5; }
+    .booking-meta { margin:10px 0 0; color:#5a6a87; font-size:13px; line-height:1.5; }
+    .booking-modal-box { width: min(1180px, 100%); }
+    .booking-grid { display:grid; gap:18px; grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.85fr); align-items:start; }
+    .slot-select-card {
+      border-radius:22px; border:1px solid rgba(93, 114, 160, 0.12);
+      background:linear-gradient(180deg, rgba(255,255,255,0.98), rgba(246,249,255,0.94));
+      padding:18px;
+    }
+    .booking-calendar-card {
+      margin-top:14px; padding:18px; border-radius:20px; background:#fff; border:1px solid rgba(93,114,160,0.12);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+    }
+    .booking-calendar-head {
+      display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:16px;
+    }
+    .booking-calendar-month {
+      font-size:20px; font-weight:700; color:#243250; text-align:center; flex:1;
+    }
+    .booking-calendar-nav {
+      border:none; cursor:pointer; border-radius:12px; min-width:44px; padding:10px 12px; font-size:15px; font-weight:700;
+      color:white; background:linear-gradient(135deg, var(--blue1), var(--purple));
+    }
+    .booking-calendar-weekdays, .booking-calendar-grid {
+      display:grid; grid-template-columns:repeat(7, minmax(0, 1fr)); gap:10px;
+    }
+    .booking-calendar-weekday {
+      text-align:center; font-size:12px; font-weight:700; color:#6b7a95; text-transform:uppercase;
+    }
+    .booking-calendar-day {
+      min-height:88px; border-radius:18px; border:1px solid rgba(93,114,160,0.10); background:#f7faff;
+      display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:10px 8px;
+      cursor:pointer; font: inherit; color:#2f3f5e;
+    }
+    .booking-calendar-day.empty {
+      background:transparent; border:none; cursor:default;
+    }
+    .booking-calendar-day.has-slots {
+      background:#eef3ff; border-color:rgba(37,88,199,0.18);
+    }
+    .booking-calendar-day.is-selected {
+      background:linear-gradient(135deg, var(--blue1), var(--purple)); color:white; border-color:transparent;
+      box-shadow:0 8px 18px rgba(59,130,246,0.24);
+    }
+    .booking-calendar-day.is-full {
+      background:#fff2f2; color:#a33a3a; border-color:rgba(214,58,58,0.16);
+    }
+    .booking-calendar-day small {
+      font-size:11px; line-height:1.2; text-align:center;
+    }
+    .booking-calendar-empty {
+      margin-top:12px; color:#60708b; font-size:14px; line-height:1.55;
+    }
+    .booking-day-title { margin:0 0 8px; font-size:20px; color:#243250; }
+    .booking-day-subtitle { margin:0 0 14px; color:#60708b; font-size:14px; line-height:1.55; }
+    .booking-time-list { display:grid; gap:10px; }
+    .booking-time-item {
+      width:100%; text-align:left; border:none; cursor:pointer; padding:14px 16px; border-radius:16px;
+      background:#eef3ff; color:#2f3f5e; font:inherit; display:flex; align-items:center; justify-content:space-between; gap:14px;
+    }
+    .booking-time-item.is-selected { background:linear-gradient(135deg, var(--blue1), var(--purple)); color:white; box-shadow:0 10px 22px rgba(59,130,246,0.24); }
+    .booking-time-item.is-full { background:#fff2f2; color:#a33a3a; }
+    .booking-time-main { display:flex; flex-direction:column; gap:4px; }
+    .booking-time-label { font-size:16px; font-weight:700; }
+    .booking-time-meta { font-size:13px; line-height:1.45; opacity:0.9; }
+    .booking-side-divider { height:1px; background:rgba(93,114,160,0.12); margin:16px 0; }
+    .booking-day-empty { padding:16px; border-radius:16px; background:#f7faff; color:#60708b; font-size:14px; line-height:1.55; }
+    .btn.is-loading {
+      position:relative; pointer-events:none; opacity:0.92; padding-left:42px;
+    }
+    .btn.is-loading::before {
+      content:""; position:absolute; left:15px; top:50%; width:16px; height:16px; margin-top:-8px;
+      border-radius:50%; border:2px solid rgba(255,255,255,0.45); border-top-color:white; animation:spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .registrations-toolbar {
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:14px;
+    }
+    .registrations-table-wrap {
+      overflow:auto; border:1px solid rgba(93,114,160,0.12); border-radius:18px; background:white;
+    }
+    .registrations-table { width:100%; border-collapse:collapse; min-width:860px; }
+    .registrations-table th, .registrations-table td {
+      padding:12px 14px; border-bottom:1px solid rgba(93,114,160,0.10); text-align:left; font-size:14px; color:#33425f;
+    }
+    .registrations-table th { background:#f5f8ff; font-size:13px; text-transform:uppercase; color:#60708b; }
+    .registrations-empty { padding:18px; color:#60708b; font-size:14px; }
+    .preview-note { margin-top:8px; font-size:13px; color:#60708b; }
+    .inline-note { margin-top:8px; font-size:13px; color:#4a63c9; font-weight:700; }
+
     @media (max-width: 1100px) {
-      .row-2, .jobs-grid, .directions-grid, .admin-grid { grid-template-columns: 1fr; }
+      .row-2, .jobs-grid, .directions-grid, .admin-grid, .booking-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 760px) {
       header { padding: 24px 18px 26px; }
@@ -463,6 +559,8 @@
       .calendar-weekdays, .calendar-grid { gap: 6px; }
       .day { min-height: 90px; padding: 8px; }
       .mini-event { font-size: 9px; padding: 4px 6px; }
+      .booking-calendar-weekdays, .booking-calendar-grid { gap: 6px; }
+      .booking-calendar-day { min-height: 68px; padding: 8px 6px; }
       .panel-content, .modal-box { padding: 18px; }
     }
   </style>
@@ -490,6 +588,8 @@
           <button class="header-btn" id="accountOpenBtn" type="button">Войти</button>
           <button class="header-btn hidden" id="logoutTopBtn" type="button">Выйти</button>
           <button class="header-btn hidden" id="openAdminBtn" type="button">Админка</button>
+          <button class="header-btn hidden" id="openRegistrationsTopBtn" type="button">Заявки</button>
+          <button class="header-btn hidden" id="openMyRegistrationsBtn" type="button">Мои заявки</button>
         </div>
       </div>
 
@@ -633,7 +733,7 @@
             <textarea id="sInfoText"></textarea>
           </div>
           <div class="field">
-            <label for="sInfoMark">Плашка блока Инфо</label>
+            <label for="sInfoMark">Короткая подпись блока Инфо</label>
             <input id="sInfoMark">
           </div>
           <div class="field">
@@ -673,11 +773,19 @@
             <textarea id="jobDesc"></textarea>
           </div>
           <div class="field">
-            <label for="jobLink">Ссылка на запись</label>
-            <input type="text" id="jobLink" placeholder="https://...">
+            <label for="jobCapacity">Максимум человек на одну дату и время</label>
+            <input type="number" id="jobCapacity" min="1" placeholder="Например: 10">
+          </div>
+          <div class="field">
+            <label for="jobSlots">Даты и время для записи</label>
+            <textarea id="jobSlots" placeholder="Одна дата и время на строку&#10;Рекомендуемый формат:&#10;15.04.2026 12:00&#10;17.04.2026 15:30"></textarea>
+          </div>
+          <div class="field">
+            <label for="jobNote">Подсказка под записью</label>
+            <input type="text" id="jobNote" placeholder="Например: Возьмите студенческий билет">
           </div>
           <div class="form-toolbar">
-            <button class="btn" id="saveJobBtn" type="button">Сохранить блок</button>
+            <button class="btn" id="saveJobBtn" type="button">Сохранить запись</button>
             <button class="btn gray" id="cancelJobEditBtn" type="button">Отменить</button>
           </div>
           <div class="list" id="jobsAdminList"></div>
@@ -711,8 +819,16 @@
             <textarea id="eventPlace"></textarea>
           </div>
           <div class="field">
-            <label for="eventLink">Ссылка на запись на это событие</label>
-            <input type="text" id="eventLink" placeholder="https://...">
+            <label for="eventCapacity">Максимум человек на одну дату и время</label>
+            <input type="number" id="eventCapacity" min="1" placeholder="Например: 50">
+          </div>
+          <div class="field">
+            <label for="eventSlots">Даты и время для записи</label>
+            <textarea id="eventSlots" placeholder="Одна дата и время на строку&#10;Рекомендуемый формат:&#10;18.04.2026 14:00&#10;18.04.2026 16:00"></textarea>
+          </div>
+          <div class="field">
+            <label for="eventNote">Подсказка по записи</label>
+            <input type="text" id="eventNote" placeholder="Например: Регистрация обязательна для входа">
           </div>
           <div class="field">
             <label for="eventColor">Цвет</label>
@@ -747,6 +863,14 @@
           <div class="field">
             <label for="memberPhoto">Ссылка на фото</label>
             <input type="text" id="memberPhoto" placeholder="https://...">
+          </div>
+          <div class="field">
+            <label for="memberPhotoFile">Или загрузить фото</label>
+            <input type="file" id="memberPhotoFile" accept="image/*">
+          </div>
+          <div class="muted-text" id="memberPhotoStatus">Можно вставить ссылку или выбрать файл. Файл сохранится прямо в content сайта.</div>
+          <div id="memberPhotoPreviewWrap" class="hidden" style="margin-top:10px;">
+            <div class="team-photo" id="memberPhotoPreview" style="margin:0 auto;"></div>
           </div>
           <div class="form-toolbar">
             <button class="btn" id="saveMemberBtn" type="button">Сохранить сотрудника</button>
@@ -794,22 +918,129 @@
     </div>
   </div>
 
+  <div class="modal" id="bookingModal">
+    <div class="modal-box booking-modal-box">
+      <div class="modal-head">
+        <h2 class="modal-title" id="bookingModalTitle">Запись</h2>
+        <button class="close-btn" id="closeBookingBtn" type="button">Закрыть</button>
+      </div>
+      <div class="booking-grid">
+        <div class="slot-select-card">
+          <div class="muted-text" id="bookingModalText"></div>
+          <div class="booking-meta" id="bookingCapacityText"></div>
+          <div class="booking-calendar-card">
+            <div class="booking-calendar-head">
+              <button class="booking-calendar-nav" id="bookingPrevMonthBtn" type="button">←</button>
+              <div class="booking-calendar-month" id="bookingCalendarMonthTitle"></div>
+              <button class="booking-calendar-nav" id="bookingNextMonthBtn" type="button">→</button>
+            </div>
+            <div class="booking-calendar-weekdays">
+              <div class="booking-calendar-weekday">Пн</div>
+              <div class="booking-calendar-weekday">Вт</div>
+              <div class="booking-calendar-weekday">Ср</div>
+              <div class="booking-calendar-weekday">Чт</div>
+              <div class="booking-calendar-weekday">Пт</div>
+              <div class="booking-calendar-weekday">Сб</div>
+              <div class="booking-calendar-weekday">Вс</div>
+            </div>
+            <div class="booking-calendar-grid" id="bookingCalendarGrid"></div>
+            <div class="booking-calendar-empty" id="bookingCalendarHelp"></div>
+          </div>
+          <div class="booking-note" id="bookingNoteText"></div>
+        </div>
+        <div class="slot-select-card">
+          <h3 class="booking-day-title" id="bookingSelectedDayTitle">Выберите дату</h3>
+          <p class="booking-day-subtitle" id="bookingSelectedDayMeta">Сначала выберите день в календаре, затем выберите время справа.</p>
+          <div class="booking-time-list" id="bookingTimeList"></div>
+          <div class="booking-day-empty hidden" id="bookingDayEmpty">На выбранную дату пока нет доступного времени.</div>
+          <div class="inline-note" id="bookingSlotStatus"></div>
+          <select id="bookingSlotSelect" class="hidden"></select>
+          <div class="booking-side-divider"></div>
+          <div class="field">
+            <label for="bookingFullName">Фамилия, имя и отчество</label>
+            <input type="text" id="bookingFullName" placeholder="Укажите фамилию, имя и отчество">
+          </div>
+          <div class="field">
+            <label for="bookingEmail">Электронная почта</label>
+            <input type="email" id="bookingEmail" placeholder="Укажите адрес электронной почты">
+          </div>
+          <div class="field">
+            <label for="bookingStudyGroup">Учебная группа</label>
+            <input type="text" id="bookingStudyGroup" placeholder="Например: ИСИП-21-1">
+          </div>
+          <button class="btn" id="submitBookingBtn" type="button">Отправить заявку</button>
+          <div class="success" id="bookingSuccess"></div>
+          <div class="error" id="bookingError"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="registrationsModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h2 class="modal-title">Поданные заявки</h2>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button class="btn gray" id="refreshRegistrationsBtn" type="button">Обновить</button>
+          <button class="close-btn" id="closeRegistrationsBtn" type="button">Закрыть</button>
+        </div>
+      </div>
+      <div class="registrations-toolbar">
+        <div class="field" style="margin:0; min-width:220px;">
+          <label for="registrationsFilterType">Тип</label>
+          <select id="registrationsFilterType">
+            <option value="all">Все</option>
+            <option value="job">Запись</option>
+            <option value="event">Событие</option>
+          </select>
+        </div>
+        <div class="field" style="margin:0; min-width:260px;">
+          <label for="registrationsSearch">Поиск</label>
+          <input type="text" id="registrationsSearch" placeholder="Фамилия, почта, дата, название">
+        </div>
+      </div>
+      <div class="success" id="registrationsSuccess"></div>
+      <div class="error" id="registrationsError"></div>
+      <div class="registrations-table-wrap" id="registrationsTableWrap">
+        <div class="registrations-empty">Загрузка заявок...</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="myRegistrationsModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h2 class="modal-title">Мои заявки</h2>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button class="btn gray" id="refreshMyRegistrationsBtn" type="button">Обновить</button>
+          <button class="close-btn" id="closeMyRegistrationsBtn" type="button">Закрыть</button>
+        </div>
+      </div>
+      <div class="muted-text">Здесь отображаются только заявки, отправленные из этого аккаунта. Отменить можно только такие заявки.</div>
+      <div class="success" id="myRegistrationsSuccess"></div>
+      <div class="error" id="myRegistrationsError"></div>
+      <div class="registrations-table-wrap" id="myRegistrationsTableWrap">
+        <div class="registrations-empty">Загрузка заявок...</div>
+      </div>
+    </div>
+  </div>
+
   <script>
     function showRuntimeError(message) {
-      const box = document.getElementById('runtimeErrorBox');
-      const text = document.getElementById('runtimeErrorText');
+      const box = document.getElementById("runtimeErrorBox");
+      const text = document.getElementById("runtimeErrorText");
       if (box && text) {
-        text.textContent = String(message || 'Неизвестная ошибка');
-        box.style.display = 'block';
+        text.textContent = String(message || "Неизвестная ошибка");
+        box.style.display = "block";
       }
     }
 
-    window.addEventListener('error', function(e) {
-      showRuntimeError((e && e.message ? e.message : 'JS error') + (e && e.filename ? '\\n' + e.filename + ':' + e.lineno : ''));
+    window.addEventListener("error", function(e) {
+      showRuntimeError((e && e.message ? e.message : "JS error") + (e && e.filename ? "\n" + e.filename + ":" + e.lineno : ""));
     });
 
-    window.addEventListener('unhandledrejection', function(e) {
-      showRuntimeError(e && e.reason ? (e.reason.message || String(e.reason)) : 'Unhandled promise rejection');
+    window.addEventListener("unhandledrejection", function(e) {
+      showRuntimeError(e && e.reason ? (e.reason.message || String(e.reason)) : "Unhandled promise rejection");
     });
 
     const SUPABASE_URL = "https://zxvqgqnwbkqmopaxtqcm.supabase.co";
@@ -832,28 +1063,37 @@
       },
       jobs: [
         {
+          key: "resume-consultation",
           title: "Консультация по резюме",
           direction: "Резюме",
           desc: "Помощь с оформлением резюме, структурой, подачей навыков и опытом. Оставлено место под описание, зачем нужна эта запись.",
-          link: "#"
+          capacity: 10,
+          slots: ["Понедельник 12:00", "Среда 15:30"],
+          note: "После отправки заявки с вами свяжутся по email."
         },
         {
+          key: "internship-help",
           title: "Помощь с поиском практики",
           direction: "Практика",
           desc: "Консультация по поиску практики и стажировок. Можно рассказать, на что откликаться и как подготовиться к первому этапу отбора.",
-          link: "#"
+          capacity: 8,
+          slots: ["Вторник 14:00", "Четверг 16:00"],
+          note: "Подготовьте список интересующих вакансий."
         },
         {
+          key: "career-consultation",
           title: "Карьерная консультация",
           direction: "Карьера",
           desc: "Индивидуальная запись для обсуждения карьерного маршрута, портфолио, подготовки к собеседованию и плана развития.",
-          link: "#"
+          capacity: 6,
+          slots: ["Пятница 13:00", "Пятница 15:00"],
+          note: "Можно указать желаемую тему консультации при личном обращении."
         }
       ],
       events: [
-        { title: "Ярмарка вакансий", year: 2026, month: 3, day: 14, time: "14:00", place: "Актовый зал, регистрация для студентов 2–4 курса", color: "blue", link: "#" },
-        { title: "Как составить резюме", year: 2026, month: 3, day: 18, time: "16:30", place: "Аудитория 212, практический мастер-класс", color: "green", link: "#" },
-        { title: "Тренинг по собеседованию", year: 2026, month: 3, day: 18, time: "18:00", place: "Аудитория 305, для выпускных групп", color: "orange", link: "#" }
+        { key: "job-fair-2026", title: "Ярмарка вакансий", year: 2026, month: 3, day: 14, time: "14:00", place: "Актовый зал, регистрация для студентов 2–4 курса", color: "blue", capacity: 80, slots: ["14 апреля 14:00"], note: "Регистрация обязательна." },
+        { key: "resume-workshop-2026", title: "Как составить резюме", year: 2026, month: 3, day: 18, time: "16:30", place: "Аудитория 212, практический мастер-класс", color: "green", capacity: 30, slots: ["18 апреля 16:30"], note: "Возьмите черновик резюме." },
+        { key: "interview-training-2026", title: "Тренинг по собеседованию", year: 2026, month: 3, day: 18, time: "18:00", place: "Аудитория 305, для выпускных групп", color: "orange", capacity: 24, slots: ["18 апреля 18:00"], note: "Количество мест ограничено." }
       ],
       members: [
         { name: "Иванова Анастасия Петровна", role: "Руководитель центра", desc: "Координирует карьерные мероприятия, консультации и работу с работодателями.", photo: "" },
@@ -875,6 +1115,12 @@
     let editingEventIndex = null;
     let editingMemberIndex = null;
     let editingDirectionIndex = null;
+    let pendingMemberPhotoData = "";
+    let bookingContext = null;
+    let slotStatsMap = new Map();
+    let bookingCalendarState = { groups: [], fallbackSlots: [], month: null, year: null, selectedDayKey: "" };
+    let registrationsRows = [];
+    let myRegistrationsRows = [];
 
     const headerTitle = document.getElementById("headerTitle");
     const headerText = document.getElementById("headerText");
@@ -895,6 +1141,9 @@
     const accountModal = document.getElementById("accountModal");
     const adminModal = document.getElementById("adminModal");
     const dayEventsModal = document.getElementById("dayEventsModal");
+    const bookingModal = document.getElementById("bookingModal");
+    const registrationsModal = document.getElementById("registrationsModal");
+    const myRegistrationsModal = document.getElementById("myRegistrationsModal");
 
     const accountOpenBtn = document.getElementById("accountOpenBtn");
     const logoutTopBtn = document.getElementById("logoutTopBtn");
@@ -902,11 +1151,15 @@
     const closeAccountBtn = document.getElementById("closeAccountBtn");
     const closeAdminBtn = document.getElementById("closeAdminBtn");
     const closeDayEventsBtn = document.getElementById("closeDayEventsBtn");
+    const closeBookingBtn = document.getElementById("closeBookingBtn");
+    const closeRegistrationsBtn = document.getElementById("closeRegistrationsBtn");
+    const closeMyRegistrationsBtn = document.getElementById("closeMyRegistrationsBtn");
+    const openRegistrationsTopBtn = document.getElementById("openRegistrationsTopBtn");
+    const openMyRegistrationsBtn = document.getElementById("openMyRegistrationsBtn");
 
     const loginView = document.getElementById("loginView");
     const accountView = document.getElementById("accountView");
     const accountInfoText = document.getElementById("accountInfoText");
-    const accountModalTitle = document.getElementById("accountModalTitle");
 
     const emailInput = document.getElementById("emailInput");
     const passwordInput = document.getElementById("passwordInput");
@@ -930,7 +1183,9 @@
     const jobTitleInput = document.getElementById("jobTitle");
     const jobDirection = document.getElementById("jobDirection");
     const jobDesc = document.getElementById("jobDesc");
-    const jobLink = document.getElementById("jobLink");
+    const jobCapacity = document.getElementById("jobCapacity");
+    const jobSlots = document.getElementById("jobSlots");
+    const jobNote = document.getElementById("jobNote");
     const jobEditNote = document.getElementById("jobEditNote");
 
     const eventTitleInput = document.getElementById("eventTitle");
@@ -939,7 +1194,9 @@
     const eventDate = document.getElementById("eventDate");
     const eventTime = document.getElementById("eventTime");
     const eventPlace = document.getElementById("eventPlace");
-    const eventLink = document.getElementById("eventLink");
+    const eventCapacity = document.getElementById("eventCapacity");
+    const eventSlots = document.getElementById("eventSlots");
+    const eventNote = document.getElementById("eventNote");
     const eventColor = document.getElementById("eventColor");
     const eventEditNote = document.getElementById("eventEditNote");
 
@@ -947,6 +1204,10 @@
     const memberRole = document.getElementById("memberRole");
     const memberDesc = document.getElementById("memberDesc");
     const memberPhoto = document.getElementById("memberPhoto");
+    const memberPhotoFile = document.getElementById("memberPhotoFile");
+    const memberPhotoStatus = document.getElementById("memberPhotoStatus");
+    const memberPhotoPreviewWrap = document.getElementById("memberPhotoPreviewWrap");
+    const memberPhotoPreview = document.getElementById("memberPhotoPreview");
     const memberEditNote = document.getElementById("memberEditNote");
 
     const directionName = document.getElementById("directionName");
@@ -954,6 +1215,39 @@
     const directionDesc = document.getElementById("directionDesc");
     const directionLink = document.getElementById("directionLink");
     const directionEditNote = document.getElementById("directionEditNote");
+
+    const bookingModalTitle = document.getElementById("bookingModalTitle");
+    const bookingModalText = document.getElementById("bookingModalText");
+    const bookingCapacityText = document.getElementById("bookingCapacityText");
+    const bookingCalendarMonthTitle = document.getElementById("bookingCalendarMonthTitle");
+    const bookingCalendarGrid = document.getElementById("bookingCalendarGrid");
+    const bookingCalendarHelp = document.getElementById("bookingCalendarHelp");
+    const bookingPrevMonthBtn = document.getElementById("bookingPrevMonthBtn");
+    const bookingNextMonthBtn = document.getElementById("bookingNextMonthBtn");
+    const bookingSlotSelect = document.getElementById("bookingSlotSelect");
+    const bookingSlotStatus = document.getElementById("bookingSlotStatus");
+    const bookingNoteText = document.getElementById("bookingNoteText");
+    const bookingSelectedDayTitle = document.getElementById("bookingSelectedDayTitle");
+    const bookingSelectedDayMeta = document.getElementById("bookingSelectedDayMeta");
+    const bookingTimeList = document.getElementById("bookingTimeList");
+    const bookingDayEmpty = document.getElementById("bookingDayEmpty");
+    const bookingFullName = document.getElementById("bookingFullName");
+    const bookingEmail = document.getElementById("bookingEmail");
+    const bookingStudyGroup = document.getElementById("bookingStudyGroup");
+    const submitBookingBtn = document.getElementById("submitBookingBtn");
+    const bookingSuccess = document.getElementById("bookingSuccess");
+    const bookingError = document.getElementById("bookingError");
+
+    const registrationsFilterType = document.getElementById("registrationsFilterType");
+    const registrationsSearch = document.getElementById("registrationsSearch");
+    const registrationsTableWrap = document.getElementById("registrationsTableWrap");
+    const registrationsError = document.getElementById("registrationsError");
+    const registrationsSuccess = document.getElementById("registrationsSuccess");
+    const refreshRegistrationsBtn = document.getElementById("refreshRegistrationsBtn");
+    const myRegistrationsTableWrap = document.getElementById("myRegistrationsTableWrap");
+    const myRegistrationsError = document.getElementById("myRegistrationsError");
+    const myRegistrationsSuccess = document.getElementById("myRegistrationsSuccess");
+    const refreshMyRegistrationsBtn = document.getElementById("refreshMyRegistrationsBtn");
 
     function normalizeStr(value) {
       return String(value || "").trim();
@@ -964,8 +1258,112 @@
       return x || "#";
     }
 
+    function clampCapacity(value, fallback) {
+      const num = Number(value);
+      return Number.isFinite(num) && num > 0 ? Math.round(num) : fallback;
+    }
+
+    function slugify(value) {
+      return normalizeStr(value)
+        .toLowerCase()
+        .replace(/[^a-zа-я0-9]+/gi, "-")
+        .replace(/^-+|-+$/g, "") || ("item-" + Date.now());
+    }
+
+    function makeKey(prefix, title) {
+      return prefix + "-" + slugify(title) + "-" + Math.random().toString(36).slice(2, 7);
+    }
+
+    function normalizeSlots(value, fallbackSlot) {
+      let list = [];
+      if (Array.isArray(value)) {
+        list = value.map(normalizeStr).filter(Boolean);
+      } else if (typeof value === "string") {
+        list = value.split(/\r?\n/).map(normalizeStr).filter(Boolean);
+      }
+      if (!list.length && fallbackSlot) list = [fallbackSlot];
+      return [...new Set(list)];
+    }
+
+    function fallbackEventSlot(item) {
+      const parts = [];
+      if (item.day && monthNames[Number(item.month)]) parts.push(item.day + " " + monthNames[Number(item.month)]);
+      if (item.time) parts.push(item.time);
+      return parts.join(" ").trim();
+    }
+
+    function normalizeJobItem(item, index) {
+      const normalized = Object.assign({}, item);
+      normalized.key = normalizeStr(item.key) || makeKey("job", item.title || "slot-" + index);
+      normalized.title = normalizeStr(item.title);
+      normalized.direction = normalizeStr(item.direction);
+      normalized.desc = normalizeStr(item.desc);
+      normalized.capacity = clampCapacity(item.capacity, 10);
+      normalized.slots = normalizeSlots(item.slots, "");
+      normalized.note = normalizeStr(item.note);
+      return normalized;
+    }
+
+    function normalizeEventItem(item, index) {
+      const normalized = Object.assign({}, item);
+      normalized.key = normalizeStr(item.key) || makeKey("event", item.title || "slot-" + index);
+      normalized.title = normalizeStr(item.title);
+      normalized.year = Number(item.year) || currentCalendarYear;
+      normalized.month = Number(item.month);
+      if (!Number.isFinite(normalized.month)) normalized.month = currentCalendarMonth;
+      normalized.day = Number(item.day) || 1;
+      normalized.time = normalizeStr(item.time);
+      normalized.place = normalizeStr(item.place);
+      normalized.color = normalizeStr(item.color) || "blue";
+      normalized.capacity = clampCapacity(item.capacity, 30);
+      normalized.slots = normalizeSlots(item.slots, fallbackEventSlot(normalized));
+      normalized.note = normalizeStr(item.note);
+      return normalized;
+    }
+
+    function normalizeMemberItem(item) {
+      return {
+        name: normalizeStr(item.name),
+        role: normalizeStr(item.role),
+        desc: normalizeStr(item.desc),
+        photo: normalizeStr(item.photo)
+      };
+    }
+
     function cloneDefaultState() {
       return JSON.parse(JSON.stringify(defaultState));
+    }
+
+    function getTargetTypeLabel(type) {
+      return type === "event" ? "Событие" : "Запись";
+    }
+
+    function getTargetByContext(type, index) {
+      return type === "event" ? state.events[index] : state.jobs[index];
+    }
+
+    function getSlotCount(targetKey, slot) {
+      return slotStatsMap.get(targetKey + "||" + slot) || 0;
+    }
+
+    function setButtonLoading(btn, loading, textWhenIdle) {
+      if (!btn) return;
+      if (loading) {
+        btn.disabled = true;
+        btn.dataset.prevText = btn.textContent;
+        btn.textContent = "Сохранение...";
+      } else {
+        btn.disabled = false;
+        btn.textContent = textWhenIdle || btn.dataset.prevText || btn.textContent;
+      }
+    }
+
+    function escapeHtml(text) {
+      return String(text || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
     }
 
     function renderSettings() {
@@ -980,9 +1378,242 @@
       directionsTitle.textContent = state.settings.directionsTitle;
     }
 
+    function parseTimeValue(value) {
+      const match = String(value || "").match(/(\d{1,2}):(\d{2})/);
+      if (!match) return Number.MAX_SAFE_INTEGER;
+      return Number(match[1]) * 60 + Number(match[2]);
+    }
+
+    function formatBookingDayLabel(year, month, day) {
+      return `${day} ${monthNames[month]} ${year}`;
+    }
+
+    function parseSlotToDateParts(slot, target, type) {
+      const value = normalizeStr(slot);
+      if (!value) return null;
+
+      const direct = value.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})(?:\D+(\d{1,2}:\d{2}))?$/);
+      if (direct) {
+        return {
+          year: Number(direct[3]),
+          month: Number(direct[2]) - 1,
+          day: Number(direct[1]),
+          time: direct[4] || ""
+        };
+      }
+
+      const monthMap = {
+        "января": 0, "февраля": 1, "марта": 2, "апреля": 3, "мая": 4, "июня": 5,
+        "июля": 6, "августа": 7, "сентября": 8, "октября": 9, "ноября": 10, "декабря": 11
+      };
+      const word = value.toLowerCase().match(/(\d{1,2})\s+(января|февраля|марта|апреля|мая|июня|июля|августа|сентября|октября|ноября|декабря)(?:\s+(\d{4}))?(?:\D+(\d{1,2}:\d{2}))?/i);
+      if (word) {
+        return {
+          year: Number(word[3]) || (type === "event" ? Number(target.year) || currentCalendarYear : currentCalendarYear),
+          month: monthMap[word[2].toLowerCase()],
+          day: Number(word[1]),
+          time: word[4] || ""
+        };
+      }
+
+      if (type === "event" && Number.isFinite(Number(target.year)) && Number.isFinite(Number(target.month)) && Number.isFinite(Number(target.day))) {
+        const timeMatch = value.match(/(\d{1,2}:\d{2})/);
+        return {
+          year: Number(target.year),
+          month: Number(target.month),
+          day: Number(target.day),
+          time: timeMatch ? timeMatch[1] : normalizeStr(target.time)
+        };
+      }
+
+      return null;
+    }
+
+    function buildBookingCalendarState(target) {
+      const groupsMap = new Map();
+      const fallbackSlots = [];
+
+      (target?.slots || []).forEach((slot) => {
+        const parsed = parseSlotToDateParts(slot, target, bookingContext?.type || "job");
+        if (!parsed || !Number.isFinite(parsed.year) || !Number.isFinite(parsed.month) || !Number.isFinite(parsed.day)) {
+          fallbackSlots.push(slot);
+          return;
+        }
+
+        const dayKey = `${parsed.year}-${String(parsed.month + 1).padStart(2, "0")}-${String(parsed.day).padStart(2, "0")}`;
+        if (!groupsMap.has(dayKey)) {
+          groupsMap.set(dayKey, {
+            dayKey,
+            year: parsed.year,
+            month: parsed.month,
+            day: parsed.day,
+            label: formatBookingDayLabel(parsed.year, parsed.month, parsed.day),
+            items: []
+          });
+        }
+        groupsMap.get(dayKey).items.push({
+          slot,
+          timeLabel: parsed.time || "Без указания времени",
+          sortValue: parseTimeValue(parsed.time)
+        });
+      });
+
+      const groups = Array.from(groupsMap.values())
+        .sort((a, b) => new Date(a.year, a.month, a.day) - new Date(b.year, b.month, b.day))
+        .map((group) => {
+          group.items.sort((a, b) => a.sortValue - b.sortValue || a.slot.localeCompare(b.slot, 'ru'));
+          return group;
+        });
+
+      const firstGroup = groups[0] || null;
+      const firstDayWithSpace = groups.find((group) => group.items.some((entry) => getSlotCount(target.key, entry.slot) < target.capacity));
+      bookingCalendarState = {
+        groups,
+        fallbackSlots,
+        year: firstGroup ? firstGroup.year : currentCalendarYear,
+        month: firstGroup ? firstGroup.month : currentCalendarMonth,
+        selectedDayKey: firstDayWithSpace ? firstDayWithSpace.dayKey : (firstGroup ? firstGroup.dayKey : "")
+      };
+    }
+
+    function getSelectedBookingDayGroup() {
+      return bookingCalendarState.groups.find((group) => group.dayKey === bookingCalendarState.selectedDayKey) || null;
+    }
+    function getBookingSlotDisplayMeta(target, slot) {
+      const count = getSlotCount(target.key, slot);
+      const free = Math.max((target.capacity || 0) - count, 0);
+      return {
+        count,
+        free,
+        full: count >= target.capacity,
+        text: count >= target.capacity
+          ? `Свободных мест нет · занято ${count} из ${target.capacity}`
+          : `Свободно ${free} · занято ${count} из ${target.capacity}`
+      };
+    }
+
+    function renderBookingTimeList() {
+      const target = getSelectedBookingTarget();
+      const selectedDayGroup = getSelectedBookingDayGroup();
+      bookingTimeList.innerHTML = '';
+      bookingDayEmpty.classList.add('hidden');
+
+      if (!target) return;
+
+      if (bookingCalendarState.groups.length && !selectedDayGroup) {
+        bookingSelectedDayTitle.textContent = 'Выберите дату';
+        bookingSelectedDayMeta.textContent = 'Нажмите на день в календаре слева, чтобы увидеть доступное время и количество мест.';
+        bookingDayEmpty.classList.remove('hidden');
+        bookingDayEmpty.textContent = 'Дата ещё не выбрана.';
+        return;
+      }
+
+      const dayLabel = selectedDayGroup ? selectedDayGroup.label : 'Доступные варианты записи';
+      bookingSelectedDayTitle.textContent = dayLabel;
+
+      const entries = bookingCalendarState.groups.length
+        ? (selectedDayGroup ? selectedDayGroup.items : [])
+        : (target.slots || []).map((slot) => ({ slot, timeLabel: slot }));
+
+      if (!entries.length) {
+        bookingSelectedDayMeta.textContent = 'Для выбранной даты варианты времени пока не добавлены.';
+        bookingDayEmpty.classList.remove('hidden');
+        bookingDayEmpty.textContent = 'Выберите другую дату или уточните информацию у администратора.';
+        return;
+      }
+
+      const freeCount = entries.filter((entry) => getSlotCount(target.key, entry.slot) < target.capacity).length;
+      bookingSelectedDayMeta.textContent = freeCount
+        ? `Доступных вариантов времени: ${freeCount}. Выберите подходящее время в списке ниже.`
+        : 'На выбранную дату свободных мест нет. Выберите другую дату.';
+
+      entries.forEach((entry) => {
+        const info = getBookingSlotDisplayMeta(target, entry.slot);
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'booking-time-item' + (bookingSlotSelect.value === entry.slot ? ' is-selected' : '') + (info.full ? ' is-full' : '');
+        btn.disabled = info.full;
+        btn.innerHTML = `<span class="booking-time-main"><span class="booking-time-label">${escapeHtml(entry.timeLabel || entry.slot)}</span><span class="booking-time-meta">${escapeHtml(info.text)}</span></span><span>${info.full ? 'Недоступно' : 'Выбрать'}</span>`;
+        btn.addEventListener('click', () => {
+          bookingSlotSelect.value = entry.slot;
+          updateBookingSlotStatus();
+        });
+        bookingTimeList.appendChild(btn);
+      });
+    }
+
+
+    function renderBookingCalendar() {
+      bookingCalendarGrid.innerHTML = "";
+      bookingCalendarHelp.textContent = "";
+      bookingCalendarMonthTitle.textContent = `${monthNames[bookingCalendarState.month] || ""} ${bookingCalendarState.year || ""}`.trim();
+
+      if (!bookingCalendarState.groups.length) {
+        bookingCalendarHelp.textContent = bookingCalendarState.fallbackSlots.length
+          ? "Для этой записи дата указана без календарного формата. Выберите подходящий вариант времени в списке ниже."
+          : "Даты и время для записи пока не добавлены.";
+        return;
+      }
+
+      const firstDay = new Date(bookingCalendarState.year, bookingCalendarState.month, 1);
+      const daysInMonth = new Date(bookingCalendarState.year, bookingCalendarState.month + 1, 0).getDate();
+      const startIndex = (firstDay.getDay() + 6) % 7;
+      const groupMap = new Map(bookingCalendarState.groups
+        .filter((group) => group.year === bookingCalendarState.year && group.month === bookingCalendarState.month)
+        .map((group) => [group.day, group]));
+
+      for (let i = 0; i < startIndex; i++) {
+        const blank = document.createElement('div');
+        blank.className = 'booking-calendar-day empty';
+        bookingCalendarGrid.appendChild(blank);
+      }
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const group = groupMap.get(day);
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'booking-calendar-day' + (group ? ' has-slots' : ' empty');
+
+        if (!group) {
+          btn.disabled = true;
+          btn.innerHTML = `<span>${day}</span>`;
+          bookingCalendarGrid.appendChild(btn);
+          continue;
+        }
+
+        const availableCount = group.items.filter((entry) => getSlotCount(getSelectedBookingTarget().key, entry.slot) < getSelectedBookingTarget().capacity).length;
+        if (group.dayKey === bookingCalendarState.selectedDayKey) btn.classList.add('is-selected');
+        if (!availableCount) btn.classList.add('is-full');
+        btn.innerHTML = `<span>${day}</span><small>${availableCount ? `вариантов: ${availableCount}` : 'мест нет'}</small>`;
+        btn.addEventListener('click', () => {
+          bookingCalendarState.selectedDayKey = group.dayKey;
+          renderBookingCalendar();
+          populateBookingSlots();
+        });
+        bookingCalendarGrid.appendChild(btn);
+      }
+
+      if (!groupMap.size) {
+        bookingCalendarHelp.textContent = 'В этом месяце нет доступных дат для записи.';
+      }
+    }
+
+    function renderPhotoPreview(src) {
+      const value = normalizeStr(src);
+      if (!value) {
+        memberPhotoPreviewWrap.classList.add("hidden");
+        memberPhotoPreview.style.backgroundImage = "";
+        memberPhotoPreview.textContent = "Фото";
+        return;
+      }
+      memberPhotoPreviewWrap.classList.remove("hidden");
+      memberPhotoPreview.style.backgroundImage = "url('" + value.replace(/'/g, "%27") + "')";
+      memberPhotoPreview.textContent = "";
+    }
+
     function renderTeam() {
       if (!state.members.length) {
-        teamGrid.innerHTML = '<div class="muted-text">Сотрудники пока не добавлены.</div>';
+        teamGrid.innerHTML = '<div class="muted-text">Список сотрудников пока пуст.</div>';
         return;
       }
 
@@ -994,28 +1625,43 @@
             <div class="team-top">
               <div class="team-photo" ${photoStyle}>${item.photo ? "" : initials}</div>
               <div>
-                <h3 class="team-name">${item.name}</h3>
-                <p class="team-role">${item.role}</p>
+                <h3 class="team-name">${escapeHtml(item.name)}</h3>
+                <p class="team-role">${escapeHtml(item.role)}</p>
               </div>
             </div>
-            <p class="team-desc">${item.desc}</p>
+            <p class="team-desc">${escapeHtml(item.desc)}</p>
           </div>
         `;
       }).join("");
     }
 
+    function renderSlotChips(item) {
+      if (!item.slots.length) {
+        return '<div class="booking-note">Дата и время для записи пока не добавлены.</div>';
+      }
+      return `<div class="slot-list">${
+        item.slots.map((slot) => {
+          const count = getSlotCount(item.key, slot);
+          const full = count >= item.capacity;
+          return `<div class="slot-chip${full ? " full" : ""}"><span>${escapeHtml(slot)}</span><span>${full ? "Мест нет" : `${count}/${item.capacity}`}</span></div>`;
+        }).join("")
+      }</div>`;
+    }
+
     function renderJobs() {
       if (!state.jobs.length) {
-        jobsGrid.innerHTML = '<div class="muted-text">Блоки записи пока не добавлены.</div>';
+        jobsGrid.innerHTML = '<div class="muted-text">Варианты записи пока не добавлены.</div>';
         return;
       }
 
-      jobsGrid.innerHTML = state.jobs.map((item) => `
+      jobsGrid.innerHTML = state.jobs.map((item, index) => `
         <div class="job-card">
-          <div class="job-tag">${item.direction || "Запись"}</div>
-          <h3 class="job-title">${item.title}</h3>
-          <p class="job-text">${item.desc || "Описание пока не добавлено."}</p>
-          <a class="job-btn" href="${safeLink(item.link)}" target="_blank" rel="noopener noreferrer">Записаться</a>
+          <div class="job-tag">${escapeHtml(item.direction || "Запись")}</div>
+          <h3 class="job-title">${escapeHtml(item.title)}</h3>
+          <p class="job-text">${escapeHtml(item.desc || "Описание пока не добавлено.")}</p>
+          <div class="booking-meta">Количество мест на одну дату и время: ${escapeHtml(String(item.capacity || 0))}</div>
+          ${item.note ? `<div class="booking-note">${escapeHtml(item.note)}</div>` : ""}
+          <button class="job-btn" type="button" onclick="openBookingModalByType('job', ${index})">Записаться</button>
         </div>
       `).join("");
     }
@@ -1029,11 +1675,11 @@
       directionsGrid.innerHTML = state.directions.map((item) => `
         <div class="direction-card">
           <div class="direction-top">
-            <h3 class="direction-title">${item.name}</h3>
-            <p class="direction-sub">${item.sub || ""}</p>
+            <h3 class="direction-title">${escapeHtml(item.name)}</h3>
+            <p class="direction-sub">${escapeHtml(item.sub || "")}</p>
           </div>
           <div class="direction-body">
-            <p>${item.desc || "Описание пока не добавлено."}</p>
+            <p>${escapeHtml(item.desc || "Описание пока не добавлено.")}</p>
             <a class="direction-link" href="${safeLink(item.link)}" target="_blank" rel="noopener noreferrer">Открыть таблицу</a>
           </div>
         </div>
@@ -1049,16 +1695,21 @@
       if (!events.length) return;
 
       document.getElementById("dayEventsTitle").textContent = `${day} ${monthNames[month]} ${year}`;
-      document.getElementById("dayEventsList").innerHTML = events.map((item) => `
-        <div class="day-event-card">
-          <h3 class="item-title" style="margin-bottom:6px;">${item.title}</h3>
-          <div class="day-event-meta">
-            <div><b>Время:</b> ${item.time || "Не указано"}</div>
-            <div><b>Описание:</b> ${item.place || "Не указано"}</div>
+      document.getElementById("dayEventsList").innerHTML = events.map((item) => {
+        const index = state.events.findIndex((x) => x.key === item.key);
+        return `
+          <div class="day-event-card">
+            <h3 class="item-title" style="margin-bottom:6px;">${escapeHtml(item.title)}</h3>
+            <div class="day-event-meta">
+              <div><b>Время:</b> ${escapeHtml(item.time || "Не указано")}</div>
+              <div><b>Описание:</b> ${escapeHtml(item.place || "Не указано")}</div>
+              <div><b>Количество мест:</b> ${escapeHtml(String(item.capacity || 0))}</div>
+            </div>
+            ${item.note ? `<div class="booking-note">${escapeHtml(item.note)}</div>` : ""}
+            <button class="job-btn" type="button" onclick="openBookingModalByType('event', ${index})">Записаться на это событие</button>
           </div>
-          <a class="job-btn" href="${safeLink(item.link)}" target="_blank" rel="noopener noreferrer">Записаться на это событие</a>
-        </div>
-      `).join("");
+        `;
+      }).join("");
 
       dayEventsModal.classList.add("show");
     }
@@ -1101,7 +1752,7 @@
         day.innerHTML = `
           <div class="day-number">${dayNumber}</div>
           <div class="day-events">
-            ${events.slice(0, 2).map((item) => `<div class="mini-event event-${item.color || "blue"}">${item.time ? item.time + " · " : ""}${item.title}</div>`).join("")}
+            ${events.slice(0, 2).map((item) => `<div class="mini-event event-${item.color || "blue"}">${item.time ? escapeHtml(item.time) + " · " : ""}${escapeHtml(item.title)}</div>`).join("")}
             ${events.length > 2 ? `<span class="event-more">+ ещё ${events.length - 2}</span>` : ""}
           </div>
         `;
@@ -1130,6 +1781,52 @@
       sDirectionsTitle.value = state.settings.directionsTitle || "";
     }
 
+    async function saveStateToDatabase(options = {}) {
+      const silent = !!options.silent;
+      if (!silent) {
+        adminSuccess.textContent = "";
+        adminError.textContent = "";
+      }
+
+      const { data: { session } } = await sb.auth.getSession();
+      const profile = await fetchProfile(session);
+
+      if (!session || !profile || profile.role !== "admin") {
+        if (!silent) adminError.textContent = "Нет доступа к админке. Войдите под аккаунтом с ролью admin.";
+        return false;
+      }
+
+      const payload = {
+        id: 1,
+        content: state
+      };
+
+      const { error } = await sb
+        .from("site_content")
+        .upsert(payload, { onConflict: "id" });
+
+      if (error) {
+        if (!silent) adminError.textContent = error.message || "Ошибка сохранения";
+        return false;
+      }
+
+      if (!silent) adminSuccess.textContent = "Изменения сохранены в базу.";
+      return true;
+    }
+
+    async function persistAfterAdminEdit(button) {
+      if (!currentProfile || currentProfile.role !== "admin") return;
+      setButtonLoading(button, true);
+      try {
+        const ok = await saveStateToDatabase({ silent: false });
+        if (ok) {
+          await refreshSlotStats();
+        }
+      } finally {
+        setButtonLoading(button, false);
+      }
+    }
+
     function applySettingsFromForm() {
       state.settings.headerTitle = normalizeStr(sHeaderTitle.value);
       state.settings.headerText = normalizeStr(sHeaderText.value);
@@ -1143,14 +1840,20 @@
       renderSettings();
     }
 
+    function slotsToTextarea(slots) {
+      return Array.isArray(slots) ? slots.join("\n") : "";
+    }
+
     function clearJobForm() {
       editingJobIndex = null;
       jobTitleInput.value = "";
       jobDirection.value = "";
       jobDesc.value = "";
-      jobLink.value = "";
+      jobCapacity.value = "10";
+      jobSlots.value = "";
+      jobNote.value = "";
       jobEditNote.textContent = "";
-      document.getElementById("saveJobBtn").textContent = "Сохранить блок";
+      document.getElementById("saveJobBtn").textContent = "Сохранить запись";
     }
 
     function clearEventForm() {
@@ -1161,7 +1864,9 @@
       eventDate.value = "";
       eventTime.value = "";
       eventPlace.value = "";
-      eventLink.value = "";
+      eventCapacity.value = "30";
+      eventSlots.value = "";
+      eventNote.value = "";
       eventColor.value = "blue";
       eventEditNote.textContent = "";
       document.getElementById("saveEventBtn").textContent = "Сохранить событие";
@@ -1169,10 +1874,14 @@
 
     function clearMemberForm() {
       editingMemberIndex = null;
+      pendingMemberPhotoData = "";
       memberName.value = "";
       memberRole.value = "";
       memberDesc.value = "";
       memberPhoto.value = "";
+      memberPhotoFile.value = "";
+      memberPhotoStatus.textContent = "Можно вставить ссылку или выбрать файл. Файл сохранится прямо в content сайта.";
+      renderPhotoPreview("");
       memberEditNote.textContent = "";
       document.getElementById("saveMemberBtn").textContent = "Сохранить сотрудника";
     }
@@ -1187,14 +1896,23 @@
       document.getElementById("saveDirectionBtn").textContent = "Сохранить направление";
     }
 
-    function saveJobLocal() {
-      const item = {
-        title: normalizeStr(jobTitleInput.value),
-        direction: normalizeStr(jobDirection.value),
-        desc: normalizeStr(jobDesc.value),
-        link: safeLink(jobLink.value)
-      };
+    async function saveJobLocal() {
+      const saveBtn = document.getElementById("saveJobBtn");
+      const item = normalizeJobItem({
+        key: editingJobIndex === null ? "" : state.jobs[editingJobIndex].key,
+        title: jobTitleInput.value,
+        direction: jobDirection.value,
+        desc: jobDesc.value,
+        capacity: jobCapacity.value,
+        slots: jobSlots.value,
+        note: jobNote.value
+      }, editingJobIndex);
+
       if (!item.title) return;
+      if (!item.slots.length) {
+        adminError.textContent = "Для записи нужно указать хотя бы одну дату и время.";
+        return;
+      }
 
       if (editingJobIndex === null) state.jobs.push(item);
       else state.jobs[editingJobIndex] = item;
@@ -1202,20 +1920,30 @@
       clearJobForm();
       renderJobs();
       renderJobsAdminList();
+      await persistAfterAdminEdit(saveBtn);
     }
 
-    function saveEventLocal() {
-      const item = {
-        title: normalizeStr(eventTitleInput.value),
-        year: Number(eventYear.value) || currentCalendarYear,
-        month: Number(eventMonth.value),
-        day: Number(eventDate.value),
-        time: normalizeStr(eventTime.value),
-        place: normalizeStr(eventPlace.value),
-        link: safeLink(eventLink.value),
-        color: normalizeStr(eventColor.value) || "blue"
-      };
+    async function saveEventLocal() {
+      const saveBtn = document.getElementById("saveEventBtn");
+      const item = normalizeEventItem({
+        key: editingEventIndex === null ? "" : state.events[editingEventIndex].key,
+        title: eventTitleInput.value,
+        year: eventYear.value,
+        month: eventMonth.value,
+        day: eventDate.value,
+        time: eventTime.value,
+        place: eventPlace.value,
+        capacity: eventCapacity.value,
+        slots: eventSlots.value,
+        note: eventNote.value,
+        color: eventColor.value
+      }, editingEventIndex);
+
       if (!item.title || !item.day) return;
+      if (!item.slots.length) {
+        adminError.textContent = "Для события нужно указать хотя бы одну дату и время.";
+        return;
+      }
 
       if (editingEventIndex === null) state.events.push(item);
       else state.events[editingEventIndex] = item;
@@ -1223,15 +1951,17 @@
       clearEventForm();
       renderCalendar();
       renderEventsAdminList();
+      await persistAfterAdminEdit(saveBtn);
     }
 
-    function saveMemberLocal() {
-      const item = {
-        name: normalizeStr(memberName.value),
-        role: normalizeStr(memberRole.value),
-        desc: normalizeStr(memberDesc.value),
-        photo: normalizeStr(memberPhoto.value)
-      };
+    async function saveMemberLocal() {
+      const saveBtn = document.getElementById("saveMemberBtn");
+      const item = normalizeMemberItem({
+        name: memberName.value,
+        role: memberRole.value,
+        desc: memberDesc.value,
+        photo: pendingMemberPhotoData || memberPhoto.value
+      });
       if (!item.name) return;
 
       if (editingMemberIndex === null) state.members.push(item);
@@ -1240,9 +1970,11 @@
       clearMemberForm();
       renderTeam();
       renderMembersAdminList();
+      await persistAfterAdminEdit(saveBtn);
     }
 
-    function saveDirectionLocal() {
+    async function saveDirectionLocal() {
+      const saveBtn = document.getElementById("saveDirectionBtn");
       const item = {
         name: normalizeStr(directionName.value),
         sub: normalizeStr(directionSub.value),
@@ -1257,16 +1989,19 @@
       clearDirectionForm();
       renderDirections();
       renderDirectionsAdminList();
+      await persistAfterAdminEdit(saveBtn);
     }
 
     function renderJobsAdminList() {
       const root = document.getElementById("jobsAdminList");
       root.innerHTML = state.jobs.map((item, index) => `
         <div class="item">
-          <h4 class="item-title">${item.title}</h4>
-          <p class="item-text"><b>Категория:</b> ${item.direction || "—"}</p>
-          <p class="item-text">${item.desc || "—"}</p>
-          <p class="item-text"><b>Ссылка:</b> ${item.link || "—"}</p>
+          <h4 class="item-title">${escapeHtml(item.title)}</h4>
+          <p class="item-text"><b>Категория:</b> ${escapeHtml(item.direction || "—")}</p>
+          <p class="item-text">${escapeHtml(item.desc || "—")}</p>
+          <p class="item-text"><b>Количество мест:</b> ${item.capacity}</p>
+          <p class="item-text"><b>Даты и время:</b> ${item.slots.length ? item.slots.map(escapeHtml).join(" • ") : "—"}</p>
+          <p class="item-text"><b>Подсказка:</b> ${escapeHtml(item.note || "—")}</p>
           <div class="item-actions">
             <button class="small-btn" type="button" onclick="startEditJob(${index})">Редактировать</button>
             <button class="small-btn delete" type="button" onclick="deleteJob(${index})">Удалить</button>
@@ -1279,11 +2014,13 @@
       const root = document.getElementById("eventsAdminList");
       root.innerHTML = state.events.map((item, index) => `
         <div class="item">
-          <h4 class="item-title">${item.title}</h4>
+          <h4 class="item-title">${escapeHtml(item.title)}</h4>
           <p class="item-text"><b>Дата:</b> ${item.day} ${monthNames[item.month]} ${item.year}</p>
-          <p class="item-text"><b>Время:</b> ${item.time || "—"}</p>
-          <p class="item-text"><b>Описание:</b> ${item.place || "—"}</p>
-          <p class="item-text"><b>Ссылка:</b> ${item.link || "—"}</p>
+          <p class="item-text"><b>Время:</b> ${escapeHtml(item.time || "—")}</p>
+          <p class="item-text"><b>Описание:</b> ${escapeHtml(item.place || "—")}</p>
+          <p class="item-text"><b>Количество мест:</b> ${item.capacity}</p>
+          <p class="item-text"><b>Даты и время:</b> ${item.slots.length ? item.slots.map(escapeHtml).join(" • ") : "—"}</p>
+          <p class="item-text"><b>Подсказка:</b> ${escapeHtml(item.note || "—")}</p>
           <div class="item-actions">
             <button class="small-btn" type="button" onclick="startEditEvent(${index})">Редактировать</button>
             <button class="small-btn delete" type="button" onclick="deleteEvent(${index})">Удалить</button>
@@ -1296,9 +2033,10 @@
       const root = document.getElementById("membersAdminList");
       root.innerHTML = state.members.map((item, index) => `
         <div class="item">
-          <h4 class="item-title">${item.name}</h4>
-          <p class="item-text"><b>Должность:</b> ${item.role || "—"}</p>
-          <p class="item-text">${item.desc || "—"}</p>
+          <h4 class="item-title">${escapeHtml(item.name)}</h4>
+          <p class="item-text"><b>Должность:</b> ${escapeHtml(item.role || "—")}</p>
+          <p class="item-text">${escapeHtml(item.desc || "—")}</p>
+          <p class="item-text"><b>Фото:</b> ${item.photo ? "задано" : "—"}</p>
           <div class="item-actions">
             <button class="small-btn" type="button" onclick="startEditMember(${index})">Редактировать</button>
             <button class="small-btn delete" type="button" onclick="deleteMember(${index})">Удалить</button>
@@ -1311,10 +2049,10 @@
       const root = document.getElementById("directionsAdminList");
       root.innerHTML = state.directions.map((item, index) => `
         <div class="item">
-          <h4 class="item-title">${item.name}</h4>
-          <p class="item-text"><b>Подпись:</b> ${item.sub || "—"}</p>
-          <p class="item-text">${item.desc || "—"}</p>
-          <p class="item-text"><b>Ссылка:</b> ${item.link || "—"}</p>
+          <h4 class="item-title">${escapeHtml(item.name)}</h4>
+          <p class="item-text"><b>Подпись:</b> ${escapeHtml(item.sub || "—")}</p>
+          <p class="item-text">${escapeHtml(item.desc || "—")}</p>
+          <p class="item-text"><b>Ссылка:</b> ${escapeHtml(item.link || "—")}</p>
           <div class="item-actions">
             <button class="small-btn" type="button" onclick="startEditDirection(${index})">Редактировать</button>
             <button class="small-btn delete" type="button" onclick="deleteDirection(${index})">Удалить</button>
@@ -1342,9 +2080,11 @@
       jobTitleInput.value = item.title;
       jobDirection.value = item.direction;
       jobDesc.value = item.desc;
-      jobLink.value = item.link || "";
-      jobEditNote.textContent = `Редактируется блок записи #${index + 1}`;
-      document.getElementById("saveJobBtn").textContent = "Обновить блок";
+      jobCapacity.value = item.capacity;
+      jobSlots.value = slotsToTextarea(item.slots);
+      jobNote.value = item.note || "";
+      jobEditNote.textContent = `Редактируется вариант записи #${index + 1}`;
+      document.getElementById("saveJobBtn").textContent = "Обновить запись";
     }
 
     function startEditEvent(index) {
@@ -1356,7 +2096,9 @@
       eventDate.value = item.day;
       eventTime.value = item.time;
       eventPlace.value = item.place;
-      eventLink.value = item.link || "";
+      eventCapacity.value = item.capacity;
+      eventSlots.value = slotsToTextarea(item.slots);
+      eventNote.value = item.note || "";
       eventColor.value = item.color;
       eventEditNote.textContent = `Редактируется событие #${index + 1}`;
       document.getElementById("saveEventBtn").textContent = "Обновить событие";
@@ -1365,10 +2107,14 @@
     function startEditMember(index) {
       const item = state.members[index];
       editingMemberIndex = index;
+      pendingMemberPhotoData = "";
       memberName.value = item.name;
       memberRole.value = item.role;
       memberDesc.value = item.desc;
       memberPhoto.value = item.photo || "";
+      memberPhotoFile.value = "";
+      memberPhotoStatus.textContent = item.photo ? "Текущее фото загружено. Можно заменить ссылкой или новым файлом." : "Можно вставить ссылку или выбрать файл. Файл сохранится прямо в content сайта.";
+      renderPhotoPreview(item.photo || "");
       memberEditNote.textContent = `Редактируется сотрудник #${index + 1}`;
       document.getElementById("saveMemberBtn").textContent = "Обновить сотрудника";
     }
@@ -1384,32 +2130,36 @@
       document.getElementById("saveDirectionBtn").textContent = "Обновить направление";
     }
 
-    function deleteJob(index) {
+    async function deleteJob(index) {
       state.jobs.splice(index, 1);
       if (editingJobIndex === index) clearJobForm();
       renderJobs();
       renderJobsAdminList();
+      await persistAfterAdminEdit();
     }
 
-    function deleteEvent(index) {
+    async function deleteEvent(index) {
       state.events.splice(index, 1);
       if (editingEventIndex === index) clearEventForm();
       renderCalendar();
       renderEventsAdminList();
+      await persistAfterAdminEdit();
     }
 
-    function deleteMember(index) {
+    async function deleteMember(index) {
       state.members.splice(index, 1);
       if (editingMemberIndex === index) clearMemberForm();
       renderTeam();
       renderMembersAdminList();
+      await persistAfterAdminEdit();
     }
 
-    function deleteDirection(index) {
+    async function deleteDirection(index) {
       state.directions.splice(index, 1);
       if (editingDirectionIndex === index) clearDirectionForm();
       renderDirections();
       renderDirectionsAdminList();
+      await persistAfterAdminEdit();
     }
 
     async function fetchProfile(session) {
@@ -1420,9 +2170,7 @@
         .eq("id", session.user.id)
         .single();
 
-      if (error) {
-        return null;
-      }
+      if (error) return null;
       return data;
     }
 
@@ -1434,6 +2182,8 @@
         accountOpenBtn.textContent = "Войти";
         logoutTopBtn.classList.add("hidden");
         openAdminBtn.classList.add("hidden");
+        openRegistrationsTopBtn.classList.add("hidden");
+        openMyRegistrationsBtn.classList.add("hidden");
         accountInfoText.textContent = "";
         loginView.classList.remove("hidden");
         accountView.classList.add("hidden");
@@ -1445,11 +2195,15 @@
       accountInfoText.textContent = `Вы вошли как ${currentProfile?.email || session.user.email}. Роль: ${currentProfile?.role || "не определена"}`;
       loginView.classList.add("hidden");
       accountView.classList.remove("hidden");
+      openAdminBtn.classList.toggle("hidden", currentProfile?.role !== "admin");
+      openRegistrationsTopBtn.classList.toggle("hidden", currentProfile?.role !== "admin");
+      openMyRegistrationsBtn.classList.remove("hidden");
 
-      if (currentProfile?.role === "admin") {
-        openAdminBtn.classList.remove("hidden");
-      } else {
-        openAdminBtn.classList.add("hidden");
+      if (bookingFullName && !normalizeStr(bookingFullName.value)) {
+        bookingFullName.value = normalizeStr(currentProfile?.full_name || session.user.user_metadata?.full_name || session.user.user_metadata?.name);
+      }
+      if (bookingEmail && !normalizeStr(bookingEmail.value)) {
+        bookingEmail.value = normalizeStr(currentProfile?.email || session.user.email);
       }
     }
 
@@ -1473,6 +2227,7 @@
       await sb.auth.signOut();
       adminModal.classList.remove("show");
       accountModal.classList.remove("show");
+      registrationsModal.classList.remove("show");
       await updateAuthUI();
     }
 
@@ -1491,15 +2246,22 @@
       }
 
       if (data && data.content) {
+        const raw = data.content;
         state = {
-          settings: Object.assign({}, defaultState.settings, data.content.settings || {}),
-          jobs: Array.isArray(data.content.jobs) ? data.content.jobs : cloneDefaultState().jobs,
-          events: Array.isArray(data.content.events) ? data.content.events : cloneDefaultState().events,
-          members: Array.isArray(data.content.members) ? data.content.members : cloneDefaultState().members,
-          directions: Array.isArray(data.content.directions) ? data.content.directions : cloneDefaultState().directions
+          settings: Object.assign({}, defaultState.settings, raw.settings || {}),
+          jobs: Array.isArray(raw.jobs) ? raw.jobs.map(normalizeJobItem) : cloneDefaultState().jobs.map(normalizeJobItem),
+          events: Array.isArray(raw.events) ? raw.events.map(normalizeEventItem) : cloneDefaultState().events.map(normalizeEventItem),
+          members: Array.isArray(raw.members) ? raw.members.map(normalizeMemberItem) : cloneDefaultState().members,
+          directions: Array.isArray(raw.directions) ? raw.directions : cloneDefaultState().directions
         };
       } else {
-        state = cloneDefaultState();
+        state = {
+          settings: Object.assign({}, defaultState.settings),
+          jobs: cloneDefaultState().jobs.map(normalizeJobItem),
+          events: cloneDefaultState().events.map(normalizeEventItem),
+          members: cloneDefaultState().members.map(normalizeMemberItem),
+          directions: cloneDefaultState().directions
+        };
       }
 
       const firstEvent = state.events[0];
@@ -1511,35 +2273,377 @@
       renderAll();
     }
 
-    async function saveStateToDatabase() {
-      adminSuccess.textContent = "";
-      adminError.textContent = "";
+    async function refreshSlotStats() {
+      const { data, error } = await sb
+        .from("registration_slot_stats")
+        .select("target_key,selected_slot,registrations_count");
+
+      if (error) {
+        slotStatsMap = new Map();
+        return;
+      }
+
+      const nextMap = new Map();
+      (data || []).forEach((row) => {
+        nextMap.set(String(row.target_key) + "||" + String(row.selected_slot), Number(row.registrations_count) || 0);
+      });
+      slotStatsMap = nextMap;
+      renderJobs();
+      renderCalendar();
+      if (bookingContext) populateBookingSlots();
+      if (registrationsModal.classList.contains("show")) renderRegistrationsTable();
+    }
+
+    function getSelectedBookingTarget() {
+      if (!bookingContext) return null;
+      return getTargetByContext(bookingContext.type, bookingContext.index);
+    }
+
+    function populateBookingSlots() {
+      const target = getSelectedBookingTarget();
+      if (!target) return;
+
+      const selectedDayGroup = getSelectedBookingDayGroup();
+      const optionsSource = bookingCalendarState.groups.length
+        ? (selectedDayGroup ? selectedDayGroup.items.map((entry) => entry.slot) : [])
+        : target.slots;
+
+      if (!optionsSource.length) {
+        bookingSlotSelect.innerHTML = '<option value="">Даты и время пока не добавлены</option>';
+        bookingSlotSelect.value = '';
+        renderBookingTimeList();
+        updateBookingSlotStatus();
+        return;
+      }
+
+      bookingSlotSelect.innerHTML = optionsSource.map((slot) => {
+        const info = getBookingSlotDisplayMeta(target, slot);
+        return `<option value="${escapeHtml(slot)}" ${info.full ? "disabled" : ""}>${escapeHtml(slot)} ${info.full ? "— мест нет" : `— ${info.text}`}</option>`;
+      }).join('');
+
+      const currentValueStillValid = Array.from(bookingSlotSelect.options).some((option) => option.value === bookingSlotSelect.value && !option.disabled);
+      if (!currentValueStillValid) {
+        const firstEnabledOption = Array.from(bookingSlotSelect.options).find((option) => !option.disabled);
+        bookingSlotSelect.value = firstEnabledOption ? firstEnabledOption.value : '';
+      }
+      renderBookingTimeList();
+      updateBookingSlotStatus();
+    }
+
+    function updateBookingSlotStatus() {
+      const target = getSelectedBookingTarget();
+      if (!target) return;
+      const slot = bookingSlotSelect.value;
+      const selectedDayGroup = getSelectedBookingDayGroup();
+
+      if (bookingCalendarState.groups.length) {
+        if (!selectedDayGroup) {
+          bookingSlotStatus.textContent = 'Сначала выберите дату в календаре.';
+          renderBookingTimeList();
+          return;
+        }
+        const freeCount = selectedDayGroup.items.filter((entry) => getSlotCount(target.key, entry.slot) < target.capacity).length;
+        if (!slot) {
+          bookingSlotStatus.textContent = freeCount
+            ? `На выбранную дату доступно вариантов времени: ${freeCount}.`
+            : 'На выбранную дату свободных мест нет.';
+          renderBookingTimeList();
+          return;
+        }
+      } else if (!slot) {
+        bookingSlotStatus.textContent = bookingCalendarState.fallbackSlots.length
+          ? 'Выберите дату и время из списка.'
+          : 'Нет доступных вариантов времени.';
+        renderBookingTimeList();
+        return;
+      }
+
+      const info = getBookingSlotDisplayMeta(target, slot);
+      bookingSlotStatus.textContent = info.full
+        ? 'На выбранные дату и время свободных мест больше нет.'
+        : info.text;
+      renderBookingTimeList();
+    }
+
+    async function openBookingModalByType(type, index) {
+      bookingContext = { type, index };
+      bookingSuccess.textContent = '';
+      bookingError.textContent = '';
+      const target = getSelectedBookingTarget();
+      if (!target) return;
+
+      await refreshSlotStats();
+      buildBookingCalendarState(target);
+      renderBookingCalendar();
+
+      bookingModalTitle.textContent = target.title;
+      bookingModalText.textContent = `${getTargetTypeLabel(type)}: ${target.desc || target.place || 'Выберите дату в календаре слева, затем укажите удобное время и заполните форму.'}`;
+      bookingCapacityText.textContent = `Количество мест на одну дату и время: ${target.capacity}`;
+      bookingNoteText.textContent = target.note || '';
+      populateBookingSlots();
+      bookingModal.classList.add('show');
+    }
+
+    async function submitBooking() {
+      bookingSuccess.textContent = '';
+      bookingError.textContent = '';
+      const target = getSelectedBookingTarget();
+      if (!target || !bookingContext) return;
+
+      const { data: { session } } = await sb.auth.getSession();
+      const fullName = normalizeStr(bookingFullName.value);
+      const email = normalizeStr(bookingEmail.value);
+      const studyGroup = normalizeStr(bookingStudyGroup.value);
+      const selectedSlot = normalizeStr(bookingSlotSelect.value);
+
+      if (!fullName || !email || !selectedSlot) {
+        bookingError.textContent = 'Заполните имя, электронную почту и выберите дату и время.';
+        return;
+      }
+
+      await refreshSlotStats();
+      const count = getSlotCount(target.key, selectedSlot);
+      if (count >= target.capacity) {
+        bookingError.textContent = 'На выбранные дату и время свободных мест уже нет. Выберите другой вариант.';
+        buildBookingCalendarState(target);
+        renderBookingCalendar();
+        populateBookingSlots();
+        return;
+      }
+
+      submitBookingBtn.disabled = true;
+      submitBookingBtn.classList.add('is-loading');
+      submitBookingBtn.dataset.prevText = submitBookingBtn.textContent;
+      submitBookingBtn.textContent = 'Отправка заявки...';
+      try {
+        const { error } = await sb.rpc('create_registration_safe', {
+          p_target_type: bookingContext.type,
+          p_target_id: target.key,
+          p_target_title: target.title,
+          p_target_key: target.key,
+          p_selected_slot: selectedSlot,
+          p_full_name: fullName,
+          p_email: email,
+          p_study_group: studyGroup || null,
+          p_user_id: session?.user?.id || null
+        });
+
+        if (error) {
+          bookingError.textContent = error.message || 'Не удалось отправить заявку.';
+          await refreshSlotStats();
+          buildBookingCalendarState(target);
+          renderBookingCalendar();
+          populateBookingSlots();
+          return;
+        }
+
+        bookingSuccess.textContent = session?.user?.id
+          ? 'Заявка отправлена. Её можно посмотреть и при необходимости отменить в разделе «Мои заявки».'
+          : 'Заявка отправлена.';
+        bookingFullName.value = '';
+        bookingEmail.value = '';
+        bookingStudyGroup.value = '';
+        await refreshSlotStats();
+        buildBookingCalendarState(target);
+        renderBookingCalendar();
+        populateBookingSlots();
+        if (session?.user?.id && myRegistrationsModal.classList.contains('show')) {
+          await loadMyRegistrations();
+        }
+      } finally {
+        submitBookingBtn.disabled = false;
+        submitBookingBtn.classList.remove('is-loading');
+        submitBookingBtn.textContent = submitBookingBtn.dataset.prevText || 'Отправить заявку';
+      }
+    }
+
+    function filterRegistrationsRows() {
+      const typeFilter = registrationsFilterType.value;
+      const query = normalizeStr(registrationsSearch.value).toLowerCase();
+      return registrationsRows.filter((row) => {
+        const matchesType = typeFilter === "all" || row.target_type === typeFilter;
+        const hay = [
+          row.full_name,
+          row.email,
+          row.study_group,
+          row.target_title,
+          row.selected_slot,
+          row.target_type
+        ].join(" ").toLowerCase();
+        return matchesType && (!query || hay.includes(query));
+      });
+    }
+
+    function renderRegistrationsTable() {
+      const rows = filterRegistrationsRows();
+      if (!rows.length) {
+        registrationsTableWrap.innerHTML = '<div class="registrations-empty">Заявки не найдены.</div>';
+        return;
+      }
+
+      registrationsTableWrap.innerHTML = `
+        <table class="registrations-table">
+          <thead>
+            <tr>
+              <th>Дата</th>
+              <th>Тип</th>
+              <th>Название</th>
+              <th>Дата и время</th>
+              <th>ФИО</th>
+              <th>Email</th>
+              <th>Группа</th>
+              <th>Действие</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows.map((row) => `
+              <tr>
+                <td>${escapeHtml(new Date(row.created_at).toLocaleString("ru-RU"))}</td>
+                <td>${escapeHtml(getTargetTypeLabel(row.target_type))}</td>
+                <td>${escapeHtml(row.target_title || "—")}</td>
+                <td>${escapeHtml(row.selected_slot || "—")}</td>
+                <td>${escapeHtml(row.full_name || "—")}</td>
+                <td>${escapeHtml(row.email || "—")}</td>
+                <td>${escapeHtml(row.study_group || "—")}</td>
+                <td><button class="small-btn delete" type="button" onclick="cancelRegistrationById(${row.id}, 'admin')">Отменить</button></td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
+    }
+
+    function renderMyRegistrationsTable() {
+      if (!myRegistrationsRows.length) {
+        myRegistrationsTableWrap.innerHTML = '<div class="registrations-empty">У вас пока нет заявок, созданных из этого аккаунта.</div>';
+        return;
+      }
+
+      myRegistrationsTableWrap.innerHTML = `
+        <table class="registrations-table">
+          <thead>
+            <tr>
+              <th>Дата</th>
+              <th>Тип</th>
+              <th>Название</th>
+              <th>Дата и время</th>
+              <th>ФИО</th>
+              <th>Email</th>
+              <th>Группа</th>
+              <th>Действие</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${myRegistrationsRows.map((row) => `
+              <tr>
+                <td>${escapeHtml(new Date(row.created_at).toLocaleString("ru-RU"))}</td>
+                <td>${escapeHtml(getTargetTypeLabel(row.target_type))}</td>
+                <td>${escapeHtml(row.target_title || "—")}</td>
+                <td>${escapeHtml(row.selected_slot || "—")}</td>
+                <td>${escapeHtml(row.full_name || "—")}</td>
+                <td>${escapeHtml(row.email || "—")}</td>
+                <td>${escapeHtml(row.study_group || "—")}</td>
+                <td><button class="small-btn delete" type="button" onclick="cancelRegistrationById(${row.id}, 'my')">Отменить</button></td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
+    }
+
+    async function loadMyRegistrations() {
+      myRegistrationsError.textContent = "";
+      myRegistrationsSuccess.textContent = "";
+      myRegistrationsTableWrap.innerHTML = '<div class="registrations-empty">Загрузка заявок...</div>';
+
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session?.user?.id) {
+        myRegistrationsError.textContent = "Для просмотра своих заявок нужно войти в аккаунт.";
+        myRegistrationsTableWrap.innerHTML = '<div class="registrations-empty">Войдите в аккаунт.</div>';
+        return;
+      }
+
+      const { data, error } = await sb
+        .from("registrations")
+        .select("id,target_type,target_title,target_key,selected_slot,full_name,email,study_group,created_at")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        myRegistrationsError.textContent = error.message || "Не удалось загрузить ваши заявки.";
+        myRegistrationsTableWrap.innerHTML = '<div class="registrations-empty">Ошибка загрузки.</div>';
+        return;
+      }
+
+      myRegistrationsRows = data || [];
+      myRegistrationsSuccess.textContent = `Найдено заявок: ${myRegistrationsRows.length}`;
+      renderMyRegistrationsTable();
+    }
+
+    async function cancelRegistrationById(id, scope) {
+      const scopeType = scope === "admin" ? "admin" : "my";
+      const ok = window.confirm("Отменить эту заявку?");
+      if (!ok) return;
+
+      if (scopeType === "admin") {
+        registrationsError.textContent = "";
+        registrationsSuccess.textContent = "";
+      } else {
+        myRegistrationsError.textContent = "";
+        myRegistrationsSuccess.textContent = "";
+      }
+
+      const { error } = await sb
+        .from("registrations")
+        .delete()
+        .eq("id", id);
+
+      if (error) {
+        if (scopeType === "admin") {
+          registrationsError.textContent = error.message || "Не удалось отменить заявку.";
+        } else {
+          myRegistrationsError.textContent = error.message || "Не удалось отменить заявку.";
+        }
+        return;
+      }
+
+      await refreshSlotStats();
+
+      if (scopeType === "admin" && registrationsModal.classList.contains("show")) {
+        await loadRegistrations();
+        registrationsSuccess.textContent = "Заявка отменена.";
+      } else if (scopeType === "my" && myRegistrationsModal.classList.contains("show")) {
+        await loadMyRegistrations();
+        myRegistrationsSuccess.textContent = "Заявка отменена.";
+      }
+    }
+
+    async function loadRegistrations() {
+      registrationsError.textContent = "";
+      registrationsSuccess.textContent = "";
+      registrationsTableWrap.innerHTML = '<div class="registrations-empty">Загрузка заявок...</div>';
 
       const { data: { session } } = await sb.auth.getSession();
       const profile = await fetchProfile(session);
-
       if (!session || !profile || profile.role !== "admin") {
-        adminError.textContent = "Нет доступа к админке. Войдите под аккаунтом с ролью admin.";
+        registrationsError.textContent = "Нет доступа к заявкам.";
+        registrationsTableWrap.innerHTML = '<div class="registrations-empty">Доступ запрещён.</div>';
         return;
       }
 
-      applySettingsFromForm();
-
-      const payload = {
-        id: 1,
-        content: state
-      };
-
-      const { error } = await sb
-        .from("site_content")
-        .upsert(payload, { onConflict: "id" });
+      const { data, error } = await sb
+        .from("registrations")
+        .select("id,target_type,target_title,target_key,selected_slot,full_name,email,study_group,created_at")
+        .order("created_at", { ascending: false });
 
       if (error) {
-        adminError.textContent = error.message || "Ошибка сохранения";
+        registrationsError.textContent = error.message || "Не удалось загрузить заявки.";
+        registrationsTableWrap.innerHTML = '<div class="registrations-empty">Ошибка загрузки.</div>';
         return;
       }
 
-      adminSuccess.textContent = "Изменения сохранены в базу.";
+      registrationsRows = data || [];
+      registrationsSuccess.textContent = `Найдено заявок: ${registrationsRows.length}`;
+      renderRegistrationsTable();
     }
 
     function openAccountModal() {
@@ -1560,10 +2664,32 @@
       adminModal.classList.add("show");
     }
 
+    async function openRegistrationsModal() {
+      if (!currentProfile || currentProfile.role !== "admin") {
+        registrationsError.textContent = "Нет доступа к заявкам.";
+        return;
+      }
+      registrationsModal.classList.add("show");
+      await loadRegistrations();
+    }
+
+    async function openMyRegistrationsModal() {
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session?.user?.id) {
+        accountModal.classList.add("show");
+        return;
+      }
+      myRegistrationsModal.classList.add("show");
+      await loadMyRegistrations();
+    }
+
     function closeModals() {
       accountModal.classList.remove("show");
       adminModal.classList.remove("show");
       dayEventsModal.classList.remove("show");
+      bookingModal.classList.remove("show");
+      registrationsModal.classList.remove("show");
+      myRegistrationsModal.classList.remove("show");
     }
 
     function changeMonth(step) {
@@ -1578,9 +2704,62 @@
       renderCalendar();
     }
 
-    document.getElementById("applySettingsBtn").addEventListener("click", () => {
+    async function fileToDataUrl(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(String(reader.result || ""));
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    memberPhoto.addEventListener("input", () => {
+      if (normalizeStr(memberPhoto.value)) {
+        pendingMemberPhotoData = "";
+        renderPhotoPreview(memberPhoto.value);
+        memberPhotoStatus.textContent = "Используется ссылка на фото.";
+      } else if (!pendingMemberPhotoData) {
+        renderPhotoPreview("");
+        memberPhotoStatus.textContent = "Можно вставить ссылку или выбрать файл. Файл сохранится прямо в content сайта.";
+      }
+    });
+
+    memberPhotoFile.addEventListener("change", async () => {
+      const file = memberPhotoFile.files && memberPhotoFile.files[0];
+      if (!file) return;
+      try {
+        pendingMemberPhotoData = await fileToDataUrl(file);
+        memberPhoto.value = "";
+        renderPhotoPreview(pendingMemberPhotoData);
+        memberPhotoStatus.textContent = `Файл выбран: ${file.name}`;
+      } catch (err) {
+        memberPhotoStatus.textContent = "Не удалось прочитать файл.";
+      }
+    });
+
+    bookingSlotSelect.addEventListener("change", updateBookingSlotStatus);
+    bookingPrevMonthBtn.addEventListener("click", () => {
+      const current = new Date(bookingCalendarState.year, bookingCalendarState.month, 1);
+      current.setMonth(current.getMonth() - 1);
+      bookingCalendarState.year = current.getFullYear();
+      bookingCalendarState.month = current.getMonth();
+      renderBookingCalendar();
+      populateBookingSlots();
+    });
+    bookingNextMonthBtn.addEventListener("click", () => {
+      const current = new Date(bookingCalendarState.year, bookingCalendarState.month, 1);
+      current.setMonth(current.getMonth() + 1);
+      bookingCalendarState.year = current.getFullYear();
+      bookingCalendarState.month = current.getMonth();
+      renderBookingCalendar();
+      populateBookingSlots();
+    });
+    submitBookingBtn.addEventListener("click", submitBooking);
+
+    document.getElementById("applySettingsBtn").addEventListener("click", async (e) => {
       applySettingsFromForm();
       renderSettings();
+      await persistAfterAdminEdit(e.currentTarget);
     });
 
     document.getElementById("saveJobBtn").addEventListener("click", saveJobLocal);
@@ -1593,13 +2772,21 @@
     document.getElementById("cancelMemberEditBtn").addEventListener("click", clearMemberForm);
     document.getElementById("cancelDirectionEditBtn").addEventListener("click", clearDirectionForm);
 
-    document.getElementById("saveAllBtn").addEventListener("click", saveStateToDatabase);
+    document.getElementById("saveAllBtn").addEventListener("click", async () => {
+      const ok = await saveStateToDatabase({ silent: false });
+      if (ok) await refreshSlotStats();
+    });
 
     accountOpenBtn.addEventListener("click", openAccountModal);
     openAdminBtn.addEventListener("click", openAdminModal);
+    openRegistrationsTopBtn.addEventListener("click", openRegistrationsModal);
+    openMyRegistrationsBtn.addEventListener("click", openMyRegistrationsModal);
     closeAccountBtn.addEventListener("click", closeModals);
     closeAdminBtn.addEventListener("click", closeModals);
     closeDayEventsBtn.addEventListener("click", closeModals);
+    closeBookingBtn.addEventListener("click", closeModals);
+    closeRegistrationsBtn.addEventListener("click", closeModals);
+    closeMyRegistrationsBtn.addEventListener("click", closeModals);
 
     logoutBtn.addEventListener("click", logout);
     logoutTopBtn.addEventListener("click", logout);
@@ -1608,12 +2795,23 @@
     accountModal.addEventListener("click", (e) => { if (e.target === accountModal) accountModal.classList.remove("show"); });
     adminModal.addEventListener("click", (e) => { if (e.target === adminModal) adminModal.classList.remove("show"); });
     dayEventsModal.addEventListener("click", (e) => { if (e.target === dayEventsModal) dayEventsModal.classList.remove("show"); });
+    bookingModal.addEventListener("click", (e) => { if (e.target === bookingModal) bookingModal.classList.remove("show"); });
+    registrationsModal.addEventListener("click", (e) => { if (e.target === registrationsModal) registrationsModal.classList.remove("show"); });
+    myRegistrationsModal.addEventListener("click", (e) => { if (e.target === myRegistrationsModal) myRegistrationsModal.classList.remove("show"); });
 
     document.getElementById("prevMonthBtn").addEventListener("click", () => changeMonth(-1));
     document.getElementById("nextMonthBtn").addEventListener("click", () => changeMonth(1));
 
+    registrationsFilterType.addEventListener("change", renderRegistrationsTable);
+    registrationsSearch.addEventListener("input", renderRegistrationsTable);
+    refreshRegistrationsBtn.addEventListener("click", loadRegistrations);
+    refreshMyRegistrationsBtn.addEventListener("click", loadMyRegistrations);
+
     sb.auth.onAuthStateChange(() => {
       updateAuthUI();
+      if (myRegistrationsModal.classList.contains("show")) {
+        loadMyRegistrations();
+      }
     });
 
     window.startEditJob = startEditJob;
@@ -1624,14 +2822,20 @@
     window.deleteEvent = deleteEvent;
     window.deleteMember = deleteMember;
     window.deleteDirection = deleteDirection;
+    window.openBookingModalByType = openBookingModalByType;
+    window.cancelRegistrationById = cancelRegistrationById;
 
     fillMonthSelect();
     clearJobForm();
     clearEventForm();
     clearMemberForm();
     clearDirectionForm();
-    updateAuthUI();
-    loadStateFromDatabase();
+
+    (async function init() {
+      await updateAuthUI();
+      await loadStateFromDatabase();
+      await refreshSlotStats();
+    })();
   </script>
 </body>
 </html>
