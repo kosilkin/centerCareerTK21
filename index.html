@@ -608,6 +608,368 @@
     .preview-note { margin-top:8px; font-size:13px; color:#60708b; }
     .inline-note { margin-top:8px; font-size:13px; color:#4a63c9; font-weight:700; }
 
+    img { max-width: 100%; height: auto; }
+    body { overflow-x: hidden; }
+    .panel, .modal-box, .item, .team-card, .job-card, .direction-card, .admin-card, .admin-form-card, .admin-list-card, .slot-select-card {
+      min-width: 0;
+    }
+    .header-title, .header-text, .panel-title, .item-title, .job-title, .direction-title, .team-name, .team-role, .team-desc,
+    .item-text, .panel-text, .muted-text, .booking-day-title, .booking-day-subtitle, .booking-time-meta, .booking-note,
+    .registrations-empty, .admin-sidebar-text, .admin-toolbar-text, .day-event-meta, .runtime-error-box, .inline-note {
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+    .header-btn, .btn, .close-btn, .small-btn, .booking-calendar-nav, .calendar-nav-btn, .booking-time-item, .admin-tab-btn {
+      touch-action: manipulation;
+    }
+    .top-links {
+      scrollbar-width: thin;
+    }
+    .top-links::-webkit-scrollbar,
+    .admin-tab-list::-webkit-scrollbar,
+    .registrations-table-wrap::-webkit-scrollbar {
+      height: 8px;
+      width: 8px;
+    }
+
+    @media (max-width: 980px) {
+      header {
+        padding: 24px 20px 28px;
+      }
+      .header-topline {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .header-actions {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .header-btn {
+        width: 100%;
+        text-align: center;
+      }
+      .top-links {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 4px;
+        margin-top: 16px;
+        scroll-snap-type: x proximity;
+      }
+      .top-links a {
+        flex: 0 0 auto;
+        white-space: nowrap;
+        scroll-snap-align: start;
+      }
+      .calendar-head,
+      .section-head,
+      .modal-head {
+        align-items: stretch;
+      }
+      .calendar-tools {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .calendar-month {
+        min-width: 0;
+        flex: 1;
+      }
+      .booking-grid,
+      .admin-shell,
+      .admin-section-layout {
+        grid-template-columns: 1fr;
+      }
+      .admin-sidebar {
+        position: static;
+      }
+      .admin-tab-list {
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(170px, 1fr);
+        overflow-x: auto;
+        padding-bottom: 4px;
+      }
+      .registrations-toolbar {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+      .registrations-toolbar .field {
+        min-width: 0 !important;
+      }
+    }
+
+    @media (max-width: 760px) {
+      :root {
+        --radius-xl: 22px;
+        --radius-lg: 18px;
+        --radius-md: 16px;
+        --radius-sm: 12px;
+      }
+      header {
+        padding: 18px 14px 22px;
+      }
+      .header-label {
+        font-size: 12px;
+      }
+      .header-title {
+        font-size: clamp(28px, 8vw, 34px);
+        line-height: 1.08;
+      }
+      .header-text {
+        font-size: 14px;
+        line-height: 1.5;
+        margin-top: 12px;
+      }
+      .header-actions {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+      .header-btn {
+        padding: 12px 14px;
+        font-size: 14px;
+      }
+      .top-links {
+        gap: 8px;
+        margin-top: 14px;
+        padding-bottom: 2px;
+      }
+      .top-links a {
+        padding: 9px 12px;
+        font-size: 13px;
+      }
+      .container {
+        padding: 14px 10px 28px;
+      }
+      .panel-content,
+      .modal-box {
+        padding: 14px;
+      }
+      .panel-title,
+      .modal-title {
+        font-size: 22px;
+      }
+      .row-2,
+      .team-grid,
+      .jobs-grid,
+      .directions-grid,
+      .admin-grid,
+      .booking-grid,
+      .admin-shell,
+      .admin-section-layout {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+      .team-card,
+      .job-card,
+      .direction-card,
+      .slot-select-card,
+      .admin-form-card,
+      .admin-list-card,
+      .admin-sidebar,
+      .admin-toolbar {
+        border-radius: 18px;
+      }
+      .team-card {
+        min-height: 0;
+        padding: 14px;
+      }
+      .team-top {
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .team-photo {
+        width: 58px;
+        height: 58px;
+        flex-basis: 58px;
+        font-size: 18px;
+      }
+      .calendar-head,
+      .section-head,
+      .modal-head {
+        gap: 10px;
+      }
+      .calendar-tools {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        gap: 8px;
+        align-items: center;
+      }
+      .calendar-nav-btn,
+      .booking-calendar-nav {
+        min-width: 40px;
+        padding: 9px 10px;
+      }
+      .calendar-month,
+      .booking-calendar-month {
+        font-size: 17px;
+      }
+      .calendar-mark,
+      .head-badge {
+        width: 100%;
+        text-align: center;
+      }
+      .calendar-weekdays,
+      .calendar-grid,
+      .booking-calendar-weekdays,
+      .booking-calendar-grid {
+        gap: 4px;
+      }
+      .weekday,
+      .booking-calendar-weekday {
+        font-size: 10px;
+      }
+      .day {
+        min-height: 78px;
+        padding: 6px;
+        gap: 4px;
+        border-radius: 14px;
+      }
+      .day-number {
+        font-size: 12px;
+      }
+      .mini-event {
+        font-size: 8px;
+        padding: 4px 5px;
+        border-radius: 8px;
+      }
+      .booking-modal-box,
+      .modal-box {
+        width: 100%;
+        max-height: calc(100dvh - 10px);
+        border-radius: 22px;
+      }
+      .modal {
+        align-items: stretch;
+        padding: 5px;
+      }
+      .booking-calendar-card {
+        padding: 12px;
+        margin-top: 12px;
+      }
+      .booking-calendar-day {
+        min-height: 58px;
+        padding: 6px 4px;
+        gap: 4px;
+        border-radius: 14px;
+      }
+      .booking-calendar-day strong,
+      .booking-calendar-day span {
+        font-size: 12px;
+      }
+      .booking-calendar-day small {
+        font-size: 9px;
+      }
+      .booking-day-title {
+        font-size: 18px;
+      }
+      .booking-day-subtitle,
+      .booking-meta,
+      .booking-note {
+        font-size: 13px;
+      }
+      .booking-time-list {
+        gap: 8px;
+      }
+      .booking-time-item {
+        padding: 12px;
+        border-radius: 14px;
+        gap: 10px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .booking-time-label {
+        font-size: 15px;
+      }
+      .booking-time-meta {
+        font-size: 12px;
+      }
+      .field input,
+      .field textarea,
+      .field select {
+        font-size: 16px;
+        padding: 12px 13px;
+      }
+      .btn,
+      .close-btn,
+      .small-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 14px;
+      }
+      .form-toolbar,
+      .item-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+      .admin-toolbar {
+        gap: 12px;
+      }
+      .admin-toolbar .btn {
+        width: 100%;
+      }
+      .admin-sidebar {
+        padding: 12px;
+      }
+      .admin-tab-list {
+        grid-auto-columns: minmax(140px, 1fr);
+      }
+      .registrations-table-wrap {
+        margin: 0 -2px;
+        border-radius: 16px;
+      }
+      .registrations-table {
+        min-width: 640px;
+      }
+      .runtime-error-box {
+        left: 8px;
+        right: 8px;
+        bottom: 8px;
+        font-size: 13px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      header {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+      .container {
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+      .panel-content,
+      .modal-box {
+        padding: 12px;
+      }
+      .calendar-tools {
+        grid-template-columns: 38px 1fr 38px;
+      }
+      .calendar-mark,
+      .head-badge,
+      .info-mark {
+        font-size: 12px;
+        padding: 8px 10px;
+      }
+      .day {
+        min-height: 72px;
+      }
+      .booking-calendar-day {
+        min-height: 54px;
+      }
+      .job-card {
+        padding: 14px;
+        min-height: 0;
+      }
+      .job-text {
+        margin-bottom: 18px;
+      }
+      .direction-top,
+      .direction-body {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+    }
+
+
     @media (max-width: 1100px) {
       .row-2, .jobs-grid, .directions-grid, .admin-grid, .booking-grid, .admin-shell, .admin-section-layout { grid-template-columns: 1fr; }
       .admin-sidebar { position: static; }
