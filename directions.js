@@ -276,7 +276,33 @@
 
     function safeLink(url) {
       const x = normalizeStr(url);
-      return x || "#";
+      if (!x) return "#";
+      try {
+        const parsed = new URL(x, window.location.origin);
+        if (parsed.protocol === "http:" || parsed.protocol === "https:") return parsed.href;
+        return "#";
+      } catch {
+        return "#";
+      }
+    }
+
+    function renderRichText(value) {
+      const source = normalizeStr(value);
+      if (!source) return "";
+      const escaped = escapeHtml(source);
+      const withMarkdownLinks = escaped.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/gi, function(_, label, url) {
+        const href = safeLink(url);
+        return href === "#" ? escapeHtml(label) : `<a href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+      });
+      const withAutoLinks = withMarkdownLinks.replace(/(^|[\s(>])((https?:\/\/|www\.)[^\s<]+)/gi, function(match, prefix, url) {
+        const href = safeLink(/^https?:\/\//i.test(url) ? url : `https://${url}`);
+        if (href === "#") return match;
+        return `${prefix}<a href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(url)}</a>`;
+      });
+      return withAutoLinks
+        .split(/\n{2,}/)
+        .map((paragraph) => `<p>${paragraph.replace(/\n/g, "<br>")}</p>`)
+        .join("");
     }
 
     function clampCapacity(value, fallback) {
@@ -858,7 +884,7 @@
           <div class="news-card-body">
             <div class="news-card-date">${escapeHtml(formatNewsDateDisplay(item.date))}</div>
             <h3 class="news-card-title">${escapeHtml(item.title)}</h3>
-            <p class="news-card-text">${escapeHtml(item.summary || 'Краткое описание пока не добавлено.')}</p>
+            <div class="news-card-text rich-text">${renderRichText(item.summary || 'Краткое описание пока не добавлено.')}</div>
             <div class="news-card-actions">
               <a class="direction-link" href="news.html?news=${encodeURIComponent(item.key)}">Открыть новость</a>
               ${item.video_url ? '<span class="news-video-mark">Есть видео</span>' : ''}
