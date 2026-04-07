@@ -24,7 +24,7 @@
           <div class="header-label" id="headerLabel">Центр карьеры колледжа</div>
           <h1 class="header-title" id="headerTitle">Запись, мероприятия и команда центра карьеры</h1>
           <p class="header-text" id="headerText">
-            Площадка для студентов и выпускников: запись на консультации, карьерные события и полезные ссылки по направлениям обучения.
+            Площадка для студентов и выпускников: запись на консультации, карьерные события и страницы с материалами по направлениям обучения.
           </p>
         </div>
 
@@ -45,6 +45,7 @@
         <a href="#jobs">Запись</a>
         <a href="#internships">Стажировки</a>
         <a href="#directions">Направления</a>
+        <a href="directions.html">Все направления</a>
         <a href="news.html">Все новости</a>
       </div>
     </div>
@@ -57,7 +58,7 @@
           <h2 class="panel-title" id="infoTitle">Инфо</h2>
           <p class="panel-text" id="infoText">
             Центр карьеры помогает студентам с поиском практики, подготовкой резюме и карьерными консультациями.
-            На сайте можно записаться на нужный формат помощи, посмотреть мероприятия и открыть таблицы по направлениям.
+            На сайте можно записаться на нужный формат помощи, посмотреть мероприятия и открыть страницы с материалами по направлениям.
           </p>
           <div class="info-mark" id="infoMark">Запись и полезные ссылки доступны онлайн</div>
         </div>
@@ -536,7 +537,7 @@
             <div class="admin-section-head">
               <div>
                 <h3 class="admin-section-title">Направления</h3>
-                <p class="admin-section-text">Здесь редактируются карточки направлений и ссылки на таблицы или дополнительные материалы.</p>
+                <p class="admin-section-text">Здесь редактируются карточки направлений и отдельные страницы по каждому направлению с описанием, материалами и кнопками перехода.</p>
               </div>
             </div>
             <div class="admin-section-layout">
@@ -556,8 +557,21 @@
                   <textarea id="directionDesc"></textarea>
                 </div>
                 <div class="field">
-                  <label for="directionLink">Ссылка</label>
+                  <label for="directionContent">Полный текст страницы направления</label>
+                  <textarea id="directionContent"></textarea>
+                </div>
+                <div class="field">
+                  <label for="directionImage">Ссылка на изображение</label>
+                  <input type="text" id="directionImage" placeholder="https://...">
+                </div>
+                <div class="field">
+                  <label for="directionLink">Ссылка на полезные материалы</label>
                   <input type="text" id="directionLink" placeholder="https://...">
+                </div>
+                <div class="field">
+                  <label for="directionLinkLabel">Подпись кнопки материалов</label>
+                  <input type="text" id="directionLinkLabel" placeholder="Например: Открыть материалы">
+                </div>
                 </div>
                 <div class="form-toolbar">
                   <button class="btn" id="saveDirectionBtn" type="button">Сохранить направление</button>
