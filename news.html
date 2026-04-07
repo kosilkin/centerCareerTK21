@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Новости центра карьеры</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/config.js" defer></script>
+  <script src="assets/js/news.js" defer></script>
+</head>
+<body>
+  <div class="bg-pattern"></div>
+  <header>
+    <div class="header-inner">
+      <div class="header-label">Центр карьеры колледжа</div>
+      <h1 class="header-title" id="newsPageTitle">Новости центра карьеры</h1>
+      <p class="page-hero-note" id="newsPageText">На этой странице собраны все опубликованные новости, анонсы и материалы с видеороликами.</p>
+      <div class="top-links">
+        <a href="index.html">Вернуться на главную</a>
+      </div>
+    </div>
+  </header>
+  <main class="container">
+    <section class="news-layout">
+      <a class="back-link" href="index.html">← На главную страницу</a>
+      <div class="news-page-list" id="newsPageList">
+        <div class="muted-text">Загрузка новостей...</div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
