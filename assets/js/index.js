@@ -1595,7 +1595,7 @@
       if (!session) return null;
       const { data, error } = await sb
         .from("profiles")
-        .select("id,email,role")
+        .select("id,email,role,full_name")
         .eq("id", session.user.id)
         .single();
 
@@ -1699,8 +1699,15 @@
 
       const firstEvent = state.events[0];
       if (firstEvent) {
-        currentCalendarYear = Number(firstEvent.year) || currentCalendarYear;
-        currentCalendarMonth = Number(firstEvent.month) || currentCalendarMonth;
+        const firstYear = Number(firstEvent.year);
+        const firstMonth = Number(firstEvent.month);
+
+        if (Number.isFinite(firstYear)) {
+          currentCalendarYear = firstYear;
+        }
+        if (Number.isFinite(firstMonth) && firstMonth >= 0 && firstMonth <= 11) {
+          currentCalendarMonth = firstMonth;
+        }
       }
 
       renderAll();
