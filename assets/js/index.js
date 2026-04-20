@@ -19,6 +19,8 @@
     const SUPABASE_URL = (window.APP_CONFIG && window.APP_CONFIG.SUPABASE_URL) || "https://zxvqgqnwbkqmopaxtqcm.supabase.co";
     const SUPABASE_KEY = (window.APP_CONFIG && window.APP_CONFIG.SUPABASE_KEY) || "sb_publishable_90CEm1Vf4QqF4p4C7DAsvw_c_eb78XE";
     const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const pageMode = document.body?.dataset?.page || "home";
+    const isHomePage = pageMode === "home";
 
     const monthNames = ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"];
 
@@ -786,6 +788,25 @@
       }
     }
 
+
+    function renderHubCard(options) {
+      const title = escapeHtml(options.title || 'Открыть раздел');
+      const text = escapeHtml(options.text || 'Перейти на страницу раздела.');
+      const meta = options.meta ? `<div class="hub-card-meta">${escapeHtml(options.meta)}</div>` : '';
+      return `
+        <a class="hub-button-card" href="${escapeHtml(options.href || '#')}">
+          <div class="hub-button-top">
+            <div class="hub-button-label">${escapeHtml(options.label || 'Раздел')}</div>
+            <div class="hub-button-arrow">→</div>
+          </div>
+          <h3 class="hub-button-title">${title}</h3>
+          <p class="hub-button-text">${text}</p>
+          ${meta}
+          <span class="hub-button-link">Открыть страницу</span>
+        </a>
+      `;
+    }
+
     function renderPhotoPreview(src) {
       const value = normalizeStr(src);
       if (!value) {
@@ -800,6 +821,18 @@
     }
 
     function renderTeam() {
+      if (!teamGrid) return;
+      if (isHomePage) {
+        const first = state.members[0] || null;
+        teamGrid.innerHTML = renderHubCard({
+          href: 'team.html',
+          label: 'Команда',
+          title: first ? first.name : 'Команда центра',
+          text: first ? (first.role || 'Сотрудники центра карьеры') : 'Откройте страницу команды и посмотрите всех сотрудников центра карьеры.',
+          meta: `Сотрудников: ${state.members.length}`
+        });
+        return;
+      }
       if (!state.members.length) {
         teamGrid.innerHTML = '<div class="muted-text">Список сотрудников пока пуст.</div>';
         return;
@@ -837,6 +870,18 @@
     }
 
     function renderJobs() {
+      if (!jobsGrid) return;
+      if (isHomePage) {
+        const first = state.jobs[0] || null;
+        jobsGrid.innerHTML = renderHubCard({
+          href: 'services.html',
+          label: 'Запись',
+          title: first ? first.title : 'Запись в центр карьеры',
+          text: first ? (first.desc || 'Откройте страницу записи.') : 'Откройте отдельную страницу со всеми форматами записи и отправкой заявок.',
+          meta: `Форматов записи: ${state.jobs.length}`
+        });
+        return;
+      }
       if (!state.jobs.length) {
         jobsGrid.innerHTML = '<div class="muted-text">Варианты записи пока не добавлены.</div>';
         return;
@@ -873,7 +918,7 @@
 
     function renderLatestNews() {
       if (!newsGrid) return;
-      const items = getPublishedNews(3);
+      const items = getPublishedNews(isHomePage ? 1 : 3);
       if (!items.length) {
         newsGrid.innerHTML = '<div class="muted-text">Новости пока не опубликованы.</div>';
         return;
@@ -896,6 +941,17 @@
 
     function renderInternships() {
       if (!internshipsGrid) return;
+      if (isHomePage) {
+        const first = state.internships[0] || null;
+        internshipsGrid.innerHTML = renderHubCard({
+          href: 'internships.html',
+          label: 'Стажировки',
+          title: first ? first.title : 'Стажировки',
+          text: first ? (first.desc || 'Откройте страницу стажировок.') : 'Откройте отдельную страницу со всеми актуальными стажировками.',
+          meta: `Предложений: ${state.internships.length}`
+        });
+        return;
+      }
       if (!state.internships.length) {
         internshipsGrid.innerHTML = '<div class="muted-text">Стажировки пока не добавлены.</div>';
         return;
@@ -912,6 +968,18 @@
     }
 
     function renderDirections() {
+      if (!directionsGrid) return;
+      if (isHomePage) {
+        const first = state.directions[0] || null;
+        directionsGrid.innerHTML = renderHubCard({
+          href: 'directions.html',
+          label: 'Направления',
+          title: first ? first.name : 'Направления и материалы',
+          text: first ? (first.desc || 'Откройте страницу направлений.') : 'Откройте отдельную страницу с материалами по направлениям подготовки.',
+          meta: `Направлений: ${state.directions.length}`
+        });
+        return;
+      }
       if (!state.directions.length) {
         directionsGrid.innerHTML = '<div class="muted-text">Направления пока не добавлены.</div>';
         return;
@@ -960,6 +1028,7 @@
     }
 
     function renderCalendar() {
+      if (!calendarGrid || !calendarMonthTitle) return;
       calendarMonthTitle.textContent = `${monthNames[currentCalendarMonth]} ${currentCalendarYear}`;
       calendarGrid.innerHTML = "";
 
@@ -968,7 +1037,7 @@
       let startWeekday = firstDate.getDay();
       if (startWeekday === 0) startWeekday = 7;
 
-      const totalCells = 42;
+      const totalCells = isHomePage ? 35 : 42;
       const prevMonthDays = new Date(currentCalendarYear, currentCalendarMonth, 0).getDate();
 
       for (let i = 1; i <= totalCells; i++) {
@@ -993,14 +1062,21 @@
 
         const events = getEventsForDay(cellYear, cellMonth, dayNumber);
         const day = document.createElement("div");
-        day.className = `day${muted ? " muted" : ""}${events.length ? " has-events" : ""}`;
-        day.innerHTML = `
-          <div class="day-number">${dayNumber}</div>
-          <div class="day-events">
-            ${events.slice(0, 2).map((item) => `<div class="mini-event event-${item.color || "blue"}">${item.time ? escapeHtml(item.time) + " · " : ""}${escapeHtml(item.title)}</div>`).join("")}
-            ${events.length > 2 ? `<span class="event-more">+ ещё ${events.length - 2}</span>` : ""}
-          </div>
-        `;
+        day.className = `day${muted ? " muted" : ""}${events.length ? " has-events" : ""}` + (isHomePage ? ' is-home-mini' : '');
+        day.innerHTML = isHomePage
+          ? `
+            <div class="day-number">${dayNumber}</div>
+            <div class="day-events">
+              ${events[0] ? `<div class="mini-event event-${events[0].color || "blue"}">${escapeHtml(events[0].title)}</div>` : '<div class="mini-empty">—</div>'}
+            </div>
+          `
+          : `
+            <div class="day-number">${dayNumber}</div>
+            <div class="day-events">
+              ${events.slice(0, 2).map((item) => `<div class="mini-event event-${item.color || "blue"}">${item.time ? escapeHtml(item.time) + " · " : ""}${escapeHtml(item.title)}</div>`).join("")}
+              ${events.length > 2 ? `<span class="event-more">+ ещё ${events.length - 2}</span>` : ""}
+            </div>
+          `;
 
         if (!muted && events.length) {
           day.addEventListener("click", () => openDayEventsModal(cellYear, cellMonth, dayNumber));
@@ -1701,13 +1777,8 @@
       if (firstEvent) {
         const firstYear = Number(firstEvent.year);
         const firstMonth = Number(firstEvent.month);
-
-        if (Number.isFinite(firstYear)) {
-          currentCalendarYear = firstYear;
-        }
-        if (Number.isFinite(firstMonth) && firstMonth >= 0 && firstMonth <= 11) {
-          currentCalendarMonth = firstMonth;
-        }
+        if (Number.isFinite(firstYear)) currentCalendarYear = firstYear;
+        if (Number.isFinite(firstMonth) && firstMonth >= 0 && firstMonth <= 11) currentCalendarMonth = firstMonth;
       }
 
       renderAll();
