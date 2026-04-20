@@ -9,7 +9,7 @@
   <script src="assets/js/config.js" defer></script>
   <script src="assets/js/index.js" defer></script>
 </head>
-<body>
+<body data-page="home">
   <div class="bg-pattern"></div>
 
   <div class="runtime-error-box" id="runtimeErrorBox">
@@ -17,21 +17,18 @@
     <div id="runtimeErrorText" style="margin-top:6px;white-space:pre-wrap"></div>
   </div>
 
-  <header class="portal-header">
-    <div class="header-inner portal-header-inner">
-      <div class="portal-brand-row">
-        <div class="portal-brand">
-          <div class="portal-logo">ЦК</div>
-          <div class="portal-brand-texts">
-            <div class="header-label" id="headerLabel">Центр карьеры колледжа</div>
-            <h1 class="header-title" id="headerTitle">Запись, мероприятия и команда центра карьеры</h1>
-            <p class="header-text" id="headerText">
-              Площадка для студентов и выпускников: запись на консультации, карьерные события и страницы с материалами по направлениям обучения.
-            </p>
-          </div>
+  <header>
+    <div class="header-inner">
+      <div class="header-topline">
+        <div>
+          <div class="header-label" id="headerLabel">Центр карьеры колледжа</div>
+          <h1 class="header-title" id="headerTitle">Запись, мероприятия и команда центра карьеры</h1>
+          <p class="header-text" id="headerText">
+            Площадка для студентов и выпускников: запись на консультации, карьерные события и страницы с материалами по направлениям обучения.
+          </p>
         </div>
 
-        <div class="header-actions portal-actions">
+        <div class="header-actions">
           <button class="header-btn" id="accountOpenBtn" type="button">Войти</button>
           <button class="header-btn hidden" id="logoutTopBtn" type="button">Выйти</button>
           <button class="header-btn hidden" id="openAdminBtn" type="button">Админка</button>
@@ -40,111 +37,110 @@
         </div>
       </div>
 
-      <nav class="portal-tabs top-links">
-        <a href="index.html" class="is-active">Главная</a>
-        <a href="#info">Инфо</a>
-        <a href="#events">Мероприятия</a>
-        <a href="#jobs">Запись</a>
-        <a href="#internships">Стажировки</a>
-        <a href="#team">Команда</a>
+            <div class="top-links portal-nav">
+        <a href="index.html">Главная</a>
+        <a href="events.html">Мероприятия</a>
+        <a href="services.html">Запись</a>
+        <a href="internships.html">Стажировки</a>
+        <a href="team.html">Команда</a>
         <a href="news.html">Новости</a>
         <a href="directions.html">Направления</a>
-      </nav>
+      </div>
     </div>
   </header>
 
-  <main class="container portal-container">
-    <section class="portal-grid">
-      <article class="panel portal-tile tile-info" id="info">
-        <div class="panel-content tile-content">
-          <div class="tile-header-row">
-            <h2 class="panel-title" id="infoTitle">Информация</h2>
-            <div class="tile-chip">О центре</div>
-          </div>
-          <p class="panel-text" id="infoText">
-            Центр карьеры помогает студентам с поиском практики, подготовкой резюме и карьерными консультациями.
-            На сайте можно записаться на нужный формат помощи, посмотреть мероприятия и открыть страницы с материалами по направлениям.
-          </p>
-          <div class="info-mark" id="infoMark">Запись и полезные ссылки доступны онлайн</div>
-        </div>
-      </article>
-
-      <section class="panel portal-tile tile-news" id="newsPreview">
-        <div class="panel-content tile-content">
-          <div class="section-head news-sidebar-head tile-head-compact">
-            <h2 class="panel-title" id="newsTitle" style="margin:0;">Последние новости</h2>
-            <a class="section-link-btn tile-link-btn" href="news.html">Все новости</a>
-          </div>
-          <div class="news-grid news-grid-portal" id="newsGrid"></div>
-        </div>
-      </section>
-
-      <article class="panel portal-tile tile-team" id="team">
-        <div class="panel-content tile-content">
-          <div class="section-head tile-head-compact">
-            <h2 class="panel-title" id="teamTitle" style="margin:0;">Команда центра</h2>
-            <div class="head-badge">Сотрудники</div>
-          </div>
-          <div class="team-grid" id="teamGrid"></div>
-        </div>
-      </article>
-
-      <section class="panel portal-tile tile-events calendar-wrap" id="events">
-        <div class="panel-content tile-content">
-          <div class="calendar-head">
-            <h2 class="panel-title" id="eventsTitle" style="margin:0;">Мероприятия</h2>
-            <div class="calendar-tools">
-              <button class="calendar-nav-btn" id="prevMonthBtn" type="button">←</button>
-              <div class="calendar-month" id="calendarMonthTitle"></div>
-              <button class="calendar-nav-btn" id="nextMonthBtn" type="button">→</button>
-              <div class="calendar-mark">Календарь</div>
+  <main class="container">
+    <div class="home-layout">
+      <aside class="home-sidebar">
+        <section class="panel news-panel news-sidebar-panel" id="newsPreview">
+          <div class="panel-content">
+            <div class="section-head news-sidebar-head">
+              <h2 class="panel-title" id="newsTitle" style="margin:0;">Последние новости</h2>
+              <a class="section-link-btn" href="news.html">Все новости</a>
             </div>
+            <div class="news-grid news-grid-vertical" id="newsGrid"></div>
           </div>
+        </section>
+      </aside>
 
-          <div class="calendar-weekdays">
-            <div class="weekday">Пн</div>
-            <div class="weekday">Вт</div>
-            <div class="weekday">Ср</div>
-            <div class="weekday">Чт</div>
-            <div class="weekday">Пт</div>
-            <div class="weekday">Сб</div>
-            <div class="weekday">Вс</div>
+      <div class="home-main">
+        <section class="row-2">
+          <article class="panel" id="info">
+            <div class="panel-content">
+              <h2 class="panel-title" id="infoTitle">Информация</h2>
+              <p class="panel-text" id="infoText">
+                Центр карьеры помогает студентам с поиском практики, подготовкой резюме и карьерными консультациями.
+                На сайте можно записаться на нужный формат помощи, посмотреть мероприятия и открыть страницы с материалами по направлениям.
+              </p>
+              <div class="info-mark" id="infoMark">Запись и полезные ссылки доступны онлайн</div><div class="hub-actions"><a class="section-link-btn hub-hero-btn" href="services.html">Открыть запись</a><a class="section-link-btn hub-ghost-btn" href="news.html">Открыть новости</a></div>
+            </div>
+          </article>
+
+          <article class="panel" id="team">
+            <div class="panel-content">
+              <div class="section-head"><h2 class="panel-title" id="teamTitle" style="margin:0;">Команда центра</h2><a class="section-link-btn" href="team.html">Открыть страницу</a></div>
+              <div class="team-grid" id="teamGrid"></div>
+            </div>
+          </article>
+        </section>
+
+        <section class="panel calendar-wrap" id="events">
+          <div class="panel-content">
+            <div class="calendar-head">
+              <h2 class="panel-title" id="eventsTitle" style="margin:0;">Мероприятия</h2>
+              <div class="calendar-tools">
+                <button class="calendar-nav-btn" id="prevMonthBtn" type="button">← Назад</button>
+                <div class="calendar-month" id="calendarMonthTitle"></div>
+                <button class="calendar-nav-btn" id="nextMonthBtn" type="button">Вперёд →</button>
+                <a class="section-link-btn" href="events.html">Открыть страницу</a>
+              </div>
+            </div>
+
+            <div class="calendar-weekdays">
+              <div class="weekday">Пн</div>
+              <div class="weekday">Вт</div>
+              <div class="weekday">Ср</div>
+              <div class="weekday">Чт</div>
+              <div class="weekday">Пт</div>
+              <div class="weekday">Сб</div>
+              <div class="weekday">Вс</div>
+            </div>
+
+            <div class="calendar-grid" id="calendarGrid"></div>
           </div>
+        </section>
 
-          <div class="calendar-grid" id="calendarGrid"></div>
-        </div>
-      </section>
-
-      <section class="panel portal-tile tile-jobs jobs-panel" id="jobs">
-        <div class="panel-content tile-content">
-          <div class="section-head tile-head-compact">
-            <h2 class="panel-title" id="jobsTitle" style="margin:0;">Запись в центр карьеры</h2>
-            <div class="head-badge">Форматы помощи</div>
+        <section class="panel jobs-panel" id="jobs">
+          <div class="panel-content">
+            <div class="section-head">
+              <h2 class="panel-title" id="jobsTitle" style="margin:0;">Запись в центр карьеры</h2>
+              <a class="section-link-btn" href="services.html">Открыть страницу</a>
+            </div>
+            <div class="jobs-grid" id="jobsGrid"></div>
           </div>
-          <div class="jobs-grid" id="jobsGrid"></div>
-        </div>
-      </section>
+        </section>
 
-      <section class="panel portal-tile tile-internships internships-panel" id="internships">
-        <div class="panel-content tile-content">
-          <div class="section-head tile-head-compact">
-            <h2 class="panel-title" id="internshipsTitle" style="margin:0;">Стажировки</h2>
-            <div class="head-badge">Актуальные предложения</div>
+        <section class="panel internships-panel" id="internships">
+          <div class="panel-content">
+            <div class="section-head">
+              <h2 class="panel-title" id="internshipsTitle" style="margin:0;">Стажировки</h2>
+              <a class="section-link-btn" href="internships.html">Открыть страницу</a>
+            </div>
+            <div class="jobs-grid" id="internshipsGrid"></div>
           </div>
-          <div class="jobs-grid internships-grid" id="internshipsGrid"></div>
-        </div>
-      </section>
+        </section>
 
-      <section class="panel portal-tile tile-directions" id="directions">
-        <div class="panel-content tile-content">
-          <div class="section-head tile-head-compact">
-            <h2 class="panel-title" id="directionsTitle" style="margin:0;">Направления и таблицы</h2>
-            <a class="section-link-btn tile-link-btn" href="directions.html">Открыть все</a>
+        <section class="panel" id="directions">
+          <div class="panel-content">
+            <div class="section-head">
+              <h2 class="panel-title" id="directionsTitle" style="margin:0;">Направления и таблицы</h2>
+              <a class="section-link-btn" href="directions.html">Открыть страницу</a>
+            </div>
+            <div class="directions-grid" id="directionsGrid"></div>
           </div>
-          <div class="directions-grid" id="directionsGrid"></div>
-        </div>
-      </section>
-    </section>
+        </section>
+      </div>
+    </div>
   </main>
 
   <div class="modal" id="accountModal">
