@@ -9,7 +9,17 @@
 
   function normalizeStr(v) { return String(v || '').trim(); }
   function escapeHtml(text) { return String(text || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
-  function safeLink(value) { const v = normalizeStr(value); return v || '#'; }
+  function safeLink(value) {
+    const v = normalizeStr(value);
+    if (!v) return '#';
+    try {
+      const parsed = new URL(v, window.location.origin);
+      if (parsed.protocol === 'http:' || parsed.protocol === 'https:') return parsed.href;
+      return '#';
+    } catch {
+      return '#';
+    }
+  }
   function makeKey(prefix, value) {
     return (prefix + '-' + normalizeStr(value).toLowerCase().replace(/[^a-zа-яё0-9]+/gi, '-').replace(/^-+|-+$/g, '')).replace(/-+/g, '-') || prefix + '-item';
   }
