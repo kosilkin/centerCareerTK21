@@ -276,6 +276,10 @@
       return String(value || "").trim();
     }
 
+    function hasAdminRole(profile) {
+      return normalizeStr(profile && profile.role).toLowerCase() === "admin";
+    }
+
     function safeLink(url) {
       const x = normalizeStr(url);
       if (!x) return "#";
@@ -1114,7 +1118,7 @@
       const { data: { session } } = await sb.auth.getSession();
       const profile = await fetchProfile(session);
 
-      if (!session || !profile || profile.role !== "admin") {
+      if (!session || !profile || !hasAdminRole(profile)) {
         if (!silent) adminError.textContent = "Нет доступа к админке. Войдите под аккаунтом с ролью admin.";
         return false;
       }
@@ -1138,7 +1142,7 @@
     }
 
     async function persistAfterAdminEdit(button) {
-      if (!currentProfile || currentProfile.role !== "admin") return;
+      if (!currentProfile || !hasAdminRole(currentProfile)) return;
       setButtonLoading(button, true);
       try {
         const ok = await saveStateToDatabase({ silent: false });
@@ -1669,14 +1673,39 @@
 
     async function fetchProfile(session) {
       if (!session) return null;
-      const { data, error } = await sb
-        .from("profiles")
-        .select("id,email,role,full_name")
-        .eq("id", session.user.id)
-        .single();
+      const baseFallback = {
+        id: session.user.id,
+        email: session.user.email || "",
+        role: "",
+        full_name: normalizeStr(session.user.user_metadata?.full_name || session.user.user_metadata?.name)
+      };
 
-      if (error) return null;
-      return data;
+      const primary = await sb
+        .from("profiles")
+        .select("id,role,email,full_name")
+        .eq("id", session.user.id)
+        .maybeSingle();
+
+      if (!primary.error && primary.data) {
+        return {
+          ...baseFallback,
+          ...primary.data,
+          role: normalizeStr(primary.data.role).toLowerCase()
+        };
+      }
+
+      const fallback = await sb
+        .from("profiles")
+        .select("id,role")
+        .eq("id", session.user.id)
+        .maybeSingle();
+
+      if (fallback.error || !fallback.data) return baseFallback;
+      return {
+        ...baseFallback,
+        ...fallback.data,
+        role: normalizeStr(fallback.data.role).toLowerCase()
+      };
     }
 
     async function updateAuthUI() {
@@ -1700,8 +1729,8 @@
       accountInfoText.textContent = `Вы вошли как ${currentProfile?.email || session.user.email}. Роль: ${currentProfile?.role || "не определена"}`;
       loginView.classList.add("hidden");
       accountView.classList.remove("hidden");
-      openAdminBtn.classList.toggle("hidden", currentProfile?.role !== "admin");
-      openRegistrationsTopBtn.classList.toggle("hidden", currentProfile?.role !== "admin");
+      openAdminBtn.classList.toggle("hidden", !hasAdminRole(currentProfile));
+      openRegistrationsTopBtn.classList.toggle("hidden", !hasAdminRole(currentProfile));
       openMyRegistrationsBtn.classList.remove("hidden");
 
       if (bookingFullName && !normalizeStr(bookingFullName.value)) {
@@ -2135,7 +2164,7 @@
 
       const { data: { session } } = await sb.auth.getSession();
       const profile = await fetchProfile(session);
-      if (!session || !profile || profile.role !== "admin") {
+      if (!session || !profile || !hasAdminRole(profile)) {
         registrationsError.textContent = "Нет доступа к заявкам.";
         registrationsTableWrap.innerHTML = '<div class="registrations-empty">Доступ запрещён.</div>';
         return;
@@ -2171,7 +2200,7 @@
     }
 
     function openAdminModal() {
-      if (!currentProfile || currentProfile.role !== "admin") {
+      if (!currentProfile || !hasAdminRole(currentProfile)) {
         adminError.textContent = "Нет доступа к админке. Войдите под аккаунтом с ролью admin.";
         accountModal.classList.add("show");
         return;
@@ -2184,7 +2213,7 @@
     }
 
     async function openRegistrationsModal() {
-      if (!currentProfile || currentProfile.role !== "admin") {
+      if (!currentProfile || !hasAdminRole(currentProfile)) {
         registrationsError.textContent = "Нет доступа к заявкам.";
         return;
       }
