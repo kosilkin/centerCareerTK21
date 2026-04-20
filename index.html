@@ -50,9 +50,23 @@
   </header>
 
   <main class="container">
-    <div class="home-layout">
-      <aside class="home-sidebar">
-        <section class="panel news-panel news-sidebar-panel" id="newsPreview">
+    <div class="home-layout portal-home-layout">
+      <div class="home-main portal-home-grid">
+        <article class="panel portal-tile portal-tile-hero" id="info">
+          <div class="panel-content">
+            <h2 class="panel-title" id="infoTitle">Информация</h2>
+            <p class="panel-text" id="infoText">
+              Центр карьеры помогает студентам с поиском практики, подготовкой резюме и карьерными консультациями.
+              На сайте можно записаться на нужный формат помощи, посмотреть мероприятия и открыть страницы с материалами по направлениям.
+            </p>
+            <div class="info-mark" id="infoMark">Запись и полезные ссылки доступны онлайн</div>
+            <div class="hub-actions">
+              <a class="section-link-btn hub-hero-btn" href="services.html">Открыть запись</a>
+            </div>
+          </div>
+        </article>
+
+        <section class="panel news-panel portal-tile" id="newsPreview">
           <div class="panel-content">
             <div class="section-head news-sidebar-head">
               <h2 class="panel-title" id="newsTitle" style="margin:0;">Последние новости</h2>
@@ -61,30 +75,15 @@
             <div class="news-grid news-grid-vertical" id="newsGrid"></div>
           </div>
         </section>
-      </aside>
 
-      <div class="home-main">
-        <section class="row-2">
-          <article class="panel" id="info">
-            <div class="panel-content">
-              <h2 class="panel-title" id="infoTitle">Информация</h2>
-              <p class="panel-text" id="infoText">
-                Центр карьеры помогает студентам с поиском практики, подготовкой резюме и карьерными консультациями.
-                На сайте можно записаться на нужный формат помощи, посмотреть мероприятия и открыть страницы с материалами по направлениям.
-              </p>
-              <div class="info-mark" id="infoMark">Запись и полезные ссылки доступны онлайн</div><div class="hub-actions"><a class="section-link-btn hub-hero-btn" href="services.html">Открыть запись</a><a class="section-link-btn hub-ghost-btn" href="news.html">Открыть новости</a></div>
-            </div>
-          </article>
+        <article class="panel portal-tile" id="team">
+          <div class="panel-content">
+            <div class="section-head"><h2 class="panel-title" id="teamTitle" style="margin:0;">Команда центра</h2><a class="section-link-btn" href="team.html">Открыть страницу</a></div>
+            <div class="team-grid" id="teamGrid"></div>
+          </div>
+        </article>
 
-          <article class="panel" id="team">
-            <div class="panel-content">
-              <div class="section-head"><h2 class="panel-title" id="teamTitle" style="margin:0;">Команда центра</h2><a class="section-link-btn" href="team.html">Открыть страницу</a></div>
-              <div class="team-grid" id="teamGrid"></div>
-            </div>
-          </article>
-        </section>
-
-        <section class="panel calendar-wrap" id="events">
+        <section class="panel calendar-wrap portal-tile" id="events">
           <div class="panel-content">
             <div class="calendar-head">
               <h2 class="panel-title" id="eventsTitle" style="margin:0;">Мероприятия</h2>
@@ -110,7 +109,7 @@
           </div>
         </section>
 
-        <section class="panel jobs-panel" id="jobs">
+        <section class="panel jobs-panel portal-tile" id="jobs">
           <div class="panel-content">
             <div class="section-head">
               <h2 class="panel-title" id="jobsTitle" style="margin:0;">Запись в центр карьеры</h2>
@@ -120,7 +119,7 @@
           </div>
         </section>
 
-        <section class="panel internships-panel" id="internships">
+        <section class="panel internships-panel portal-tile" id="internships">
           <div class="panel-content">
             <div class="section-head">
               <h2 class="panel-title" id="internshipsTitle" style="margin:0;">Стажировки</h2>
@@ -130,7 +129,7 @@
           </div>
         </section>
 
-        <section class="panel" id="directions">
+        <section class="panel portal-tile" id="directions">
           <div class="panel-content">
             <div class="section-head">
               <h2 class="panel-title" id="directionsTitle" style="margin:0;">Направления и таблицы</h2>
