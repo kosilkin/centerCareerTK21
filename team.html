@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Команда центра карьеры</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/config.js" defer></script>
+  <script src="assets/js/index.js" defer></script>
+</head>
+<body data-page="team">
+  <div class="bg-pattern"></div>
+
+  <div class="runtime-error-box" id="runtimeErrorBox">
+    <b>Ошибка на странице</b>
+    <div id="runtimeErrorText" style="margin-top:6px;white-space:pre-wrap"></div>
+  </div>
+
+  <header>
+    <div class="header-inner">
+      <div class="header-topline">
+        <div>
+          <div class="header-label" id="headerLabel">Центр карьеры колледжа</div>
+          <h1 class="header-title" id="headerTitle">Запись, мероприятия и команда центра карьеры</h1>
+          <p class="header-text" id="headerText">
+            Площадка для студентов и выпускников: запись на консультации, карьерные события и страницы с материалами по направлениям обучения.
+          </p>
+        </div>
+
+        <div class="header-actions">
+          <button class="header-btn" id="accountOpenBtn" type="button">Войти</button>
+          <button class="header-btn hidden" id="logoutTopBtn" type="button">Выйти</button>
+          <button class="header-btn hidden" id="openAdminBtn" type="button">Админка</button>
+          <button class="header-btn hidden" id="openRegistrationsTopBtn" type="button">Заявки</button>
+          <button class="header-btn hidden" id="openMyRegistrationsBtn" type="button">Мои заявки</button>
+        </div>
+      </div>
+
+            <div class="top-links portal-nav">
+        <a href="index.html">Главная</a>
+        <a href="events.html">Мероприятия</a>
+        <a href="services.html">Запись</a>
+        <a href="internships.html">Стажировки</a>
+        <a href="team.html">Команда</a>
+        <a href="news.html">Новости</a>
+        <a href="directions.html">Направления</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="home-layout">
+      <aside class="home-sidebar">
+        <section class="panel news-panel news-sidebar-panel" id="newsPreview">
+          <div class="panel-content">
+            <div class="section-head news-sidebar-head">
+              <h2 class="panel-title" id="newsTitle" style="margin:0;">Последние новости</h2>
+              <a class="section-link-btn" href="news.html">Все новости</a>
+            </div>
+            <div class="news-grid news-grid-vertical" id="newsGrid"></div>
+          </div>
+        </section>
+      </aside>
+
+      <div class="home-main">
+        <section class="row-2">
+          <article class="panel" id="info">
+            <div class="panel-content">
+              <h2 class="panel-title" id="infoTitle">Информация</h2>
+              <p class="panel-text" id="infoText">
+                Центр карьеры помогает студентам с поиском практики, подготовкой резюме и карьерными консультациями.
+                На сайте можно записаться на нужный формат помощи, посмотреть мероприятия и открыть страницы с материалами по направлениям.
+              </p>
+              <div class="info-mark" id="infoMark">Запись и полезные ссылки доступны онлайн</div><div class="hub-actions"><a class="section-link-btn hub-hero-btn" href="services.html">Открыть запись</a><a class="section-link-btn hub-ghost-btn" href="news.html">Открыть новости</a></div>
+            </div>
+          </article>
+
+          <article class="panel" id="team">
+            <div class="panel-content">
+              <div class="section-head"><h2 class="panel-title" id="teamTitle" style="margin:0;">Команда центра</h2><a class="section-link-btn" href="team.html">Открыть страницу</a></div>
+              <div class="team-grid" id="teamGrid"></div>
+            </div>
+          </article>
+        </section>
+
+        <section class="panel calendar-wrap" id="events">
+          <div class="panel-content">
+            <div class="calendar-head">
+              <h2 class="panel-title" id="eventsTitle" style="margin:0;">Мероприятия</h2>
+              <div class="calendar-tools">
+                <button class="calendar-nav-btn" id="prevMonthBtn" type="button">← Назад</button>
+                <div class="calendar-month" id="calendarMonthTitle"></div>
+                <button class="calendar-nav-btn" id="nextMonthBtn" type="button">Вперёд →</button>
+                <a class="section-link-btn" href="events.html">Открыть страницу</a>
+              </div>
+            </div>
+
+            <div class="calendar-weekdays">
+              <div class="weekday">Пн</div>
+              <div class="weekday">Вт</div>
+              <div class="weekday">Ср</div>
+              <div class="weekday">Чт</div>
+              <div class="weekday">Пт</div>
+              <div class="weekday">Сб</div>
+              <div class="weekday">Вс</div>
+            </div>
+
+            <div class="calendar-grid" id="calendarGrid"></div>
+          </div>
+        </section>
+
+        <section class="panel jobs-panel" id="jobs">
+          <div class="panel-content">
+            <div class="section-head">
+              <h2 class="panel-title" id="jobsTitle" style="margin:0;">Запись в центр карьеры</h2>
+              <a class="section-link-btn" href="services.html">Открыть страницу</a>
+            </div>
+            <div class="jobs-grid" id="jobsGrid"></div>
+          </div>
+        </section>
+
+        <section class="panel internships-panel" id="internships">
+          <div class="panel-content">
+            <div class="section-head">
+              <h2 class="panel-title" id="internshipsTitle" style="margin:0;">Стажировки</h2>
+              <a class="section-link-btn" href="internships.html">Открыть страницу</a>
+            </div>
+            <div class="jobs-grid" id="internshipsGrid"></div>
+          </div>
+        </section>
+
+        <section class="panel" id="directions">
+          <div class="panel-content">
+            <div class="section-head">
+              <h2 class="panel-title" id="directionsTitle" style="margin:0;">Направления и таблицы</h2>
+              <a class="section-link-btn" href="directions.html">Открыть страницу</a>
+            </div>
+            <div class="directions-grid" id="directionsGrid"></div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <div class="modal" id="accountModal">
+    <div class="modal-box narrow">
+      <div class="modal-head">
+        <h2 class="modal-title" id="accountModalTitle">Вход</h2>
+        <button class="close-btn" id="closeAccountBtn" type="button">Закрыть</button>
+      </div>
+
+      <div id="loginView">
+        <div class="field">
+          <label for="emailInput">Email</label>
+          <input type="email" id="emailInput" placeholder="Введите email">
+        </div>
+        <div class="field">
+          <label for="passwordInput">Пароль</label>
+          <input type="password" id="passwordInput" placeholder="Введите пароль">
+        </div>
+        <button class="btn" id="loginBtn" type="button">Войти</button>
+        <div class="error" id="loginError"></div>
+      </div>
+
+      <div id="accountView" class="hidden">
+        <p class="muted-text" id="accountInfoText"></p>
+        <button class="btn gray" id="logoutBtn" type="button">Выйти</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="adminModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h2 class="modal-title">Панель управления сайтом</h2>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button class="btn secondary" id="saveAllBtn" type="button">Сохранить все изменения</button>
+          <button class="close-btn" id="closeAdminBtn" type="button">Закрыть</button>
+        </div>
+      </div>
+
+      <div class="admin-toolbar">
+        <div class="admin-toolbar-text">
+          Изменения доступны только пользователю с ролью <b>admin</b> и сохраняются в таблицу <b>site_content</b>, строка <b>id = 1</b>.
+          Слева выберите раздел, справа измените данные и сохраните результат.
+        </div>
+        <button class="btn gray" id="applySettingsBtn" type="button">Применить тексты на странице</button>
+      </div>
+      <div class="success" id="adminSuccess"></div>
+      <div class="error" id="adminError"></div>
+
+      <div class="admin-shell">
+        <aside class="admin-sidebar">
+          <h3 class="admin-sidebar-title">Разделы редактирования</h3>
+          <p class="admin-sidebar-text">Интерфейс разделён на отдельные области, чтобы не держать всё в одном длинном окне.</p>
+          <div class="admin-tab-list">
+            <button class="admin-tab-btn active" type="button" data-admin-tab="settings">Тексты сайта</button>
+            <button class="admin-tab-btn" type="button" data-admin-tab="jobs">Запись в центр</button>
+            <button class="admin-tab-btn" type="button" data-admin-tab="events">Мероприятия</button>
+            <button class="admin-tab-btn" type="button" data-admin-tab="news">Новости</button>
+            <button class="admin-tab-btn" type="button" data-admin-tab="members">Сотрудники</button>
+            <button class="admin-tab-btn" type="button" data-admin-tab="internships">Стажировки</button>
+            <button class="admin-tab-btn" type="button" data-admin-tab="directions">Направления</button>
+          </div>
+        </aside>
+
+        <div class="admin-main">
+          <section class="admin-section active" data-admin-panel="settings">
+            <div class="admin-section-head">
+              <div>
+                <h3 class="admin-section-title">Тексты сайта</h3>
+                <p class="admin-section-text">Здесь изменяются заголовки и текстовые блоки на главной странице. Сначала можно применить тексты на странице, затем сохранить их в базу.</p>
+              </div>
+            </div>
+            <div class="admin-section-layout">
+              <div class="admin-form-card">
+                <h4 class="admin-card-title">Основные тексты</h4>
+                <div class="field">
+                  <label for="sHeaderTitle">Заголовок в шапке</label>
+                  <input id="sHeaderTitle">
+                </div>
+                <div class="field">
+                  <label for="sHeaderText">Текст в шапке</label>
+                  <textarea id="sHeaderText"></textarea>
+                </div>
+                <div class="field">
+                  <label for="sInfoTitle">Заголовок блока «Информация»</label>
+                  <input id="sInfoTitle">
+                </div>
+                <div class="field">
+                  <label for="sInfoText">Текст блока «Информация»</label>
+                  <textarea id="sInfoText"></textarea>
+                </div>
+                <div class="field">
+                  <label for="sInfoMark">Короткая подпись блока «Информация»</label>
+                  <input id="sInfoMark">
+                </div>
+                <div class="field">
+                  <label for="sJobsTitle">Заголовок блока записи</label>
+                  <input id="sJobsTitle">
+                </div>
+                <div class="field">
+                  <label for="sEventsTitle">Заголовок блока мероприятий</label>
+                  <input id="sEventsTitle">
+                </div>
+                <div class="field">
+                  <label for="sTeamTitle">Заголовок блока команды</label>
+                  <input id="sTeamTitle">
+                </div>
+                <div class="field">
+                  <label for="sDirectionsTitle">Заголовок блока направлений</label>
+                  <input id="sDirectionsTitle">
+                </div>
+                <div class="field">
+                  <label for="sNewsTitle">Заголовок блока новостей</label>
+                  <input id="sNewsTitle">
+                </div>
+                <div class="field">
+                  <label for="sInternshipsTitle">Заголовок блока стажировок</label>
+                  <input id="sInternshipsTitle">
+                </div>
+              </div>
+              <div class="admin-list-card">
+                <h4 class="admin-card-title">Подсказка</h4>
+                <div class="admin-card-note">Используйте этот раздел для редактирования структуры текстов без изменения остальных данных сайта. После изменения нажмите «Применить тексты на странице», чтобы сразу увидеть результат, и затем сохраните всё в базу.</div>
+              </div>
+            </div>
+          </section>
+
+          <section class="admin-section" data-admin-panel="jobs">
+            <div class="admin-section-head">
+              <div>
+                <h3 class="admin-section-title">Запись в центр</h3>
+                <p class="admin-section-text">Здесь создаются и редактируются карточки записи. Для каждой записи можно указать описание, лимит мест, даты и времени, а также пояснение для студентов.</p>
+              </div>
+            </div>
+            <div class="admin-section-layout">
+              <div class="admin-form-card">
+                <h4 class="admin-card-title">Форма редактирования</h4>
+                <div class="edit-note" id="jobEditNote"></div>
+                <div class="field">
+                  <label for="jobTitle">Название</label>
+                  <input type="text" id="jobTitle">
+                </div>
+                <div class="field">
+                  <label for="jobDirection">Категория</label>
+                  <input type="text" id="jobDirection" placeholder="Например: Карьера">
+                </div>
+                <div class="field">
+                  <label for="jobDesc">Описание</label>
+                  <textarea id="jobDesc"></textarea>
+                </div>
+                <div class="field">
+                  <label for="jobCapacity">Максимальное количество человек на один слот</label>
+                  <input type="number" id="jobCapacity" min="1" placeholder="Например: 10">
+                </div>
+                <div class="field">
+                  <label for="jobSlots">Даты и время для записи</label>
+                  <textarea id="jobSlots" placeholder="Одна дата и время на строку&#10;Рекомендуемый формат:&#10;15.04.2026 12:00&#10;17.04.2026 15:30"></textarea>
+                </div>
+                <div class="field">
+                  <label for="jobNote">Подсказка под формой записи</label>
+                  <input type="text" id="jobNote" placeholder="Например: Возьмите студенческий билет">
+                </div>
+                <div class="form-toolbar">
+                  <button class="btn" id="saveJobBtn" type="button">Сохранить запись</button>
+                  <button class="btn gray" id="cancelJobEditBtn" type="button">Очистить форму</button>
+                </div>
+              </div>
+              <div class="admin-list-card">
+                <h4 class="admin-card-title">Список существующих записей</h4>
+                <div class="admin-card-note">Справа отображаются уже созданные карточки. Выберите нужную запись для редактирования или удаления.</div>
+                <div class="list" id="jobsAdminList"></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="admin-section" data-admin-panel="events">
+            <div class="admin-section-head">
+              <div>
+                <h3 class="admin-section-title">Мероприятия</h3>
+                <p class="admin-section-text">Здесь редактируются события календаря. Можно задать дату, время, место, цвет отображения, лимит мест и отдельные слоты записи.</p>
+              </div>
+            </div>
+            <div class="admin-section-layout">
+              <div class="admin-form-card">
+                <h4 class="admin-card-title">Форма редактирования</h4>
+                <div class="edit-note" id="eventEditNote"></div>
+                <div class="field">
+                  <label for="eventTitle">Название события</label>
+                  <input type="text" id="eventTitle">
+                </div>
+                <div class="field">
+                  <label for="eventYear">Год</label>
+                  <input type="text" id="eventYear" inputmode="numeric" maxlength="4" placeholder="2026">
+                </div>
+                <div class="field">
+                  <label for="eventMonth">Месяц</label>
+                  <select id="eventMonth"></select>
+                </div>
+                <div class="field">
+                  <label for="eventDate">День месяца</label>
+                  <input type="text" id="eventDate" inputmode="numeric" maxlength="2" placeholder="Например: 05">
+                </div>
+                <div class="field">
+                  <label for="eventTime">Время</label>
+                  <input type="text" id="eventTime" inputmode="numeric" maxlength="5" placeholder="Например: 16:00">
+                </div>
+                <div class="field">
+                  <label for="eventPlace">Описание или место проведения</label>
+                  <textarea id="eventPlace"></textarea>
+                </div>
+                <div class="field">
+                  <label for="eventCapacity">Максимальное количество человек на один слот</label>
+                  <input type="number" id="eventCapacity" min="1" placeholder="Например: 50">
+                </div>
+                <div class="field">
+                  <label for="eventSlots">Даты и время для записи</label>
+                  <textarea id="eventSlots" placeholder="Одна дата и время на строку&#10;Рекомендуемый формат:&#10;18.04.2026 14:00&#10;18.04.2026 16:00"></textarea>
+                </div>
+                <div class="field">
+                  <label for="eventNote">Подсказка по записи</label>
+                  <input type="text" id="eventNote" placeholder="Например: Регистрация обязательна для входа">
+                </div>
+                <div class="field">
+                  <label for="eventColor">Цвет события</label>
+                  <select id="eventColor">
+                    <option value="blue">Синий</option>
+                    <option value="orange">Оранжевый</option>
+                    <option value="green">Зелёный</option>
+                  </select>
+                </div>
+                <div class="form-toolbar">
+                  <button class="btn" id="saveEventBtn" type="button">Сохранить событие</button>
+                  <button class="btn gray" id="cancelEventEditBtn" type="button">Очистить форму</button>
+                </div>
+              </div>
+              <div class="admin-list-card">
+                <h4 class="admin-card-title">Список событий</h4>
+                <div class="admin-card-note">Выберите событие из списка, чтобы исправить дату, время, описание или параметры записи.</div>
+                <div class="list" id="eventsAdminList"></div>
+              </div>
+            </div>
+          </section>
+
+
+
+          <section class="admin-section" data-admin-panel="news">
+            <div class="admin-section-head">
+              <div>
+                <h3 class="admin-section-title">Новости</h3>
+                <p class="admin-section-text">Здесь можно публиковать новости центра карьеры. Для новости доступны дата, краткое описание, полный текст, обложка и ссылка на видеоролик.</p>
+              </div>
+            </div>
+            <div class="admin-section-layout">
+              <div class="admin-form-card">
+                <h4 class="admin-card-title">Форма редактирования</h4>
+                <div class="edit-note" id="newsEditNote"></div>
+                <div class="field">
+                  <label for="newsTitleInput">Заголовок новости</label>
+                  <input type="text" id="newsTitleInput">
+                </div>
+                <div class="field">
+                  <label for="newsDateInput">Дата публикации</label>
+                  <input type="text" id="newsDateInput" inputmode="numeric" maxlength="10" placeholder="Например: 15.04.2026">
+                </div>
+                <div class="field">
+                  <label for="newsSummaryInput">Краткое описание</label>
+                  <textarea id="newsSummaryInput" placeholder="Короткий текст для карточки на главной странице"></textarea>
+                </div>
+                <div class="field">
+                  <label for="newsContentInput">Полный текст новости</label>
+                  <textarea id="newsContentInput" placeholder="Полный текст новости для отдельной страницы"></textarea>
+                </div>
+                <div class="field">
+                  <label for="newsCoverInput">Ссылка на обложку</label>
+                  <input type="text" id="newsCoverInput" placeholder="https://...">
+                </div>
+                <div class="field">
+                  <label for="newsVideoInput">Ссылка на видеоролик</label>
+                  <input type="text" id="newsVideoInput" placeholder="YouTube, RuTube, VK Video или прямая ссылка на mp4">
+                </div>
+                <div class="field">
+                  <label for="newsPublishedInput">Показывать на сайте</label>
+                  <select id="newsPublishedInput">
+                    <option value="true">Да</option>
+                    <option value="false">Нет</option>
+                  </select>
+                </div>
+                <div class="form-toolbar">
+                  <button class="btn" id="saveNewsBtn" type="button">Сохранить новость</button>
+                  <button class="btn gray" id="cancelNewsEditBtn" type="button">Очистить форму</button>
+                </div>
+              </div>
+              <div class="admin-list-card">
+                <h4 class="admin-card-title">Список новостей</h4>
+                <div class="admin-card-note">На главной странице показываются только три последние опубликованные новости. На странице новостей выводится весь опубликованный архив.</div>
+                <div class="list" id="newsAdminList"></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="admin-section" data-admin-panel="members">
+            <div class="admin-section-head">
+              <div>
+                <h3 class="admin-section-title">Сотрудники</h3>
+                <p class="admin-section-text">Здесь редактируется блок команды. Можно добавить должность, описание и фотографию по ссылке или загрузкой файла.</p>
+              </div>
+            </div>
+            <div class="admin-section-layout">
+              <div class="admin-form-card">
+                <h4 class="admin-card-title">Форма редактирования</h4>
+                <div class="edit-note" id="memberEditNote"></div>
+                <div class="field">
+                  <label for="memberName">Фамилия, имя и отчество</label>
+                  <input type="text" id="memberName">
+                </div>
+                <div class="field">
+                  <label for="memberRole">Должность</label>
+                  <input type="text" id="memberRole">
+                </div>
+                <div class="field">
+                  <label for="memberDesc">Описание</label>
+                  <textarea id="memberDesc"></textarea>
+                </div>
+                <div class="field">
+                  <label for="memberPhoto">Ссылка на фотографию</label>
+                  <input type="text" id="memberPhoto" placeholder="https://...">
+                </div>
+                <div class="field">
+                  <label for="memberPhotoFile">Или загрузить фотографию</label>
+                  <input type="file" id="memberPhotoFile" accept="image/*">
+                </div>
+                <div class="muted-text" id="memberPhotoStatus">Можно вставить ссылку или выбрать файл. Загруженный файл сохраняется прямо в содержимом сайта.</div>
+                <div id="memberPhotoPreviewWrap" class="hidden" style="margin-top:10px;">
+                  <div class="team-photo" id="memberPhotoPreview" style="margin:0 auto;"></div>
+                </div>
+                <div class="form-toolbar">
+                  <button class="btn" id="saveMemberBtn" type="button">Сохранить сотрудника</button>
+                  <button class="btn gray" id="cancelMemberEditBtn" type="button">Очистить форму</button>
+                </div>
+              </div>
+              <div class="admin-list-card">
+                <h4 class="admin-card-title">Список сотрудников</h4>
+                <div class="admin-card-note">В списке справа можно открыть сотрудника на редактирование и быстро проверить, как он будет выглядеть в блоке команды.</div>
+                <div class="list" id="membersAdminList"></div>
+              </div>
+            </div>
+          </section>
+
+
+
+          <section class="admin-section" data-admin-panel="internships">
+            <div class="admin-section-head">
+              <div>
+                <h3 class="admin-section-title">Стажировки</h3>
+                <p class="admin-section-text">Здесь редактируются карточки стажировок. Блок размещается на главной странице над направлениями.</p>
+              </div>
+            </div>
+            <div class="admin-section-layout">
+              <div class="admin-form-card">
+                <h4 class="admin-card-title">Форма редактирования</h4>
+                <div class="edit-note" id="internshipEditNote"></div>
+                <div class="field">
+                  <label for="internshipTitleInput">Название стажировки</label>
+                  <input type="text" id="internshipTitleInput">
+                </div>
+                <div class="field">
+                  <label for="internshipCompanyInput">Организация или категория</label>
+                  <input type="text" id="internshipCompanyInput" placeholder="Например: IT-компания или Дизайн">
+                </div>
+                <div class="field">
+                  <label for="internshipDescInput">Описание</label>
+                  <textarea id="internshipDescInput"></textarea>
+                </div>
+                <div class="field">
+                  <label for="internshipLinkInput">Ссылка</label>
+                  <input type="text" id="internshipLinkInput" placeholder="https://...">
+                </div>
+                <div class="field">
+                  <label for="internshipFormatInput">Короткая подпись</label>
+                  <input type="text" id="internshipFormatInput" placeholder="Например: Оплачиваемая стажировка">
+                </div>
+                <div class="form-toolbar">
+                  <button class="btn" id="saveInternshipBtn" type="button">Сохранить стажировку</button>
+                  <button class="btn gray" id="cancelInternshipEditBtn" type="button">Очистить форму</button>
+                </div>
+              </div>
+              <div class="admin-list-card">
+                <h4 class="admin-card-title">Список стажировок</h4>
+                <div class="admin-card-note">Используйте этот раздел для публикации практик и стажировок отдельно от консультаций и мероприятий.</div>
+                <div class="list" id="internshipsAdminList"></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="admin-section" data-admin-panel="directions">
+            <div class="admin-section-head">
+              <div>
+                <h3 class="admin-section-title">Направления</h3>
+                <p class="admin-section-text">Здесь редактируются карточки направлений и отдельные страницы по каждому направлению с описанием, материалами и кнопками перехода.</p>
+              </div>
+            </div>
+            <div class="admin-section-layout">
+              <div class="admin-form-card">
+                <h4 class="admin-card-title">Форма редактирования</h4>
+                <div class="edit-note" id="directionEditNote"></div>
+                <div class="field">
+                  <label for="directionName">Название направления</label>
+                  <input type="text" id="directionName">
+                </div>
+                <div class="field">
+                  <label for="directionSub">Короткое описание</label>
+                  <input type="text" id="directionSub">
+                </div>
+                <div class="field">
+                  <label for="directionDesc">Текст карточки</label>
+                  <textarea id="directionDesc"></textarea>
+                </div>
+                <div class="field">
+                  <label for="directionContent">Полный текст страницы направления</label>
+                  <textarea id="directionContent"></textarea>
+                </div>
+                <div class="field">
+                  <label for="directionImage">Ссылка на изображение</label>
+                  <input type="text" id="directionImage" placeholder="https://...">
+                </div>
+                <div class="field">
+                  <label for="directionLink">Ссылка на полезные материалы</label>
+                  <input type="text" id="directionLink" placeholder="https://...">
+                </div>
+                <div class="field">
+                  <label for="directionLinkLabel">Подпись кнопки материалов</label>
+                  <input type="text" id="directionLinkLabel" placeholder="Например: Открыть материалы">
+                </div>
+                </div>
+                <div class="form-toolbar">
+                  <button class="btn" id="saveDirectionBtn" type="button">Сохранить направление</button>
+                  <button class="btn gray" id="cancelDirectionEditBtn" type="button">Очистить форму</button>
+                </div>
+              </div>
+              <div class="admin-list-card">
+                <h4 class="admin-card-title">Список направлений</h4>
+                <div class="admin-card-note">Список справа помогает быстро переключаться между карточками и не прокручивать длинное окно вверх и вниз.</div>
+                <div class="list" id="directionsAdminList"></div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="dayEventsModal">
+    <div class="modal-box narrow">
+      <div class="modal-head">
+        <h2 class="modal-title" id="dayEventsTitle">События дня</h2>
+        <button class="close-btn" id="closeDayEventsBtn" type="button">Закрыть</button>
+      </div>
+      <div class="day-event-list" id="dayEventsList"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="bookingModal">
+    <div class="modal-box booking-modal-box">
+      <div class="modal-head">
+        <h2 class="modal-title" id="bookingModalTitle">Запись</h2>
+        <button class="close-btn" id="closeBookingBtn" type="button">Закрыть</button>
+      </div>
+      <div class="booking-grid">
+        <div class="slot-select-card">
+          <div class="muted-text" id="bookingModalText"></div>
+          <div class="booking-meta" id="bookingCapacityText"></div>
+          <div class="booking-calendar-card">
+            <div class="booking-calendar-head">
+              <button class="booking-calendar-nav" id="bookingPrevMonthBtn" type="button">←</button>
+              <div class="booking-calendar-month" id="bookingCalendarMonthTitle"></div>
+              <button class="booking-calendar-nav" id="bookingNextMonthBtn" type="button">→</button>
+            </div>
+            <div class="booking-calendar-weekdays">
+              <div class="booking-calendar-weekday">Пн</div>
+              <div class="booking-calendar-weekday">Вт</div>
+              <div class="booking-calendar-weekday">Ср</div>
+              <div class="booking-calendar-weekday">Чт</div>
+              <div class="booking-calendar-weekday">Пт</div>
+              <div class="booking-calendar-weekday">Сб</div>
+              <div class="booking-calendar-weekday">Вс</div>
+            </div>
+            <div class="booking-calendar-grid" id="bookingCalendarGrid"></div>
+            <div class="booking-calendar-empty" id="bookingCalendarHelp"></div>
+          </div>
+          <div class="booking-note" id="bookingNoteText"></div>
+        </div>
+        <div class="slot-select-card">
+          <h3 class="booking-day-title" id="bookingSelectedDayTitle">Выберите дату</h3>
+          <p class="booking-day-subtitle" id="bookingSelectedDayMeta">Сначала выберите день в календаре, затем выберите время справа.</p>
+          <div class="booking-time-list" id="bookingTimeList"></div>
+          <div class="booking-day-empty hidden" id="bookingDayEmpty">На выбранную дату пока нет доступного времени.</div>
+          <div class="inline-note" id="bookingSlotStatus"></div>
+          <select id="bookingSlotSelect" class="hidden"></select>
+          <div class="booking-side-divider"></div>
+          <div class="field">
+            <label for="bookingFullName">Фамилия, имя и отчество</label>
+            <input type="text" id="bookingFullName" placeholder="Укажите фамилию, имя и отчество">
+          </div>
+          <div class="field">
+            <label for="bookingEmail">Электронная почта</label>
+            <input type="email" id="bookingEmail" placeholder="Укажите адрес электронной почты">
+          </div>
+          <div class="field">
+            <label for="bookingStudyGroup">Учебная группа</label>
+            <input type="text" id="bookingStudyGroup" placeholder="Например: ИСИП-21-1">
+          </div>
+          <button class="btn" id="submitBookingBtn" type="button">Отправить заявку</button>
+          <div class="success" id="bookingSuccess"></div>
+          <div class="error" id="bookingError"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="registrationsModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h2 class="modal-title">Поданные заявки</h2>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button class="btn gray" id="refreshRegistrationsBtn" type="button">Обновить</button>
+          <button class="close-btn" id="closeRegistrationsBtn" type="button">Закрыть</button>
+        </div>
+      </div>
+      <div class="registrations-toolbar">
+        <div class="field" style="margin:0; min-width:220px;">
+          <label for="registrationsFilterType">Тип</label>
+          <select id="registrationsFilterType">
+            <option value="all">Все</option>
+            <option value="job">Запись</option>
+            <option value="event">Событие</option>
+          </select>
+        </div>
+        <div class="field" style="margin:0; min-width:260px;">
+          <label for="registrationsSearch">Поиск</label>
+          <input type="text" id="registrationsSearch" placeholder="Фамилия, почта, дата, название">
+        </div>
+      </div>
+      <div class="success" id="registrationsSuccess"></div>
+      <div class="error" id="registrationsError"></div>
+      <div class="registrations-table-wrap" id="registrationsTableWrap">
+        <div class="registrations-empty">Загрузка заявок...</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="myRegistrationsModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h2 class="modal-title">Мои заявки</h2>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button class="btn gray" id="refreshMyRegistrationsBtn" type="button">Обновить</button>
+          <button class="close-btn" id="closeMyRegistrationsBtn" type="button">Закрыть</button>
+        </div>
+      </div>
+      <div class="muted-text">Здесь отображаются только заявки, отправленные из этого аккаунта. Отменить можно только такие заявки.</div>
+      <div class="success" id="myRegistrationsSuccess"></div>
+      <div class="error" id="myRegistrationsError"></div>
+      <div class="registrations-table-wrap" id="myRegistrationsTableWrap">
+        <div class="registrations-empty">Загрузка заявок...</div>
+      </div>
+    </div>
+  </div>
+
+  
+</body>
+</html>
