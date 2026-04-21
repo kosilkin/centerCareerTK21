@@ -28,6 +28,21 @@
     <div id="runtimeErrorText" style="margin-top:6px;white-space:pre-wrap"></div>
   </div>
 
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+  <aside class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-head">
+      <div class="mobile-menu-title">Меню</div>
+      <button class="mobile-menu-close" id="mobileMenuCloseBtn" type="button" aria-label="Закрыть меню">×</button>
+    </div>
+    <nav class="mobile-menu-nav" id="mobileMenuNav"></nav>
+  </aside>
+
+  <header class="mobile-header" id="mobileHeader">
+    <button class="mobile-header-btn" id="mobileMenuBtn" type="button" aria-label="Открыть меню">☰</button>
+    <a class="mobile-header-brand" href="index.html" id="mobileHeaderBrand">Центр карьеры</a>
+    <button class="mobile-header-btn" id="mobileAccountBtn" type="button">Вход</button>
+  </header>
+
   <header class="site-header">
     <div class="header-inner">
       <div class="header-topline">
@@ -59,6 +74,7 @@
   </header>
 
   <main class="container">
+    <section class="mobile-home" id="mobileHome"></section>
     <section class="dashboard-grid dashboard" id="mainDashboard">
       <article class="panel dashboard-panel tile dashboard-info" id="infoCard">
         <div class="panel-content">
@@ -192,6 +208,7 @@
           <h3 class="admin-sidebar-title">Разделы редактирования</h3>
           <p class="admin-sidebar-text">Интерфейс разделён на отдельные области, чтобы не держать всё в одном длинном окне.</p>
           <div class="admin-tab-list">
+            <button class="admin-tab-btn" type="button" data-admin-tab="monitoring">Мониторинг</button>
             <button class="admin-tab-btn active" type="button" data-admin-tab="settings">Тексты сайта</button>
             <button class="admin-tab-btn" type="button" data-admin-tab="jobs">Запись в центр</button>
             <button class="admin-tab-btn" type="button" data-admin-tab="events">Мероприятия</button>
@@ -267,6 +284,82 @@
                   <label for="sInternshipsTitle">Заголовок блока стажировок</label>
                   <input id="sInternshipsTitle">
                 </div>
+                <div class="field">
+                  <label for="sMaintenanceMode">Режим техработ</label>
+                  <select id="sMaintenanceMode">
+                    <option value="false">Выключен</option>
+                    <option value="true">Включен</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="sMaintenanceTitle">Заголовок экрана техработ</label>
+                  <input id="sMaintenanceTitle">
+                </div>
+                <div class="field">
+                  <label for="sMaintenanceText">Текст экрана техработ</label>
+                  <textarea id="sMaintenanceText"></textarea>
+                </div>
+                <div class="field">
+                  <label for="sDirectionsAdminOnly">Страница направлений</label>
+                  <select id="sDirectionsAdminOnly">
+                    <option value="false">Доступна всем</option>
+                    <option value="true">Только для админа</option>
+                  </select>
+                </div>
+                <div class="admin-divider"></div>
+                <h4 class="admin-card-title">Видимость блоков</h4>
+                <div class="field">
+                  <label for="sShowInfoCard">Блок "Информация"</label>
+                  <select id="sShowInfoCard"><option value="true">Показывать</option><option value="false">Скрыть</option></select>
+                </div>
+                <div class="field">
+                  <label for="sShowNewsSection">Блок новостей</label>
+                  <select id="sShowNewsSection"><option value="true">Показывать</option><option value="false">Скрыть</option></select>
+                </div>
+                <div class="field">
+                  <label for="sShowEventsSection">Плитка мероприятий</label>
+                  <select id="sShowEventsSection"><option value="true">Показывать</option><option value="false">Скрыть</option></select>
+                </div>
+                <div class="field">
+                  <label for="sShowTeamSection">Плитка команды</label>
+                  <select id="sShowTeamSection"><option value="true">Показывать</option><option value="false">Скрыть</option></select>
+                </div>
+                <div class="field">
+                  <label for="sShowInternshipsSection">Плитка стажировок</label>
+                  <select id="sShowInternshipsSection"><option value="true">Показывать</option><option value="false">Скрыть</option></select>
+                </div>
+                <div class="field">
+                  <label for="sShowDirectionsSection">Плитка направлений</label>
+                  <select id="sShowDirectionsSection"><option value="true">Показывать</option><option value="false">Скрыть</option></select>
+                </div>
+                <div class="field">
+                  <label for="sShowBookingSection">Плитка записи</label>
+                  <select id="sShowBookingSection"><option value="true">Показывать</option><option value="false">Скрыть</option></select>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="admin-section" data-admin-panel="monitoring">
+            <div class="admin-section-head">
+              <div>
+                <h3 class="admin-section-title">Мониторинг</h3>
+                <p class="admin-section-text">Логи браузера, JS-ошибки, ошибки загрузки и текущий статус сайта.</p>
+              </div>
+              <div class="admin-visual-toolbar">
+                <button class="btn" id="refreshLogsBtn" type="button">Обновить</button>
+                <button class="btn gray" id="clearLogsBtn" type="button">Очистить логи</button>
+              </div>
+            </div>
+            <div class="admin-section-layout">
+              <div class="admin-form-card">
+                <h4 class="admin-card-title">Статус</h4>
+                <div class="monitor-status-list" id="monitorStatusList"></div>
+              </div>
+              <div class="admin-list-card">
+                <h4 class="admin-card-title">Логи</h4>
+                <div class="admin-card-note">Показываются последние записи из локального хранилища текущего браузера.</div>
+                <div class="monitor-log-list" id="adminLogsList"></div>
               </div>
             </div>
           </section>
@@ -305,6 +398,10 @@
                 <div class="field">
                   <label for="jobNote">Подсказка под формой записи</label>
                   <input type="text" id="jobNote" placeholder="Например: Возьмите студенческий билет">
+                </div>
+                <div class="field">
+                  <label for="jobPublishedInput">Показывать на сайте</label>
+                  <select id="jobPublishedInput"><option value="true">Да</option><option value="false">Нет</option></select>
                 </div>
                 <div class="form-toolbar">
                   <button class="btn" id="saveJobBtn" type="button">Сохранить запись</button>
@@ -373,6 +470,10 @@
                     <option value="orange">Оранжевый</option>
                     <option value="green">Зелёный</option>
                   </select>
+                </div>
+                <div class="field">
+                  <label for="eventPublishedInput">Показывать на сайте</label>
+                  <select id="eventPublishedInput"><option value="true">Да</option><option value="false">Нет</option></select>
                 </div>
                 <div class="form-toolbar">
                   <button class="btn" id="saveEventBtn" type="button">Сохранить событие</button>
@@ -479,6 +580,10 @@
                 <div id="memberPhotoPreviewWrap" class="hidden" style="margin-top:10px;">
                   <div class="team-photo" id="memberPhotoPreview" style="margin:0 auto;"></div>
                 </div>
+                <div class="field">
+                  <label for="memberPublishedInput">Показывать на сайте</label>
+                  <select id="memberPublishedInput"><option value="true">Да</option><option value="false">Нет</option></select>
+                </div>
                 <div class="form-toolbar">
                   <button class="btn" id="saveMemberBtn" type="button">Сохранить сотрудника</button>
                   <button class="btn gray" id="cancelMemberEditBtn" type="button">Очистить форму</button>
@@ -524,6 +629,10 @@
                 <div class="field">
                   <label for="internshipFormatInput">Короткая подпись</label>
                   <input type="text" id="internshipFormatInput" placeholder="Например: Оплачиваемая стажировка">
+                </div>
+                <div class="field">
+                  <label for="internshipPublishedInput">Показывать на сайте</label>
+                  <select id="internshipPublishedInput"><option value="true">Да</option><option value="false">Нет</option></select>
                 </div>
                 <div class="form-toolbar">
                   <button class="btn" id="saveInternshipBtn" type="button">Сохранить стажировку</button>
@@ -577,6 +686,9 @@
                   <label for="directionLinkLabel">Подпись кнопки материалов</label>
                   <input type="text" id="directionLinkLabel" placeholder="Например: Открыть материалы">
                 </div>
+                <div class="field">
+                  <label for="directionPublishedInput">Показывать на сайте</label>
+                  <select id="directionPublishedInput"><option value="true">Да</option><option value="false">Нет</option></select>
                 </div>
                 <div class="form-toolbar">
                   <button class="btn" id="saveDirectionBtn" type="button">Сохранить направление</button>

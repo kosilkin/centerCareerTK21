@@ -2,6 +2,9 @@
     function showRuntimeError(message) {
       const box = document.getElementById("runtimeErrorBox");
       const text = document.getElementById("runtimeErrorText");
+      if (window.SiteRuntime && typeof window.SiteRuntime.addLog === "function") {
+        window.SiteRuntime.addLog("error", "Runtime error", String(message || ""));
+      }
       if (box && text) {
         text.textContent = String(message || "Неизвестная ошибка");
         box.style.display = "block";
@@ -18,9 +21,11 @@
 
     const SUPABASE_URL = (window.APP_CONFIG && window.APP_CONFIG.SUPABASE_URL) || "https://zxvqgqnwbkqmopaxtqcm.supabase.co";
     const SUPABASE_KEY = (window.APP_CONFIG && window.APP_CONFIG.SUPABASE_KEY) || "sb_publishable_90CEm1Vf4QqF4p4C7DAsvw_c_eb78XE";
+    const SiteRuntime = window.SiteRuntime || null;
     const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     const pageMode = document.body?.dataset?.page || "home";
     const isHomePage = pageMode === "home";
+    const isMobile = window.innerWidth <= 768;
 
     const monthNames = ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"];
 
@@ -71,7 +76,20 @@
           bookingPreview: "✎"
         },
         dashboardLayout: {},
-        customTiles: []
+        customTiles: [],
+        siteFlags: {
+          maintenanceMode: false,
+          maintenanceTitle: "Сайт временно недоступен",
+          maintenanceText: "Сейчас ведутся технические работы. Попробуйте зайти позже.",
+          directionsAdminOnly: false,
+          showInfoCard: true,
+          showNewsSection: true,
+          showEventsSection: true,
+          showTeamSection: true,
+          showInternshipsSection: true,
+          showDirectionsSection: true,
+          showBookingSection: true
+        }
       },
       jobs: [
         {
@@ -183,6 +201,28 @@
       bookingPreview: { label: "Запись", titleKey: "jobsTitle", descriptionKey: "jobsText" }
     };
 
+    function ensureMobileShell() {
+      const runtimeErrorBox = document.getElementById("runtimeErrorBox");
+      if (!runtimeErrorBox || document.getElementById("mobileMenuOverlay")) return;
+      runtimeErrorBox.insertAdjacentHTML("afterend", `
+        <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+        <aside class="mobile-menu" id="mobileMenu">
+          <div class="mobile-menu-head">
+            <div class="mobile-menu-title">Меню</div>
+            <button class="mobile-menu-close" id="mobileMenuCloseBtn" type="button" aria-label="Закрыть меню">×</button>
+          </div>
+          <nav class="mobile-menu-nav" id="mobileMenuNav"></nav>
+        </aside>
+        <header class="mobile-header" id="mobileHeader">
+          <button class="mobile-header-btn" id="mobileMenuBtn" type="button" aria-label="Открыть меню">☰</button>
+          <a class="mobile-header-brand" href="index.html" id="mobileHeaderBrand">Центр карьеры</a>
+          <button class="mobile-header-btn" id="mobileAccountBtn" type="button">Вход</button>
+        </header>
+      `);
+    }
+
+    ensureMobileShell();
+
     const headerTitle = document.getElementById("headerTitle");
     const headerText = document.getElementById("headerText");
     const infoTitle = document.getElementById("infoTitle");
@@ -217,6 +257,14 @@
     const myRegistrationsModal = document.getElementById("myRegistrationsModal");
 
     const accountOpenBtn = document.getElementById("accountOpenBtn");
+    const mobileAccountBtn = document.getElementById("mobileAccountBtn");
+    const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+    const mobileMenu = document.getElementById("mobileMenu");
+    const mobileMenuNav = document.getElementById("mobileMenuNav");
+    const mobileMenuOverlay = document.getElementById("mobileMenuOverlay");
+    const mobileMenuCloseBtn = document.getElementById("mobileMenuCloseBtn");
+    const mobileHeaderBrand = document.getElementById("mobileHeaderBrand");
+    const mobileHome = document.getElementById("mobileHome");
     const logoutTopBtn = document.getElementById("logoutTopBtn");
     const openAdminBtn = document.getElementById("openAdminBtn");
     const closeAccountBtn = document.getElementById("closeAccountBtn");
@@ -258,6 +306,214 @@
     const logoutBtn = document.getElementById("logoutBtn");
     const loginError = document.getElementById("loginError");
 
+    function escapeAttribute(text) {
+      return escapeHtml(text).replace(/"/g, "&quot;");
+    }
+
+    function stripHtml(value) {
+      return normalizeStr(String(value || "").replace(/<[^>]*>/g, " "));
+    }
+
+    function getMobileBrandTitle() {
+      return normalizeStr(document.getElementById("headerLabel")?.textContent) || "Центр карьеры";
+    }
+
+    function setMobileMenuOpen(nextValue) {
+      const isOpen = Boolean(nextValue);
+      if (mobileMenu) mobileMenu.classList.toggle("is-open", isOpen);
+      if (mobileMenuOverlay) mobileMenuOverlay.classList.toggle("is-open", isOpen);
+      document.body.classList.toggle("mobile-menu-open", isOpen);
+    }
+
+    function renderMobileMenu() {
+      if (!isHomePage || !mobileMenuNav) return;
+      const links = Array.from(document.querySelectorAll(".portal-nav a")).map((link) => ({
+        href: link.getAttribute("href") || "#",
+        label: normalizeStr(link.textContent) || "Раздел",
+        active: link.classList.contains("active")
+      }));
+
+      if (currentProfile) {
+        links.push({ href: "index.html?openMyRegistrations=1", label: "Мои записи", active: false });
+      }
+
+      mobileMenuNav.innerHTML = links.map((item) => `
+        <a class="mobile-menu-link${item.active ? " is-active" : ""}" href="${escapeAttribute(item.href)}">${escapeHtml(item.label)}</a>
+      `).join("");
+    }
+
+    function getMobileBrandTitle() {
+      if (isHomePage) {
+        return normalizeStr(document.getElementById("headerLabel")?.textContent) || "Центр карьеры";
+      }
+      return normalizeStr(document.getElementById("headerTitle")?.textContent)
+        || normalizeStr(document.querySelector(".portal-nav a.active")?.textContent)
+        || "Центр карьеры";
+    }
+
+    function renderMobileMenu() {
+      if (!mobileMenuNav) return;
+      const links = Array.from(document.querySelectorAll(".portal-nav a")).map((link) => ({
+        href: link.getAttribute("href") || "#",
+        label: normalizeStr(link.textContent) || "Раздел",
+        active: link.classList.contains("active")
+      }));
+
+      mobileMenuNav.innerHTML = links.map((item) => `
+        <a class="mobile-menu-link${item.active ? " is-active" : ""}" href="${escapeAttribute(item.href)}">${escapeHtml(item.label)}</a>
+      `).join("");
+    }
+
+    function updateMobileAccountButton() {
+      if (!mobileAccountBtn) return;
+      mobileAccountBtn.textContent = currentProfile ? "Мои записи" : "Вход";
+      mobileAccountBtn.textContent = currentProfile ? "Профиль" : "Вход";
+      mobileAccountBtn.textContent = currentProfile ? "Мои записи" : "Вход";
+    }
+
+    function renderMobileChrome() {
+      if (!isMobile) return;
+      if (mobileHeaderBrand) mobileHeaderBrand.textContent = getMobileBrandTitle();
+      renderMobileMenu();
+      updateMobileAccountButton();
+    }
+
+    function getUpcomingEvent() {
+      const now = new Date();
+      return state.events
+        .filter((item) => isPublishedItem(item))
+        .map((item, index) => {
+          const eventDate = new Date(Number(item.year), Number(item.month), Number(item.day), 0, 0, 0, 0);
+          const timeMatch = normalizeStr(item.time).match(/^(\d{1,2}):(\d{2})$/);
+          if (timeMatch) {
+            eventDate.setHours(Number(timeMatch[1]), Number(timeMatch[2]), 0, 0);
+          }
+          return { item, index, date: eventDate };
+        })
+        .filter((entry) => !Number.isNaN(entry.date.getTime()) && entry.date >= now)
+        .sort((a, b) => a.date - b.date)[0] || null;
+    }
+
+    function getUpcomingJob() {
+      const item = getPublishedCollection(state.jobs).find((job) => Array.isArray(job.slots) ? job.slots.length : normalizeStr(job.slots));
+      return item ? { item } : null;
+    }
+
+    function getMobileSpotlight() {
+      const nextEvent = getUpcomingEvent();
+      if (nextEvent) {
+        const dateLabel = `${pad2(nextEvent.item.day)}.${pad2(Number(nextEvent.item.month) + 1)}.${nextEvent.item.year}${nextEvent.item.time ? `, ${nextEvent.item.time}` : ""}`;
+        return {
+          eyebrow: "Ближайшее событие",
+          title: nextEvent.item.title || "Событие",
+          text: nextEvent.item.place || "Подробности доступны на странице мероприятий.",
+          meta: dateLabel,
+          href: "events.html"
+        };
+      }
+
+      const nextJob = getUpcomingJob();
+      if (nextJob) {
+        return {
+          eyebrow: "Ближайшая запись",
+          title: nextJob.item.title || "Запись",
+          text: nextJob.item.note || nextJob.item.desc || "Выберите удобный формат консультации и отправьте заявку.",
+          meta: Array.isArray(nextJob.item.slots) && nextJob.item.slots.length ? nextJob.item.slots[0] : "Открыта запись",
+          href: "services.html"
+        };
+      }
+
+      return {
+        eyebrow: "Ближайшая активность",
+        title: "Открыта запись в центр карьеры",
+        text: "Выберите консультацию, событие или нужное направление и начните с удобного раздела.",
+        meta: "Доступно онлайн",
+        href: "services.html"
+      };
+    }
+
+    function renderMobileHome() {
+      if (!isHomePage || !mobileHome) return;
+      const latestNews = getPublishedNews(1)[0];
+      const spotlight = getMobileSpotlight();
+      const flags = getSiteFlags();
+      const heroTitle = state.settings.headerTitle || "Центр карьеры";
+      const heroText = state.settings.headerText || "Запись, мероприятия и полезные материалы в одном месте.";
+      const newsSummary = latestNews ? stripHtml(latestNews.summary || latestNews.content || "Краткое описание пока не добавлено.") : "Новости скоро появятся.";
+      const newsCover = latestNews && normalizeStr(latestNews.cover) ? latestNews.cover : "";
+
+      mobileHome.innerHTML = `
+        <section class="card mobile-hero">
+          <div class="mobile-section-label">${escapeHtml(getMobileBrandTitle())}</div>
+          <h1 class="mobile-hero-title">${escapeHtml(heroTitle)}</h1>
+          <p class="mobile-hero-text">${escapeHtml(heroText)}</p>
+          <div class="mobile-hero-actions">
+            <a class="mobile-primary-btn" href="services.html">Записаться</a>
+            ${currentProfile ? '<a class="mobile-secondary-btn" href="index.html?openMyRegistrations=1">Мои записи</a>' : ''}
+          </div>
+        </section>
+
+        <section class="card mobile-info-card">
+          <div class="mobile-section-label">${escapeHtml(spotlight.eyebrow)}</div>
+          <h2 class="mobile-card-title">${escapeHtml(spotlight.title)}</h2>
+          <p class="mobile-card-text">${escapeHtml(spotlight.text)}</p>
+          <div class="mobile-card-meta">${escapeHtml(spotlight.meta)}</div>
+          <a class="mobile-inline-link" href="${escapeAttribute(spotlight.href)}">Открыть</a>
+        </section>
+
+        <section class="card mobile-news-card">
+          <div class="mobile-section-label">Последняя новость</div>
+          <a class="mobile-news-link" href="${latestNews ? `news.html?news=${encodeURIComponent(latestNews.key)}` : "news.html"}">
+            <div class="mobile-news-image"${newsCover ? ` style="background-image:url('${newsCover.replace(/'/g, "%27")}')"` : ""}>${newsCover ? "" : "Новости"}</div>
+            <div class="mobile-news-content">
+              <div class="mobile-card-meta">${latestNews ? escapeHtml(formatNewsDateDisplay(latestNews.date)) : "Раздел новостей"}</div>
+              <h2 class="mobile-card-title">${escapeHtml(latestNews?.title || "Новости центра карьеры")}</h2>
+              <p class="mobile-card-text">${escapeHtml(newsSummary)}</p>
+            </div>
+          </a>
+        </section>
+
+        <section class="mobile-quick-links">
+          <a class="card mobile-quick-link" href="team.html">
+            <div class="mobile-quick-title">Команда</div>
+            <div class="mobile-quick-text">Сотрудники и контакты</div>
+          </a>
+          <a class="card mobile-quick-link" href="directions.html">
+            <div class="mobile-quick-title">Направления</div>
+            <div class="mobile-quick-text">Материалы по специальностям</div>
+          </a>
+          <a class="card mobile-quick-link" href="services.html">
+            <div class="mobile-quick-title">Запись</div>
+            <div class="mobile-quick-text">Консультации и помощь</div>
+          </a>
+          <a class="card mobile-quick-link" href="news.html">
+            <div class="mobile-quick-title">Новости</div>
+            <div class="mobile-quick-text">Последние обновления</div>
+          </a>
+        </section>
+      `;
+    }
+
+    function renderDesktopDashboard() {
+      renderLatestNews();
+      applyDashboardLayout();
+    }
+
+    function renderHomeByViewport() {
+      if (!isHomePage) return;
+      renderMobileChrome();
+      if (isMobile) {
+        renderMobileHome();
+        setMobileMenuOpen(false);
+      } else if (mobileHome) {
+        mobileHome.innerHTML = "";
+      }
+      if (isMobile) {
+        return;
+      }
+      renderDesktopDashboard();
+    }
+
     const adminSuccess = document.getElementById("adminSuccess");
     const adminError = document.getElementById("adminError");
 
@@ -272,6 +528,21 @@
     const sDirectionsTitle = document.getElementById("sDirectionsTitle");
     const sNewsTitle = document.getElementById("sNewsTitle");
     const sInternshipsTitle = document.getElementById("sInternshipsTitle");
+    const sMaintenanceMode = document.getElementById("sMaintenanceMode");
+    const sMaintenanceTitle = document.getElementById("sMaintenanceTitle");
+    const sMaintenanceText = document.getElementById("sMaintenanceText");
+    const sDirectionsAdminOnly = document.getElementById("sDirectionsAdminOnly");
+    const sShowInfoCard = document.getElementById("sShowInfoCard");
+    const sShowNewsSection = document.getElementById("sShowNewsSection");
+    const sShowEventsSection = document.getElementById("sShowEventsSection");
+    const sShowTeamSection = document.getElementById("sShowTeamSection");
+    const sShowInternshipsSection = document.getElementById("sShowInternshipsSection");
+    const sShowDirectionsSection = document.getElementById("sShowDirectionsSection");
+    const sShowBookingSection = document.getElementById("sShowBookingSection");
+    const adminLogsList = document.getElementById("adminLogsList");
+    const monitorStatusList = document.getElementById("monitorStatusList");
+    const refreshLogsBtn = document.getElementById("refreshLogsBtn");
+    const clearLogsBtn = document.getElementById("clearLogsBtn");
 
     const jobTitleInput = document.getElementById("jobTitle");
     const jobDirection = document.getElementById("jobDirection");
@@ -279,6 +550,7 @@
     const jobCapacity = document.getElementById("jobCapacity");
     const jobSlots = document.getElementById("jobSlots");
     const jobNote = document.getElementById("jobNote");
+    const jobPublishedInput = document.getElementById("jobPublishedInput");
     const jobEditNote = document.getElementById("jobEditNote");
 
     const eventTitleInput = document.getElementById("eventTitle");
@@ -291,6 +563,7 @@
     const eventSlots = document.getElementById("eventSlots");
     const eventNote = document.getElementById("eventNote");
     const eventColor = document.getElementById("eventColor");
+    const eventPublishedInput = document.getElementById("eventPublishedInput");
     const eventEditNote = document.getElementById("eventEditNote");
 
     const memberName = document.getElementById("memberName");
@@ -301,6 +574,7 @@
     const memberPhotoStatus = document.getElementById("memberPhotoStatus");
     const memberPhotoPreviewWrap = document.getElementById("memberPhotoPreviewWrap");
     const memberPhotoPreview = document.getElementById("memberPhotoPreview");
+    const memberPublishedInput = document.getElementById("memberPublishedInput");
     const memberEditNote = document.getElementById("memberEditNote");
 
     const directionName = document.getElementById("directionName");
@@ -310,6 +584,7 @@
     const directionImage = document.getElementById("directionImage");
     const directionLink = document.getElementById("directionLink");
     const directionLinkLabel = document.getElementById("directionLinkLabel");
+    const directionPublishedInput = document.getElementById("directionPublishedInput");
 
     const newsTitleInput = document.getElementById("newsTitleInput");
     const newsDateInput = document.getElementById("newsDateInput");
@@ -325,6 +600,7 @@
     const internshipDescInput = document.getElementById("internshipDescInput");
     const internshipLinkInput = document.getElementById("internshipLinkInput");
     const internshipFormatInput = document.getElementById("internshipFormatInput");
+    const internshipPublishedInput = document.getElementById("internshipPublishedInput");
     const internshipEditNote = document.getElementById("internshipEditNote");
     const directionEditNote = document.getElementById("directionEditNote");
 
@@ -574,7 +850,7 @@
     }
 
     function applyDashboardLayout() {
-      if (!isHomePage || !mainDashboard) return;
+      if (!isHomePage || !mainDashboard || isMobile) return;
 
       if (!dashboardLayout || typeof dashboardLayout !== "object") {
         loadDashboardLayout();
@@ -759,7 +1035,7 @@
     }
 
     function initializeDashboardEditor() {
-      if (!isHomePage || !mainDashboard) return;
+      if (!isHomePage || !mainDashboard || isMobile) return;
       loadDashboardLayout();
       ensureResizeHandles();
       ensureTileEditButtons();
@@ -914,6 +1190,7 @@
       normalized.capacity = clampCapacity(item.capacity, 10);
       normalized.slots = normalizeSlots(item.slots, "");
       normalized.note = normalizeStr(item.note);
+      normalized.published = item && String(item.published) !== "false";
       return normalized;
     }
 
@@ -931,6 +1208,7 @@
       normalized.capacity = clampCapacity(item.capacity, 30);
       normalized.slots = normalizeSlots(item.slots, fallbackEventSlot(normalized));
       normalized.note = normalizeStr(item.note);
+      normalized.published = item && String(item.published) !== "false";
       return normalized;
     }
 
@@ -939,7 +1217,8 @@
         name: normalizeStr(item.name),
         role: normalizeStr(item.role),
         desc: normalizeStr(item.desc),
-        photo: normalizeStr(item.photo)
+        photo: normalizeStr(item.photo),
+        published: item && String(item.published) !== "false"
       };
     }
 
@@ -950,7 +1229,8 @@
         company: normalizeStr(item.company),
         desc: normalizeStr(item.desc),
         link: normalizeStr(item.link),
-        format: normalizeStr(item.format)
+        format: normalizeStr(item.format),
+        published: item && String(item.published) !== "false"
       };
     }
 
@@ -1076,6 +1356,7 @@
         }
       });
       state.settings.customTiles = state.settings.customTiles.map(normalizeCustomTileItem);
+      ensureSiteFlagsShape();
       ["jobsText", "eventsText", "teamText", "directionsText", "newsDescription", "internshipsText"].forEach((key) => {
         if (!normalizeStr(state.settings[key])) {
           state.settings[key] = defaultState.settings[key] || "";
@@ -1086,6 +1367,123 @@
     function getCustomTiles() {
       ensureSettingsShape();
       return state.settings.customTiles;
+    }
+
+    function ensureSiteFlagsShape() {
+      if (!state.settings.siteFlags || typeof state.settings.siteFlags !== "object" || Array.isArray(state.settings.siteFlags)) {
+        state.settings.siteFlags = {};
+      }
+      const defaults = defaultState.settings.siteFlags || {};
+      Object.keys(defaults).forEach((key) => {
+        if (typeof state.settings.siteFlags[key] === "undefined") {
+          state.settings.siteFlags[key] = defaults[key];
+        }
+      });
+    }
+
+    function getSiteFlags() {
+      ensureSettingsShape();
+      ensureSiteFlagsShape();
+      return state.settings.siteFlags;
+    }
+
+    function isPublishedItem(item) {
+      return !item || String(item.published) !== "false";
+    }
+
+    function getPublishedCollection(items) {
+      return (Array.isArray(items) ? items : []).filter(isPublishedItem);
+    }
+
+    function isSiteFlagEnabled(key) {
+      return Boolean(getSiteFlags()[key]);
+    }
+
+    function isDirectionsRestricted() {
+      return Boolean(getSiteFlags().directionsAdminOnly);
+    }
+
+    function canAccessDirections() {
+      return !isDirectionsRestricted() || !!(currentProfile && hasAdminRole(currentProfile));
+    }
+
+    function setElementVisibility(element, visible) {
+      if (!element) return;
+      element.classList.toggle("hidden", !visible);
+    }
+
+    function updateDirectionsLinkVisibility() {
+      const directionsLinks = Array.from(document.querySelectorAll('.portal-nav a[href="directions.html"]'));
+      directionsLinks.forEach((link) => {
+        link.classList.toggle("hidden", !canAccessDirections());
+      });
+    }
+
+    function applySectionVisibility() {
+      const flags = getSiteFlags();
+      setElementVisibility(document.getElementById("infoCard"), flags.showInfoCard);
+      setElementVisibility(document.getElementById("newsPreview"), flags.showNewsSection);
+      setElementVisibility(document.getElementById("eventsPreview"), flags.showEventsSection);
+      setElementVisibility(document.getElementById("teamPreview"), flags.showTeamSection);
+      setElementVisibility(document.getElementById("internshipsPreview"), flags.showInternshipsSection);
+      setElementVisibility(document.getElementById("bookingPreview"), flags.showBookingSection);
+      setElementVisibility(document.getElementById("directionsPreview"), flags.showDirectionsSection && canAccessDirections());
+      updateDirectionsLinkVisibility();
+    }
+
+    function applySiteGuards() {
+      const flags = getSiteFlags();
+      applySectionVisibility();
+      if (flags.maintenanceMode && !(currentProfile && hasAdminRole(currentProfile))) {
+        if (SiteRuntime && typeof SiteRuntime.showMaintenance === "function") {
+          SiteRuntime.showMaintenance(flags.maintenanceTitle, flags.maintenanceText);
+        }
+        addAdminLog("warn", "Save blocked", "Attempt to save without admin access.");
+        return false;
+      }
+      if (SiteRuntime && typeof SiteRuntime.hideScreen === "function") {
+        SiteRuntime.hideScreen();
+      }
+      addAdminLog("info", "Изменения сохранены", "Данные сайта успешно сохранены в site_content.");
+      return true;
+    }
+
+    function getPageStatusItems() {
+      const flags = getSiteFlags();
+      return [
+        { label: "Страница", value: pageMode || "home" },
+        { label: "Техработы", value: flags.maintenanceMode ? "Включены" : "Выключены" },
+        { label: "Направления", value: flags.directionsAdminOnly ? "Только для админа" : "Доступны всем" },
+        { label: "Логов в браузере", value: String((SiteRuntime && SiteRuntime.readLogs ? SiteRuntime.readLogs().length : 0)) }
+      ];
+    }
+
+    function renderMonitoringPanel() {
+      if (monitorStatusList) {
+        monitorStatusList.innerHTML = getPageStatusItems().map((item) => `
+          <div class="monitor-status-card">
+            <div class="monitor-status-label">${escapeHtml(item.label)}</div>
+            <div class="monitor-status-value">${escapeHtml(item.value)}</div>
+          </div>
+        `).join("");
+      }
+      if (adminLogsList) {
+        const logs = SiteRuntime && SiteRuntime.readLogs ? SiteRuntime.readLogs() : [];
+        adminLogsList.innerHTML = logs.length ? logs.map((item) => `
+          <div class="monitor-log-item is-${escapeHtml(item.level || "info")}">
+            <div class="monitor-log-meta">${escapeHtml((item.level || "info").toUpperCase())} · ${escapeHtml(new Date(item.createdAt || Date.now()).toLocaleString("ru-RU"))}</div>
+            <div class="monitor-log-message">${escapeHtml(item.message || "Событие")}</div>
+            ${item.details ? `<div class="monitor-log-details">${escapeHtml(item.details)}</div>` : ""}
+          </div>
+        `).join("") : '<div class="muted-text">Логи пока пусты.</div>';
+      }
+    }
+
+    function addAdminLog(level, message, details) {
+      if (SiteRuntime && typeof SiteRuntime.addLog === "function") {
+        SiteRuntime.addLog(level, message, details);
+      }
+      renderMonitoringPanel();
     }
 
     function getAllTileEditorConfigs() {
@@ -1223,7 +1621,9 @@
       getAllTileEditorConfigs().forEach((config) => applyTileVisuals(config.tileId));
       syncDashboardLayoutWithTiles();
       applyDashboardLayout();
+      applySectionVisibility();
       renderHomeVisualEditor();
+      renderMonitoringPanel();
     }
 
     function openTileEditor(tileId) {
@@ -1628,7 +2028,8 @@
 
     function renderTeam() {
       if (!teamGrid) return;
-      if (!state.members.length) {
+      const items = getPublishedCollection(state.members);
+      if (!items.length) {
         teamGrid.innerHTML = '<div class="muted-text">Список сотрудников пока пуст.</div>';
         return;
       }
@@ -1644,7 +2045,7 @@
         return;
       }
 
-      teamGrid.innerHTML = state.members.map((item) => {
+      teamGrid.innerHTML = items.map((item) => {
         const initials = item.name.split(" ").map(x => x[0]).slice(0,2).join("").toUpperCase();
         const photoStyle = item.photo ? `style="background-image:url('${item.photo.replace(/'/g, "%27")}')"` : "";
         return `
@@ -1677,6 +2078,7 @@
 
     function renderJobs() {
       if (!jobsGrid) return;
+      const items = getPublishedCollection(state.jobs);
       if (isHomePage) {
         jobsGrid.innerHTML = renderHubCard({
           href: 'services.html',
@@ -1687,19 +2089,19 @@
         });
         return;
       }
-      if (!state.jobs.length) {
+      if (!items.length) {
         jobsGrid.innerHTML = '<div class="muted-text">Варианты записи пока не добавлены.</div>';
         return;
       }
 
-      jobsGrid.innerHTML = state.jobs.map((item, index) => `
+      jobsGrid.innerHTML = items.map((item, index) => `
         <div class="job-card">
           <div class="job-tag">${escapeHtml(item.direction || "Запись")}</div>
           <h3 class="job-title">${escapeHtml(item.title)}</h3>
           <p class="job-text">${escapeHtml(item.desc || "Описание пока не добавлено.")}</p>
           <div class="booking-meta">Количество мест на одну дату и время: ${escapeHtml(String(item.capacity || 0))}</div>
           ${item.note ? `<div class="booking-note">${escapeHtml(item.note)}</div>` : ""}
-          <button class="job-btn" type="button" onclick="openBookingModalByType('job', ${index})">Записаться</button>
+          <button class="job-btn" type="button" onclick="openBookingModalByType('job', ${state.jobs.findIndex((entry) => entry.key === item.key)})">Записаться</button>
         </div>
       `).join("");
     }
@@ -1746,6 +2148,7 @@
 
     function renderInternships() {
       if (!internshipsGrid) return;
+      const items = getPublishedCollection(state.internships);
       if (isHomePage) {
         internshipsGrid.innerHTML = renderHubCard({
           href: 'internships.html',
@@ -1756,11 +2159,11 @@
         });
         return;
       }
-      if (!state.internships.length) {
+      if (!items.length) {
         internshipsGrid.innerHTML = '<div class="muted-text">Стажировки пока не добавлены.</div>';
         return;
       }
-      internshipsGrid.innerHTML = state.internships.map((item) => `
+      internshipsGrid.innerHTML = items.map((item) => `
         <div class="job-card internship-card">
           <div class="job-tag">${escapeHtml(item.company || 'Стажировка')}</div>
           <h3 class="job-title">${escapeHtml(item.title)}</h3>
@@ -1773,6 +2176,11 @@
 
     function renderDirections() {
       if (!directionsGrid) return;
+      const items = getPublishedCollection(state.directions);
+      if (!canAccessDirections()) {
+        directionsGrid.innerHTML = '<div class="muted-text">Раздел доступен только администратору.</div>';
+        return;
+      }
       if (isHomePage) {
         directionsGrid.innerHTML = renderHubCard({
           href: 'directions.html',
@@ -1783,12 +2191,12 @@
         });
         return;
       }
-      if (!state.directions.length) {
+      if (!items.length) {
         directionsGrid.innerHTML = '<div class="muted-text">Направления пока не добавлены.</div>';
         return;
       }
 
-      directionsGrid.innerHTML = state.directions.map((item) => `
+      directionsGrid.innerHTML = items.map((item) => `
         <div class="direction-card">
           <div class="direction-top">
             <h3 class="direction-title">${escapeHtml(item.name)}</h3>
@@ -1803,7 +2211,7 @@
     }
 
     function getEventsForDay(year, month, day) {
-      return state.events.filter((item) => item.year === year && item.month === month && item.day === day);
+      return state.events.filter((item) => isPublishedItem(item) && item.year === year && item.month === month && item.day === day);
     }
 
     function openDayEventsModal(year, month, day) {
@@ -1906,6 +2314,18 @@
       sDirectionsTitle.value = state.settings.directionsTitle || "";
       if (sNewsTitle) sNewsTitle.value = state.settings.newsTitle || "";
       if (sInternshipsTitle) sInternshipsTitle.value = state.settings.internshipsTitle || "";
+      const flags = getSiteFlags();
+      if (sMaintenanceMode) sMaintenanceMode.value = flags.maintenanceMode ? "true" : "false";
+      if (sMaintenanceTitle) sMaintenanceTitle.value = flags.maintenanceTitle || "";
+      if (sMaintenanceText) sMaintenanceText.value = flags.maintenanceText || "";
+      if (sDirectionsAdminOnly) sDirectionsAdminOnly.value = flags.directionsAdminOnly ? "true" : "false";
+      if (sShowInfoCard) sShowInfoCard.value = flags.showInfoCard ? "true" : "false";
+      if (sShowNewsSection) sShowNewsSection.value = flags.showNewsSection ? "true" : "false";
+      if (sShowEventsSection) sShowEventsSection.value = flags.showEventsSection ? "true" : "false";
+      if (sShowTeamSection) sShowTeamSection.value = flags.showTeamSection ? "true" : "false";
+      if (sShowInternshipsSection) sShowInternshipsSection.value = flags.showInternshipsSection ? "true" : "false";
+      if (sShowDirectionsSection) sShowDirectionsSection.value = flags.showDirectionsSection ? "true" : "false";
+      if (sShowBookingSection) sShowBookingSection.value = flags.showBookingSection ? "true" : "false";
     }
 
     async function saveStateToDatabase(options = {}) {
@@ -1920,6 +2340,7 @@
 
       if (!session || !profile || !hasAdminRole(profile)) {
         if (!silent) adminError.textContent = "Нет доступа к админке. Войдите под аккаунтом с ролью admin.";
+        addAdminLog("error", "Ошибка сохранения site_content", error.message || String(error));
         return false;
       }
 
@@ -1968,7 +2389,20 @@
       state.settings.directionsTitle = normalizeStr(sDirectionsTitle.value);
       if (sNewsTitle) state.settings.newsTitle = normalizeStr(sNewsTitle.value);
       if (sInternshipsTitle) state.settings.internshipsTitle = normalizeStr(sInternshipsTitle.value);
+      const flags = getSiteFlags();
+      if (sMaintenanceMode) flags.maintenanceMode = sMaintenanceMode.value === "true";
+      if (sMaintenanceTitle) flags.maintenanceTitle = normalizeStr(sMaintenanceTitle.value) || defaultState.settings.siteFlags.maintenanceTitle;
+      if (sMaintenanceText) flags.maintenanceText = normalizeStr(sMaintenanceText.value) || defaultState.settings.siteFlags.maintenanceText;
+      if (sDirectionsAdminOnly) flags.directionsAdminOnly = sDirectionsAdminOnly.value === "true";
+      if (sShowInfoCard) flags.showInfoCard = sShowInfoCard.value === "true";
+      if (sShowNewsSection) flags.showNewsSection = sShowNewsSection.value === "true";
+      if (sShowEventsSection) flags.showEventsSection = sShowEventsSection.value === "true";
+      if (sShowTeamSection) flags.showTeamSection = sShowTeamSection.value === "true";
+      if (sShowInternshipsSection) flags.showInternshipsSection = sShowInternshipsSection.value === "true";
+      if (sShowDirectionsSection) flags.showDirectionsSection = sShowDirectionsSection.value === "true";
+      if (sShowBookingSection) flags.showBookingSection = sShowBookingSection.value === "true";
       renderSettings();
+      applySiteGuards();
     }
 
     function slotsToTextarea(slots) {
@@ -1983,6 +2417,7 @@
       jobCapacity.value = "10";
       jobSlots.value = "";
       jobNote.value = "";
+      if (jobPublishedInput) jobPublishedInput.value = "true";
       jobEditNote.textContent = "";
       document.getElementById("saveJobBtn").textContent = "Сохранить запись";
     }
@@ -1999,6 +2434,7 @@
       eventSlots.value = "";
       eventNote.value = "";
       eventColor.value = "blue";
+      if (eventPublishedInput) eventPublishedInput.value = "true";
       eventEditNote.textContent = "";
       document.getElementById("saveEventBtn").textContent = "Сохранить событие";
     }
@@ -2040,7 +2476,8 @@
         desc: jobDesc.value,
         capacity: jobCapacity.value,
         slots: jobSlots.value,
-        note: jobNote.value
+        note: jobNote.value,
+        published: jobPublishedInput ? jobPublishedInput.value === "true" : true
       }, editingJobIndex);
 
       if (!item.title) return;
@@ -2082,7 +2519,8 @@
         capacity: eventCapacity.value,
         slots: eventSlots.value,
         note: eventNote.value,
-        color: eventColor.value
+        color: eventColor.value,
+        published: eventPublishedInput ? eventPublishedInput.value === "true" : true
       }, editingEventIndex);
 
       if (!item.title || !item.day) return;
@@ -2110,7 +2548,8 @@
         name: memberName.value,
         role: memberRole.value,
         desc: memberDesc.value,
-        photo: pendingMemberPhotoData || memberPhoto.value
+        photo: pendingMemberPhotoData || memberPhoto.value,
+        published: memberPublishedInput ? memberPublishedInput.value === "true" : true
       });
       if (!item.name) return;
 
@@ -2148,39 +2587,48 @@
 
     function renderJobsAdminList() {
       const root = document.getElementById("jobsAdminList");
-      root.innerHTML = state.jobs.map((item, index) => `
+      if (!root) return;
+      root.innerHTML = state.jobs.map((entry, index) => {
+        const slots = Array.isArray(entry?.slots) ? entry.slots : [];
+        return `
         <div class="item">
-          <h4 class="item-title">${escapeHtml(item.title)}</h4>
-          <p class="item-text"><b>Категория:</b> ${escapeHtml(item.direction || "—")}</p>
-          <p class="item-text">${escapeHtml(item.desc || "—")}</p>
-          <p class="item-text"><b>Количество мест:</b> ${item.capacity}</p>
-          <p class="item-text"><b>Даты и время:</b> ${item.slots.length ? item.slots.map(escapeHtml).join(" • ") : "—"}</p>
-          <p class="item-text"><b>Подсказка:</b> ${escapeHtml(item.note || "—")}</p>
+          <h4 class="item-title">${escapeHtml(entry?.title || "")}</h4>
+          <p class="item-text"><b>Категория:</b> ${escapeHtml(entry?.direction || "—")}</p>
+          <p class="item-text">${escapeHtml(entry?.desc || "—")}</p>
+          <p class="item-text"><b>Количество мест:</b> ${escapeHtml(String(entry?.capacity ?? "—"))}</p>
+          <p class="item-text"><b>Даты и время:</b> ${slots.length ? slots.map(escapeHtml).join(" • ") : "—"}</p>
+          <p class="item-text"><b>Подсказка:</b> ${escapeHtml(entry?.note || "—")}</p>
           <div class="item-actions">
             <button class="small-btn" type="button" onclick="startEditJob(${index})">Редактировать</button>
             <button class="small-btn delete" type="button" onclick="deleteJob(${index})">Удалить</button>
           </div>
         </div>
-      `).join("");
+      `;
+      }).join("");
     }
 
     function renderEventsAdminList() {
       const root = document.getElementById("eventsAdminList");
-      root.innerHTML = state.events.map((item, index) => `
+      if (!root) return;
+      root.innerHTML = state.events.map((entry, index) => {
+        const slots = Array.isArray(entry?.slots) ? entry.slots : [];
+        const monthLabel = monthNames[Number(entry?.month)] || "—";
+        return `
         <div class="item">
-          <h4 class="item-title">${escapeHtml(item.title)}</h4>
-          <p class="item-text"><b>Дата:</b> ${item.day} ${monthNames[item.month]} ${item.year}</p>
-          <p class="item-text"><b>Время:</b> ${escapeHtml(item.time || "—")}</p>
-          <p class="item-text"><b>Описание:</b> ${escapeHtml(item.place || "—")}</p>
-          <p class="item-text"><b>Количество мест:</b> ${item.capacity}</p>
-          <p class="item-text"><b>Даты и время:</b> ${item.slots.length ? item.slots.map(escapeHtml).join(" • ") : "—"}</p>
-          <p class="item-text"><b>Подсказка:</b> ${escapeHtml(item.note || "—")}</p>
+          <h4 class="item-title">${escapeHtml(entry?.title || "")}</h4>
+          <p class="item-text"><b>Дата:</b> ${escapeHtml(String(entry?.day ?? "—"))} ${escapeHtml(monthLabel)} ${escapeHtml(String(entry?.year ?? "—"))}</p>
+          <p class="item-text"><b>Время:</b> ${escapeHtml(entry?.time || "—")}</p>
+          <p class="item-text"><b>Описание:</b> ${escapeHtml(entry?.place || "—")}</p>
+          <p class="item-text"><b>Количество мест:</b> ${escapeHtml(String(entry?.capacity ?? "—"))}</p>
+          <p class="item-text"><b>Даты и время:</b> ${slots.length ? slots.map(escapeHtml).join(" • ") : "—"}</p>
+          <p class="item-text"><b>Подсказка:</b> ${escapeHtml(entry?.note || "—")}</p>
           <div class="item-actions">
             <button class="small-btn" type="button" onclick="startEditEvent(${index})">Редактировать</button>
             <button class="small-btn delete" type="button" onclick="deleteEvent(${index})">Удалить</button>
           </div>
         </div>
-      `).join("");
+      `;
+      }).join("");
     }
 
     function renderMembersAdminList() {
@@ -2218,12 +2666,17 @@
 
     function renderAll() {
       renderSettings();
+      renderMobileChrome();
       renderTeam();
       renderJobs();
-      renderLatestNews();
       renderInternships();
       renderDirections();
       renderCalendar();
+      if (isHomePage) {
+        renderHomeByViewport();
+      } else {
+        renderLatestNews();
+      }
       fillSettingsForm();
       renderJobsAdminList();
       renderEventsAdminList();
@@ -2316,6 +2769,7 @@
       internshipDescInput.value = '';
       internshipLinkInput.value = '';
       internshipFormatInput.value = '';
+      if (internshipPublishedInput) internshipPublishedInput.value = 'true';
       internshipEditNote.textContent = '';
       const btn = document.getElementById('saveInternshipBtn');
       if (btn) btn.textContent = 'Сохранить стажировку';
@@ -2329,7 +2783,8 @@
         company: internshipCompanyInput.value,
         desc: internshipDescInput.value,
         link: internshipLinkInput.value,
-        format: internshipFormatInput.value
+        format: internshipFormatInput.value,
+        published: internshipPublishedInput ? internshipPublishedInput.value === 'true' : true
       }, editingInternshipIndex !== null ? editingInternshipIndex : state.internships.length);
       if (!item.title) { adminError.textContent = 'Укажите название стажировки.'; return; }
       if (editingInternshipIndex !== null) state.internships[editingInternshipIndex] = item; else state.internships.unshift(item);
@@ -2388,6 +2843,7 @@
       jobCapacity.value = item.capacity;
       jobSlots.value = formatSlotTextareaValue(slotsToTextarea(item.slots));
       jobNote.value = item.note || "";
+      if (jobPublishedInput) jobPublishedInput.value = item.published ? "true" : "false";
       jobEditNote.textContent = `Редактируется вариант записи #${index + 1}`;
       document.getElementById("saveJobBtn").textContent = "Обновить запись";
     }
@@ -2406,6 +2862,7 @@
       eventSlots.value = formatSlotTextareaValue(slotsToTextarea(item.slots));
       eventNote.value = item.note || "";
       eventColor.value = item.color;
+      if (eventPublishedInput) eventPublishedInput.value = item.published ? "true" : "false";
       eventEditNote.textContent = `Редактируется событие #${index + 1}`;
       document.getElementById("saveEventBtn").textContent = "Обновить событие";
     }
@@ -2484,35 +2941,22 @@
 
       const primary = await sb
         .from("profiles")
-        .select("id,role,email,full_name")
+        .select("role")
         .eq("id", session.user.id)
         .maybeSingle();
 
-      if (!primary.error && primary.data) {
-        return {
-          ...baseFallback,
-          ...primary.data,
-          role: normalizeStr(primary.data.role).toLowerCase()
-        };
-      }
-
-      const fallback = await sb
-        .from("profiles")
-        .select("id,role")
-        .eq("id", session.user.id)
-        .maybeSingle();
-
-      if (fallback.error || !fallback.data) return baseFallback;
+      if (primary.error || !primary.data) return baseFallback;
       return {
         ...baseFallback,
-        ...fallback.data,
-        role: normalizeStr(fallback.data.role).toLowerCase()
+        role: normalizeStr(primary.data.role).toLowerCase()
       };
     }
 
     async function updateAuthUI() {
       const { data: { session } } = await sb.auth.getSession();
       currentProfile = await fetchProfile(session);
+      updateDirectionsLinkVisibility();
+      renderMonitoringPanel();
 
       if (!session) {
         accountOpenBtn.textContent = "Войти";
@@ -2541,6 +2985,7 @@
       if (bookingEmail && !normalizeStr(bookingEmail.value)) {
         bookingEmail.value = normalizeStr(currentProfile?.email || session.user.email);
       }
+      applySiteGuards();
     }
 
     async function login() {
@@ -2551,9 +2996,11 @@
       const { error } = await sb.auth.signInWithPassword({ email, password });
       if (error) {
         loginError.textContent = error.message || "Ошибка входа";
+        addAdminLog("error", "Ошибка входа", error.message || String(error));
         return;
       }
 
+      addAdminLog("info", "Вход выполнен", email);
       accountModal.classList.remove("show");
       passwordInput.value = "";
       await updateAuthUI();
@@ -2561,6 +3008,7 @@
 
     async function logout() {
       await sb.auth.signOut();
+      addAdminLog("info", "Выход из аккаунта", currentProfile?.email || "");
       adminModal.classList.remove("show");
       accountModal.classList.remove("show");
       registrationsModal.classList.remove("show");
@@ -2568,6 +3016,9 @@
     }
 
     async function loadStateFromDatabase() {
+      if (SiteRuntime && typeof SiteRuntime.showLoading === "function") {
+        SiteRuntime.showLoading("Подгружаем данные сайта...");
+      }
       const { data, error } = await sb
         .from("site_content")
         .select("content")
@@ -2576,8 +3027,10 @@
 
       if (error) {
         showRuntimeError("Ошибка чтения site_content: " + (error.message || error));
+        addAdminLog("error", "Ошибка чтения site_content", error.message || String(error));
         state = cloneDefaultState();
         renderAll();
+        applySiteGuards();
         return;
       }
 
@@ -2616,6 +3069,8 @@
       }
 
       renderAll();
+      applySiteGuards();
+      addAdminLog("info", "Данные загружены", `Страница: ${pageMode}`);
     }
 
     async function refreshSlotStats() {
@@ -3164,9 +3619,26 @@
     };
 
     bindClick(accountOpenBtn, openAccountModal);
+    bindClick(mobileAccountBtn, () => {
+      if (currentProfile) {
+        openMyRegistrationsModal();
+        return;
+      }
+      openAccountModal();
+    });
     bindClick(openAdminBtn, openAdminModal);
     bindClick(openRegistrationsTopBtn, openRegistrationsModal);
     bindClick(openMyRegistrationsBtn, openMyRegistrationsModal);
+    bindClick(refreshLogsBtn, renderMonitoringPanel);
+    bindClick(clearLogsBtn, () => {
+      if (SiteRuntime && typeof SiteRuntime.clearLogs === "function") {
+        SiteRuntime.clearLogs();
+      }
+      renderMonitoringPanel();
+    });
+    bindClick(mobileMenuBtn, () => setMobileMenuOpen(true));
+    bindClick(mobileMenuCloseBtn, () => setMobileMenuOpen(false));
+    bindClick(mobileMenuOverlay, () => setMobileMenuOpen(false));
     bindClick(closeAccountBtn, closeModals);
     bindClick(closeAdminBtn, closeModals);
     bindClick(closeDayEventsBtn, closeModals);
@@ -3185,6 +3657,11 @@
     if (registrationsModal) registrationsModal.addEventListener("click", (e) => { if (e.target === registrationsModal) registrationsModal.classList.remove("show"); });
     if (myRegistrationsModal) myRegistrationsModal.addEventListener("click", (e) => { if (e.target === myRegistrationsModal) myRegistrationsModal.classList.remove("show"); });
     if (tileEditorModal) tileEditorModal.addEventListener("click", (e) => { if (e.target === tileEditorModal) closeTileEditor(); });
+    if (mobileMenuNav) {
+      mobileMenuNav.addEventListener("click", (event) => {
+        if (event.target.closest("a")) setMobileMenuOpen(false);
+      });
+    }
 
     const prevMonthBtn = document.getElementById("prevMonthBtn");
     const nextMonthBtn = document.getElementById("nextMonthBtn");
@@ -3197,7 +3674,7 @@
     if (refreshMyRegistrationsBtn) refreshMyRegistrationsBtn.addEventListener("click", loadMyRegistrations);
 
     sb.auth.onAuthStateChange(() => {
-      updateAuthUI();
+      updateAuthUI().then(() => renderMobileChrome());
       if (myRegistrationsModal.classList.contains("show")) {
         loadMyRegistrations();
       }
@@ -3221,13 +3698,29 @@
     clearDirectionForm();
 
     (async function init() {
+      document.body.classList.toggle("is-mobile", isMobile);
+      const mobileBreakpoint = window.matchMedia("(max-width: 768px)");
+      const reloadForViewportMode = () => window.location.reload();
+      if (typeof mobileBreakpoint.addEventListener === "function") {
+        mobileBreakpoint.addEventListener("change", reloadForViewportMode);
+      } else if (typeof mobileBreakpoint.addListener === "function") {
+        mobileBreakpoint.addListener(reloadForViewportMode);
+      }
       initializeDashboardEditor();
       await updateAuthUI();
+      renderMobileChrome();
       await loadStateFromDatabase();
       await refreshSlotStats();
-      applyDashboardLayout();
+      if (!isMobile) applyDashboardLayout();
       renderSettings();
       const params = new URLSearchParams(window.location.search);
+      if (params.get("openMyRegistrations") === "1") {
+        params.delete("openMyRegistrations");
+        const query = params.toString();
+        const nextUrl = `${window.location.pathname}${query ? `?${query}` : ""}${window.location.hash}`;
+        window.history.replaceState({}, "", nextUrl);
+        await openMyRegistrationsModal();
+      }
       if (params.get("editLayout") === "1" && currentProfile && hasAdminRole(currentProfile) && isHomePage) {
         params.delete("editLayout");
         const query = params.toString();
