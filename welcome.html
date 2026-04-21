@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Добро пожаловать</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body data-page="welcome" class="welcome-page">
+  <main class="welcome-screen">
+    <section class="welcome-card">
+      <img
+        class="welcome-image"
+        src="assets/images/welcome-first-screen.jpg"
+        alt="Твоя технологическая карьера начинается здесь"
+      />
+      <div class="welcome-actions">
+        <button class="btn welcome-start-btn" id="startWelcomeBtn" type="button">Начать</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      var startButton = document.getElementById("startWelcomeBtn");
+      if (!startButton) return;
+
+      startButton.addEventListener("click", function () {
+        try {
+          localStorage.setItem("careerWelcomeSeen", "1");
+        } catch (error) {}
+        window.location.href = "index.html";
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Новости центра карьеры</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/config.js" defer></script>
+  <script src="assets/js/news.js" defer></script>
+</head>
+<body data-page="news">
+  <div class="bg-pattern"></div>
+  <header>
+    <div class="header-inner">
+      <div class="header-topline">
+        <div class="brand-block">
+          <div class="header-label">Центр карьеры колледжа</div>
+          <h1 class="header-title" id="newsPageTitle">Новости центра карьеры</h1>
+          <p class="page-hero-note" id="newsPageText">На этой странице собраны все опубликованные новости, анонсы и материалы с видеороликами.</p>
+        </div>
+        <div class="header-actions">
+          <button class="header-btn" id="accountOpenBtn" type="button">Аккаунт</button>
+          <button class="header-btn hidden" id="logoutTopBtn" type="button">Выйти</button>
+          <button class="header-btn hidden" id="openAdminBtn" type="button">Админка</button>
+          <button class="header-btn hidden" id="openRegistrationsTopBtn" type="button">Заявки</button>
+          <button class="header-btn hidden" id="openMyRegistrationsBtn" type="button">Мои заявки</button>
+        </div>
+      </div>
+      <div class="top-links portal-nav">
+        <a href="index.html">Главная</a>
+        <a href="events.html">Мероприятия</a>
+        <a href="services.html">Запись</a>
+        <a href="internships.html">Стажировки</a>
+        <a href="team.html">Команда</a>
+        <a href="news.html">Новости</a>
+        <a href="directions.html">Направления</a>
+      </div>
+    </div>
+  </header>
+  <main class="container">
+    <section class="news-layout">
+      <a class="back-link" href="index.html">← На главную страницу</a>
+      <div class="news-page-list" id="newsPageList">
+        <div class="muted-text">Загрузка новостей...</div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

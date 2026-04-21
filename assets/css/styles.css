@@ -1,0 +1,3840 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --text: #1f2a44;
+  --muted: #5d6b86;
+  --line: rgba(96, 114, 158, 0.14);
+  --panel: rgba(255, 255, 255, 0.95);
+  --blue1: #2558c7;
+  --blue2: #3b82f6;
+  --purple: #7b5cff;
+  --orange1: #ff8f3c;
+  --orange2: #ff5f6d;
+  --green1: #12b886;
+  --green2: #00a884;
+  --shadow: 0 18px 42px rgba(71, 92, 133, 0.10);
+  --radius-xl: 28px;
+  --radius-lg: 22px;
+  --radius-md: 18px;
+  --radius-sm: 14px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(255, 197, 90, 0.22), transparent 24%),
+    radial-gradient(circle at top right, rgba(76, 133, 255, 0.24), transparent 22%),
+    radial-gradient(circle at bottom left, rgba(123, 100, 255, 0.14), transparent 20%),
+    linear-gradient(135deg, #eef5ff 0%, #fffdf7 48%, #f6f2ff 100%);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+a {
+  color: inherit;
+}
+
+img,
+video,
+iframe {
+  max-width: 100%;
+  display: block;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.bg-pattern {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.22;
+  background-image:
+    linear-gradient(rgba(72, 95, 150, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(72, 95, 150, 0.08) 1px, transparent 1px);
+  background-size: 34px 34px;
+  z-index: 0;
+}
+
+header {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--blue1) 0%, var(--blue2) 42%, var(--purple) 100%);
+  color: white;
+  padding: 28px 36px 30px;
+  z-index: 1;
+}
+
+header::before,
+header::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+header::before {
+  width: 220px;
+  height: 220px;
+  right: 40px;
+  top: -90px;
+}
+
+header::after {
+  width: 160px;
+  height: 160px;
+  left: 22%;
+  bottom: -70px;
+}
+
+.header-inner {
+  position: relative;
+  z-index: 5;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.header-topline {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.header-label {
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.9;
+  margin-bottom: 8px;
+}
+
+.header-title {
+  margin: 0;
+  font-size: 40px;
+  line-height: 1.1;
+}
+
+.header-text {
+  margin: 14px 0 0;
+  max-width: 760px;
+  font-size: 16px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.94);
+}
+
+.header-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
+}
+
+.header-btn {
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+  padding: 11px 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  backdrop-filter: blur(5px);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.header-btn:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.top-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.top-links a {
+  text-decoration: none;
+  color: white;
+  font-size: 14px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  white-space: nowrap;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px 18px 50px;
+}
+
+.panel {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+.panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(76, 133, 255, 0.10), transparent 28%),
+    radial-gradient(circle at 0% 100%, rgba(255, 180, 74, 0.10), transparent 22%);
+}
+
+.panel-content {
+  position: relative;
+  z-index: 1;
+  padding: 24px;
+}
+
+.panel-title {
+  margin: 0 0 16px;
+  font-size: 24px;
+  color: #243250;
+}
+
+.panel-text {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.65;
+  color: #576884;
+}
+
+.info-mark {
+  display: inline-block;
+  margin-top: 18px;
+  padding: 11px 15px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 700;
+  color: #5f4700;
+  background: linear-gradient(135deg, #fff4ca, #ffe3a3);
+}
+
+.hidden {
+  display: none !important;
+}
+
+.muted-text {
+  color: #60708b;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.success {
+  margin-top: 10px;
+  color: #0c8b57;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.error {
+  margin-top: 10px;
+  color: #d63a3a;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.btn,
+.small-btn,
+.close-btn,
+.calendar-nav-btn {
+  border: none;
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+}
+
+.btn {
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(135deg, var(--blue1), var(--purple));
+}
+
+.btn.secondary {
+  background: linear-gradient(135deg, var(--orange1), var(--orange2));
+}
+
+.btn.gray {
+  background: linear-gradient(135deg, #8b97ad, #6b768d);
+}
+
+.small-btn {
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(135deg, var(--blue1), var(--purple));
+}
+
+.small-btn.delete {
+  background: linear-gradient(135deg, var(--orange1), var(--orange2));
+}
+
+.close-btn {
+  padding: 10px 14px;
+  border-radius: 12px;
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #7d8aa3, #5f6b83);
+}
+
+.field {
+  margin-bottom: 12px;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #31415f;
+}
+
+.field input,
+.field textarea,
+.field select {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid #d7dff0;
+  background: white;
+  font-size: 14px;
+  color: #233250;
+  outline: none;
+}
+
+.field textarea {
+  min-height: 96px;
+  resize: vertical;
+}
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.head-badge,
+.calendar-mark {
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #4f6184;
+  background: linear-gradient(135deg, #eef3ff, #f3ebff);
+}
+
+
+.section-link-btn {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--blue1), var(--purple));
+}
+
+.section-link-btn:hover {
+  transform: translateY(-1px);
+}
+
+.admin-shell {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 16px;
+}
+
+.admin-sidebar,
+.admin-main,
+.admin-form-card,
+.admin-list-card {
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(246, 249, 255, 0.94));
+  border: 1px solid rgba(93, 114, 160, 0.12);
+}
+
+.admin-sidebar,
+.admin-main {
+  padding: 16px;
+}
+
+.admin-tab-list { display: grid; gap: 8px; }
+.admin-tab-btn {
+  border: 1px solid #d7dff0;
+  background: #fff;
+  color: #31415f;
+  text-align: left;
+  padding: 10px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 700;
+}
+.admin-tab-btn.active {
+  color: #fff;
+  border-color: transparent;
+  background: linear-gradient(135deg, var(--blue1), var(--purple));
+}
+
+.admin-section { display: none; }
+.admin-section.active { display: block; }
+.admin-section-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.admin-form-card,
+.admin-list-card { padding: 16px; }
+.admin-sidebar-title,
+.admin-section-title,
+.admin-card-title {
+  margin: 0 0 12px;
+  color: #1f2a44;
+}
+.admin-sidebar-text,
+.admin-section-text,
+.admin-card-note,
+.admin-toolbar-text {
+  color: #1f2a44;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.admin-visual-toolbar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+.home-visual-editor { display: grid; gap: 12px; margin-top: 14px; }
+.home-visual-card {
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(93, 114, 160, 0.14);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(246, 249, 255, 0.95));
+}
+.home-visual-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.home-visual-card-title { margin: 0; font-size: 16px; color: #243250; }
+.home-visual-card-text { margin: 0; color: #60708b; font-size: 14px; line-height: 1.55; }
+.home-visual-card-swatch {
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  flex: 0 0 auto;
+}
+.dashboard-news-description { margin: 10px 0 0; max-width: 560px; }
+.layout-mode-toolbar {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 25;
+  display: none;
+  gap: 10px;
+}
+
+body.edit-mode.admin-layout-edit .layout-mode-toolbar {
+  display: flex;
+}
+
+.booking-modal-box { width: min(1060px, 100%); }
+.booking-grid { display: grid; grid-template-columns: minmax(280px, 380px) minmax(0, 1fr); gap: 16px; }
+.slot-select-card {
+  border-radius: 20px;
+  border: 1px solid rgba(94, 116, 160, 0.14);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(246, 249, 255, 0.95));
+  padding: 16px;
+}
+.booking-meta,
+.booking-note,
+.inline-note,
+.booking-day-subtitle { color: #60708b; font-size: 14px; line-height: 1.6; }
+.booking-meta { margin-top: 10px; font-weight: 700; }
+.booking-calendar-card { margin-top: 12px; }
+.booking-calendar-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.booking-calendar-month { flex: 1; text-align: center; font-size: 18px; font-weight: 700; color: #25324f; }
+.booking-calendar-nav {
+  border: none; cursor: pointer; width: 36px; height: 36px; border-radius: 10px;
+  color: white; font-weight: 700; background: linear-gradient(135deg, var(--blue1), var(--purple));
+}
+.booking-calendar-weekdays,
+.booking-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+}
+.booking-calendar-weekday {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #687894;
+  text-transform: uppercase;
+}
+.booking-calendar-day {
+  min-height: 78px;
+  padding: 8px 6px;
+  border-radius: 12px;
+  border: 1px solid rgba(92, 115, 164, 0.12);
+  background: rgba(247, 250, 255, 0.96);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 4px;
+}
+.booking-calendar-day span { font-weight: 700; color: #31415f; }
+.booking-calendar-day small { font-size: 11px; color: #60708b; }
+.booking-calendar-day.has-slots { border-color: rgba(37, 88, 199, .24); cursor: pointer; }
+.booking-calendar-day.is-selected { border-color: #2457c5; background: #eaf1ff; box-shadow: inset 0 0 0 1px #2457c5; }
+.booking-calendar-day.is-full { background: #f5f7fb; }
+.booking-calendar-day.empty { opacity: .55; }
+.booking-calendar-day:disabled { cursor: default; }
+.booking-calendar-empty { margin-top: 10px; color: #60708b; font-size: 13px; }
+.booking-day-title { margin: 0; font-size: 22px; }
+.booking-time-list { display: grid; gap: 8px; margin: 12px 0; }
+.booking-time-item {
+  display: flex; justify-content: space-between; align-items: center; gap: 10px;
+  border: 1px solid #d7dff0; border-radius: 12px; background: #fff; padding: 10px;
+}
+.booking-time-item.is-selected { border-color: #2457c5; box-shadow: inset 0 0 0 1px #2457c5; }
+.booking-time-item.is-full { opacity: .6; }
+.booking-time-main { display: grid; gap: 2px; text-align: left; }
+.booking-time-label { font-weight: 700; color: #273754; }
+.booking-time-meta { font-size: 12px; color: #60708b; }
+.booking-day-empty { margin: 10px 0; padding: 10px; border-radius: 10px; background: #f5f8ff; color: #60708b; }
+.booking-side-divider { border-top: 1px solid #d7dff0; margin: 12px 0; }
+
+.registrations-toolbar { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+.registrations-table-wrap { margin-top: 12px; overflow: auto; }
+.registrations-empty { padding: 14px; border: 1px dashed #cbd5ea; border-radius: 12px; color: #60708b; }
+
+/* Главная раскладка: новости слева, всё остальное справа */
+
+.home-layout {
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.home-sidebar {
+  min-width: 0;
+}
+
+.home-main {
+  min-width: 0;
+  display: grid;
+  gap: 20px;
+}
+
+.news-sidebar-panel {
+  position: sticky;
+  top: 18px;
+}
+
+.news-sidebar-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.news-sidebar-title {
+  margin: 0;
+  font-size: 24px;
+  color: #243250;
+}
+
+.news-sidebar-all {
+  text-decoration: none;
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--orange1), var(--orange2));
+  white-space: nowrap;
+}
+
+.news-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+.news-card {
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 251, 255, 0.94));
+  border: 1px solid rgba(94, 116, 160, 0.12);
+  overflow: hidden;
+  box-shadow: 0 10px 28px rgba(71, 92, 133, 0.08);
+}
+
+.news-card-inner {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.news-card-media {
+  min-height: 180px;
+  background: linear-gradient(135deg, var(--blue1), var(--purple));
+  background-size: cover;
+  background-position: center;
+}
+
+.news-card-content {
+  padding: 18px;
+}
+
+.news-card-date {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #2457c5;
+  background: #eaf1ff;
+}
+
+.news-card-title {
+  margin: 0 0 10px;
+  font-size: 18px;
+  line-height: 1.35;
+  color: #22314e;
+}
+
+.news-card-text {
+  margin: 0 0 14px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #5a6a87;
+}
+
+.news-card-text a,
+.news-rich-text a {
+  color: #2457c5;
+  text-decoration: underline;
+  word-break: break-word;
+}
+
+.news-card-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--blue1), var(--purple));
+}
+
+.news-rich-text {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #445470;
+}
+
+/* Верхняя часть контента */
+
+.row-2 {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 20px;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.team-card {
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(246, 249, 255, 0.94));
+  border: 1px solid rgba(93, 114, 160, 0.12);
+  min-height: 180px;
+}
+
+.team-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.team-photo {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  flex: 0 0 72px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 22px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #7ea7ff, #4a63ff);
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 10px 22px rgba(74, 99, 255, 0.22);
+}
+
+.team-name {
+  margin: 0;
+  font-size: 17px;
+  color: #243250;
+}
+
+.team-role {
+  margin: 6px 0 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: #4a63c9;
+}
+
+.team-desc {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: #62728f;
+}
+
+/* Календарь мероприятий */
+
+.calendar-wrap {
+  margin-bottom: 0;
+}
+
+.calendar-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.calendar-tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.calendar-nav-btn {
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 9px 12px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--blue1), var(--purple));
+}
+
+.calendar-month {
+  font-size: 18px;
+  font-weight: 700;
+  color: #25324f;
+  min-width: 160px;
+  text-align: center;
+}
+
+.calendar-weekdays,
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.calendar-weekdays {
+  margin-bottom: 10px;
+}
+
+.weekday {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #687894;
+  text-transform: uppercase;
+}
+
+.day {
+  min-height: 110px;
+  border-radius: var(--radius-md);
+  background: rgba(247, 250, 255, 0.96);
+  border: 1px solid rgba(92, 115, 164, 0.10);
+  padding: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.day.muted {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.day.has-events {
+  border-color: rgba(37, 88, 199, .24);
+}
+
+.day-number {
+  font-size: 14px;
+  font-weight: 700;
+  color: #31415f;
+  line-height: 1;
+}
+
+.day-events {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.mini-event {
+  display: block;
+  width: 100%;
+  padding: 5px 7px;
+  border-radius: 9px;
+  font-size: 10px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.event-blue {
+  background: linear-gradient(135deg, var(--blue2), var(--blue1));
+}
+
+.event-orange {
+  background: linear-gradient(135deg, #ff9a3d, #ff5d67);
+}
+
+.event-green {
+  background: linear-gradient(135deg, var(--green1), var(--green2));
+}
+
+/* Карточки записи / стажировок / направлений */
+
+.jobs-grid,
+.internships-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.job-card,
+.internship-card {
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 251, 255, 0.94));
+  border: 1px solid rgba(94, 116, 160, 0.12);
+  min-height: 240px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.job-card::after,
+.internship-card::after {
+  content: "";
+  position: absolute;
+  right: -20px;
+  bottom: -20px;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: rgba(76, 133, 255, 0.08);
+}
+
+.job-tag,
+.internship-tag {
+  display: inline-block;
+  margin-bottom: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #2457c5;
+  background: #eaf1ff;
+  align-self: flex-start;
+}
+
+.job-title,
+.internship-title {
+  margin: 0 0 8px;
+  font-size: 18px;
+  color: #22314e;
+  position: relative;
+  z-index: 1;
+}
+
+.job-text,
+.internship-text {
+  margin: 0;
+  margin-bottom: 50px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: #5a6a87;
+  position: relative;
+  z-index: 1;
+  flex: 1;
+}
+
+.job-btn,
+.internship-btn,
+.direction-link {
+  text-decoration: none;
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px 14px;
+  border-radius: 12px;
+  position: relative;
+  z-index: 1;
+  margin-top: auto;
+  align-self: flex-start;
+}
+
+.job-btn {
+  background: linear-gradient(135deg, var(--orange1), var(--orange2));
+}
+
+.internship-btn,
+.direction-link {
+  background: linear-gradient(135deg, var(--blue1), var(--purple));
+}
+
+.directions-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.direction-card {
+  overflow: hidden;
+  border-radius: 24px;
+  background: white;
+  border: 1px solid rgba(96, 116, 157, 0.12);
+  box-shadow: 0 12px 28px rgba(82, 97, 135, 0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+.direction-top {
+  padding: 18px;
+  color: white;
+  position: relative;
+}
+
+.direction-top::after {
+  content: "";
+  position: absolute;
+  right: -16px;
+  top: -16px;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.direction-card:nth-child(1n) .direction-top {
+  background: linear-gradient(135deg, var(--blue1), #4a8cff);
+}
+
+.direction-card:nth-child(2n) .direction-top {
+  background: linear-gradient(135deg, var(--green2), #23c59b);
+}
+
+.direction-card:nth-child(3n) .direction-top {
+  background: linear-gradient(135deg, #ff8d3d, #ff5e6d);
+}
+
+.direction-card:nth-child(4n) .direction-top {
+  background: linear-gradient(135deg, var(--purple), #b265ff);
+}
+
+.direction-title {
+  margin: 0;
+  font-size: 20px;
+}
+
+.direction-sub {
+  margin: 8px 0 0;
+  font-size: 13px;
+  line-height: 1.45;
+  opacity: 0.95;
+}
+
+.direction-body {
+  padding: 16px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.direction-body p {
+  margin: 0 0 14px;
+  color: #4d5d7a;
+  line-height: 1.5;
+  font-size: 14px;
+  flex: 1;
+}
+
+/* Модальные окна */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(14, 21, 38, 0.58);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  z-index: 1000;
+}
+
+.modal.show {
+  display: flex;
+}
+
+.modal-box {
+  width: min(1200px, 100%);
+  max-height: 92vh;
+  overflow: auto;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 24px 70px rgba(22, 33, 61, 0.28);
+  border: 1px solid rgba(108, 126, 170, 0.16);
+  padding: 22px;
+}
+
+.modal-box.narrow {
+  width: min(460px, 100%);
+}
+
+.modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 28px;
+  color: #243250;
+}
+
+/* Админка */
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-top: 8px;
+}
+
+.admin-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 251, 255, 0.94));
+  border: 1px solid rgba(94, 116, 160, 0.12);
+  border-radius: 22px;
+  padding: 18px;
+}
+
+.admin-card h3 {
+  margin: 0 0 14px;
+  font-size: 20px;
+  color: #243250;
+}
+
+.list {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.item {
+  padding: 14px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(246, 249, 255, 0.94));
+  border: 1px solid rgba(93, 114, 160, 0.12);
+}
+
+.item-title {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: #243250;
+}
+
+.item-text {
+  margin: 0 0 6px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #5e6d88;
+}
+
+.item-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.form-toolbar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+  margin-bottom: 6px;
+}
+
+.edit-note {
+  font-size: 13px;
+  color: #4a63c9;
+  font-weight: 700;
+  margin-bottom: 10px;
+  min-height: 18px;
+}
+
+/* Служебные блоки */
+
+.runtime-error-box {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 99999;
+  background: #fff4f4;
+  color: #8a1f1f;
+  border: 1px solid #f1b7b7;
+  border-radius: 12px;
+  padding: 12px 14px;
+  font: 14px/1.45 Arial, sans-serif;
+  display: none;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .12);
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+.empty-state {
+  padding: 16px;
+  border-radius: 16px;
+  background: rgba(245, 248, 255, 0.9);
+  border: 1px dashed rgba(94, 116, 160, 0.2);
+  color: #60708b;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Адаптив */
+
+
+
+/* compact home hub sizing */
+body[data-page="home"] .container {
+  max-width: 1200px;
+  padding-top: 16px;
+}
+
+body[data-page="home"] .portal-home-grid {
+  gap: 12px;
+}
+
+body[data-page="home"] .portal-tile {
+  border-radius: 20px;
+}
+
+body[data-page="home"] .portal-tile .panel-content {
+  padding: 16px;
+}
+
+body[data-page="home"] .panel-title {
+  margin-bottom: 10px;
+  font-size: 21px;
+}
+
+body[data-page="home"] #info .panel-text,
+body[data-page="home"] .hub-button-text,
+body[data-page="home"] .hub-card-meta,
+body[data-page="home"] .hub-button-link,
+body[data-page="home"] .news-card-actions,
+body[data-page="home"] .news-video-mark,
+body[data-page="home"] .booking-note,
+body[data-page="home"] .booking-meta {
+  display: none !important;
+}
+
+body[data-page="home"] #info .info-mark {
+  margin-top: 10px;
+  padding: 8px 10px;
+  font-size: 12px;
+}
+
+body[data-page="home"] .hub-actions {
+  margin-top: 12px;
+}
+
+body[data-page="home"] .section-head {
+  margin-bottom: 10px;
+}
+
+body[data-page="home"] .news-card-content,
+body[data-page="home"] .news-card-body {
+  padding: 12px;
+}
+
+body[data-page="home"] .news-card-title {
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+body[data-page="home"] .news-card-text {
+  margin-bottom: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+body[data-page="home"] .news-card-date {
+  margin-bottom: 6px;
+  font-size: 11px;
+}
+
+body[data-page="home"] .calendar-weekdays,
+body[data-page="home"] .calendar-grid {
+  gap: 6px;
+}
+
+body[data-page="home"] .weekday {
+  font-size: 11px;
+}
+
+body[data-page="home"] .day {
+  min-height: 76px;
+  padding: 7px;
+  gap: 4px;
+}
+
+body[data-page="home"] .day-number {
+  font-size: 12px;
+}
+
+body[data-page="home"] .mini-event {
+  font-size: 9px;
+  padding: 3px 5px;
+}
+
+body[data-page="home"] .calendar-nav-btn,
+body[data-page="home"] .section-link-btn,
+body[data-page="home"] .job-btn,
+body[data-page="home"] .internship-btn,
+body[data-page="home"] .direction-link {
+  padding: 8px 10px;
+  font-size: 12px;
+}
+
+body[data-page="home"] .hub-button-card {
+  min-height: 140px;
+  padding: 14px;
+  gap: 10px;
+  border-radius: 18px;
+}
+
+body[data-page="home"] .hub-button-title {
+  font-size: 20px;
+}
+
+body[data-page="home"] .hub-button-arrow {
+  width: 30px;
+  height: 30px;
+  font-size: 17px;
+}
+
+body[data-page="home"] .job-card,
+body[data-page="home"] .internship-card,
+body[data-page="home"] .direction-card,
+body[data-page="home"] .team-card {
+  min-height: 0;
+}
+
+@media (max-width: 1180px) {
+  .home-layout {
+    grid-template-columns: 300px minmax(0, 1fr);
+  }
+
+  .jobs-grid,
+  .internships-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .directions-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1100px) {
+  .home-layout,
+  .row-2,
+  .jobs-grid,
+  .internships-grid,
+  .directions-grid,
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .news-sidebar-panel {
+    position: static;
+  }
+}
+
+@media (max-width: 760px) {
+  header {
+    padding: 24px 18px 26px;
+  }
+
+  .header-title {
+    font-size: 31px;
+  }
+
+  .header-topline {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header-actions {
+    width: 100%;
+  }
+
+  .header-btn {
+    flex: 1 1 calc(50% - 10px);
+    text-align: center;
+  }
+
+  .top-links {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .container {
+    padding: 16px 12px 34px;
+  }
+
+  .panel-content,
+  .modal-box {
+    padding: 18px;
+  }
+
+  .team-grid,
+  .jobs-grid,
+  .internships-grid,
+  .directions-grid,
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .calendar-weekdays,
+  .calendar-grid {
+    gap: 6px;
+  }
+
+  .day {
+    min-height: 90px;
+    padding: 8px;
+  }
+
+  .mini-event {
+    font-size: 9px;
+    padding: 4px 6px;
+  }
+
+  .home-layout,
+  .home-main {
+    gap: 16px;
+  }
+
+  .news-card-media {
+    min-height: 140px;
+  }
+
+  .news-card-content {
+    padding: 16px;
+  }
+
+  .news-sidebar-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .news-sidebar-all {
+    text-align: center;
+  }
+
+  .calendar-head,
+  .calendar-tools,
+  .section-head,
+  .modal-head {
+    align-items: stretch;
+  }
+
+  .calendar-month {
+    min-width: 0;
+  }
+
+  .item-actions,
+  .form-toolbar {
+    flex-direction: column;
+  }
+
+  .btn,
+  .small-btn,
+  .close-btn,
+  .calendar-nav-btn {
+    width: 100%;
+  }
+}
+
+
+/* ===== Portal / hub update ===== */
+body[data-page="home"] .portal-home-layout {
+  display: block;
+}
+
+body[data-page="home"] .portal-home-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 20px;
+}
+
+body[data-page="home"] .portal-tile {
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
+}
+
+body[data-page="home"] .portal-tile:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 22px 45px rgba(71, 92, 133, 0.14);
+}
+
+body[data-page="home"] .portal-tile-hero { grid-column: span 6; }
+body[data-page="home"] #newsPreview { grid-column: span 6; }
+body[data-page="home"] #team,
+body[data-page="home"] #events { grid-column: span 6; }
+body[data-page="home"] #jobs,
+body[data-page="home"] #internships,
+body[data-page="home"] #directions { grid-column: span 4; }
+
+body[data-page="home"] .row-2,
+body[data-page="home"] .home-sidebar { display: contents; }
+
+.portal-nav a {
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.18);
+}
+
+body[data-page="home"] .news-grid-vertical {
+  grid-template-columns: 1fr;
+}
+
+body[data-page="home"] .news-card-media {
+  min-height: 140px;
+}
+
+body[data-page="home"] #team .team-grid,
+body[data-page="home"] #jobs .jobs-grid,
+body[data-page="home"] #internships .jobs-grid,
+body[data-page="home"] #directions .directions-grid {
+  display: block;
+}
+
+.hub-button-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 220px;
+  border-radius: 24px;
+  text-decoration: none;
+  color: #ffffff;
+  padding: 22px;
+  background: linear-gradient(135deg, #1f4fb8 0%, #2c6be0 56%, #4f46e5 100%);
+  box-shadow: 0 18px 42px rgba(47, 80, 150, 0.22);
+}
+
+.hub-button-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.hub-button-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.86;
+}
+
+.hub-button-arrow {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(255,255,255,0.16);
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.hub-button-title { margin: 0; font-size: 26px; line-height: 1.15; }
+.hub-button-text { margin: 0; color: rgba(255,255,255,0.92); line-height: 1.55; }
+.hub-card-meta { margin-top: auto; font-size: 14px; color: rgba(255,255,255,0.88); }
+.hub-button-link { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; }
+
+.hub-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
+.hub-hero-btn,
+.hub-ghost-btn { text-decoration: none; }
+
+.hub-ghost-btn {
+  background: transparent;
+  color: #2558c7;
+  border: 1px solid rgba(37, 88, 199, 0.22);
+}
+
+.mini-empty { font-size: 11px; color: #93a1bc; }
+
+@media (max-width: 1180px) {
+  body[data-page="home"] .portal-home-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  body[data-page="home"] .portal-tile-hero,
+  body[data-page="home"] #newsPreview,
+  body[data-page="home"] #team,
+  body[data-page="home"] #events,
+  body[data-page="home"] #jobs,
+  body[data-page="home"] #internships,
+  body[data-page="home"] #directions { grid-column: auto; }
+}
+
+/* full section pages */
+body[data-page="events"] .home-sidebar,
+body[data-page="events"] #info,
+body[data-page="events"] #team,
+body[data-page="events"] #jobs,
+body[data-page="events"] #internships,
+body[data-page="events"] #directions,
+body[data-page="events"] #newsPreview,
+body[data-page="services"] .home-sidebar,
+body[data-page="services"] #info,
+body[data-page="services"] #team,
+body[data-page="services"] #events,
+body[data-page="services"] #internships,
+body[data-page="services"] #directions,
+body[data-page="services"] #newsPreview,
+body[data-page="team"] .home-sidebar,
+body[data-page="team"] #info,
+body[data-page="team"] #jobs,
+body[data-page="team"] #events,
+body[data-page="team"] #internships,
+body[data-page="team"] #directions,
+body[data-page="team"] #newsPreview,
+body[data-page="internships"] .home-sidebar,
+body[data-page="internships"] #info,
+body[data-page="internships"] #team,
+body[data-page="internships"] #jobs,
+body[data-page="internships"] #events,
+body[data-page="internships"] #directions,
+body[data-page="internships"] #newsPreview {
+  display: none !important;
+}
+
+body[data-page="events"] .home-layout,
+body[data-page="services"] .home-layout,
+body[data-page="team"] .home-layout,
+body[data-page="internships"] .home-layout {
+  display: block;
+}
+
+body[data-page="events"] .home-main,
+body[data-page="services"] .home-main,
+body[data-page="team"] .home-main,
+body[data-page="internships"] .home-main {
+  display: block;
+}
+
+body[data-page="events"] #events,
+body[data-page="services"] #jobs,
+body[data-page="team"] #team,
+body[data-page="internships"] #internships {
+  display: block !important;
+}
+
+body[data-page="events"] #events .panel-content,
+body[data-page="services"] #jobs .panel-content,
+body[data-page="team"] #team .panel-content,
+body[data-page="internships"] #internships .panel-content {
+  padding: 28px;
+}
+
+body[data-page="events"] .calendar-grid {
+  gap: 12px;
+}
+
+body[data-page="events"] .day {
+  min-height: 128px;
+}
+
+body[data-page="services"] .jobs-grid,
+body[data-page="internships"] .jobs-grid,
+body[data-page="team"] .team-grid {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+/* news / directions pages */
+.news-layout {
+  display: grid;
+  gap: 20px;
+}
+
+.news-page-list {
+  display: grid;
+  gap: 22px;
+}
+
+.news-page-card,
+.direction-page-card {
+  border-radius: 24px;
+  background: rgba(255,255,255,0.95);
+  border: 1px solid rgba(96,114,158,0.14);
+  box-shadow: 0 18px 42px rgba(71,92,133,0.10);
+  overflow: hidden;
+}
+
+.news-page-cover {
+  aspect-ratio: 16 / 7;
+}
+
+.news-page-body,
+.direction-page-body {
+  padding: 24px;
+}
+
+.news-page-title,
+.direction-page-title {
+  font-size: 30px;
+  line-height: 1.15;
+}
+
+.news-page-text,
+.direction-page-text,
+.rich-text {
+  line-height: 1.75;
+}
+
+.page-hero-note {
+  margin: 12px 0 0;
+  max-width: 860px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.92);
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  color: #2558c7;
+}
+
+/* fix booking calendar */
+.booking-calendar-layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.booking-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.booking-calendar-day {
+  min-height: 74px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.booking-side-panel {
+  min-width: 0;
+}
+
+@media (max-width: 980px) {
+  body[data-page="home"] .portal-home-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-grid,
+  .booking-calendar-layout,
+  .admin-shell,
+  .admin-section-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== 2026-04 design refresh: employment portal inspired layout ===== */
+:root {
+  --portal-bg-1: #0d3d86;
+  --portal-bg-2: #0a4f9a;
+  --portal-bg-3: #0e2d66;
+  --portal-surface: rgba(255, 255, 255, 0.96);
+  --portal-line: rgba(21, 58, 120, 0.14);
+  --portal-shadow: 0 16px 32px rgba(4, 32, 78, 0.22);
+}
+
+body {
+  background:
+    radial-gradient(circle at left top, rgba(92, 208, 255, 0.20), transparent 28%),
+    radial-gradient(circle at right top, rgba(31, 91, 188, 0.28), transparent 26%),
+    linear-gradient(135deg, #0b2f63 0%, #0f4c95 52%, #0c3978 100%);
+  min-height: 100vh;
+}
+
+.bg-pattern {
+  opacity: 0.08;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 26px 26px;
+}
+
+header {
+  background: linear-gradient(90deg, #153a86 0%, #184b9c 45%, #1f58b1 100%);
+  padding: 14px 24px 0;
+  box-shadow: 0 10px 28px rgba(2, 22, 57, 0.26);
+}
+
+header::before,
+header::after {
+  display: none;
+}
+
+.header-inner {
+  max-width: 1360px;
+}
+
+.header-topline {
+  min-height: 74px;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-topline > div:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.header-label {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  opacity: 0.86;
+}
+
+.header-title {
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.header-text {
+  margin-top: 6px;
+  max-width: 760px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+body[data-page="home"] .header-title {
+  max-width: 520px;
+  font-size: 24px;
+}
+
+body[data-page="home"] .header-text {
+  display: none;
+}
+
+.header-actions {
+  gap: 8px;
+  margin-left: auto;
+}
+
+.header-btn {
+  min-height: 42px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.top-links.portal-nav {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-top: 14px;
+  padding: 0 18px;
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 14px 14px 0 0;
+  overflow-x: auto;
+  box-shadow: 0 8px 18px rgba(4, 24, 61, 0.12);
+}
+
+.portal-nav a,
+.top-links a {
+  position: relative;
+  background: transparent;
+  border: none;
+  color: #33435f;
+  padding: 16px 18px;
+  border-radius: 0;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.portal-nav a::after,
+.top-links a::after {
+  content: "";
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 0;
+  height: 3px;
+  border-radius: 999px 999px 0 0;
+  background: transparent;
+  transition: background 0.18s ease;
+}
+
+.portal-nav a:hover,
+.portal-nav a:focus-visible,
+.top-links a:hover,
+.top-links a:focus-visible {
+  color: #cf3d46;
+}
+
+.portal-nav a:hover::after,
+.portal-nav a:focus-visible::after,
+.top-links a:hover::after,
+.top-links a:focus-visible::after {
+  background: #cf3d46;
+}
+
+.container {
+  max-width: 1360px;
+  padding: 18px 18px 42px;
+}
+
+.panel,
+.news-page-card,
+.direction-page-card,
+.admin-sidebar,
+.admin-main,
+.admin-form-card,
+.admin-list-card,
+.slot-select-card,
+.modal-box {
+  background: var(--portal-surface);
+  border: 1px solid var(--portal-line);
+  box-shadow: var(--portal-shadow);
+}
+
+.panel {
+  border-radius: 16px;
+}
+
+.panel::before {
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0));
+}
+
+.panel-content {
+  padding: 22px;
+}
+
+.panel-title {
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  color: #1e2d4b;
+}
+
+.panel-text,
+.rich-text,
+.direction-page-text,
+.news-page-text {
+  color: #51617d;
+}
+
+.info-mark {
+  background: linear-gradient(135deg, #e8f1ff, #dce7ff);
+  color: #1d4da3;
+}
+
+.section-link-btn,
+.job-btn,
+.internship-btn,
+.direction-link,
+.calendar-nav-btn,
+.booking-calendar-nav {
+  background: linear-gradient(135deg, #184895, #2966c8);
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+.hub-ghost-btn {
+  background: #ffffff;
+  color: #1f4ea3;
+  border: 1px solid rgba(31, 78, 163, 0.24);
+}
+
+body[data-page="home"] .portal-home-grid {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 16px;
+}
+
+body[data-page="home"] .portal-tile {
+  min-height: 210px;
+  border-radius: 16px;
+}
+
+body[data-page="home"] .portal-tile .panel-content {
+  height: 100%;
+}
+
+body[data-page="home"] .portal-tile-hero {
+  grid-column: span 4;
+  min-height: 350px;
+  background: linear-gradient(135deg, rgba(49, 74, 181, 0.94), rgba(93, 83, 218, 0.92));
+}
+
+body[data-page="home"] .portal-tile-hero .panel-title,
+body[data-page="home"] .portal-tile-hero .panel-text {
+  color: #ffffff;
+}
+
+body[data-page="home"] .portal-tile-hero .info-mark {
+  background: rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.94);
+}
+
+body[data-page="home"] #newsPreview {
+  grid-column: span 5;
+  min-height: 350px;
+}
+
+body[data-page="home"] #jobs {
+  grid-column: span 3;
+  min-height: 350px;
+  background: linear-gradient(180deg, rgba(9, 62, 121, 0.96), rgba(12, 50, 96, 0.98));
+}
+
+body[data-page="home"] #jobs .panel-title,
+body[data-page="home"] #jobs .section-link-btn,
+body[data-page="home"] #jobs .hub-button-label,
+body[data-page="home"] #jobs .hub-button-title,
+body[data-page="home"] #jobs .hub-button-text,
+body[data-page="home"] #jobs .hub-card-meta {
+  color: #fff;
+}
+
+body[data-page="home"] #jobs .section-link-btn {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+body[data-page="home"] #team,
+body[data-page="home"] #directions,
+body[data-page="home"] #internships {
+  min-height: 166px;
+}
+
+body[data-page="home"] #team { grid-column: span 4; background: linear-gradient(135deg, rgba(92, 177, 255, 0.95), rgba(124, 194, 255, 0.95)); }
+body[data-page="home"] #directions { grid-column: span 4; background: linear-gradient(135deg, rgba(60, 95, 204, 0.96), rgba(89, 129, 236, 0.94)); }
+body[data-page="home"] #internships { grid-column: span 4; background: linear-gradient(135deg, rgba(94, 186, 240, 0.95), rgba(115, 207, 255, 0.95)); }
+
+body[data-page="home"] #team .panel-title,
+body[data-page="home"] #directions .panel-title,
+body[data-page="home"] #internships .panel-title,
+body[data-page="home"] #team .hub-button-label,
+body[data-page="home"] #directions .hub-button-label,
+body[data-page="home"] #internships .hub-button-label,
+body[data-page="home"] #team .hub-button-title,
+body[data-page="home"] #directions .hub-button-title,
+body[data-page="home"] #internships .hub-button-title,
+body[data-page="home"] #team .hub-button-text,
+body[data-page="home"] #directions .hub-button-text,
+body[data-page="home"] #internships .hub-button-text,
+body[data-page="home"] #team .hub-card-meta,
+body[data-page="home"] #directions .hub-card-meta,
+body[data-page="home"] #internships .hub-card-meta {
+  color: #ffffff;
+}
+
+body[data-page="home"] #team .section-link-btn,
+body[data-page="home"] #directions .section-link-btn,
+body[data-page="home"] #internships .section-link-btn {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.18);
+}
+
+body[data-page="home"] #events {
+  grid-column: span 8;
+  min-height: 430px;
+}
+
+body[data-page="home"] .calendar-weekdays,
+body[data-page="home"] .calendar-grid {
+  gap: 8px;
+}
+
+body[data-page="home"] .day {
+  min-height: 92px;
+  border-radius: 12px;
+  background: #f4f8fe;
+}
+
+body[data-page="home"] .mini-event {
+  font-size: 9px;
+}
+
+body[data-page="home"] .news-card {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.15fr) minmax(220px, 1fr);
+  min-height: 240px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(21, 58, 120, 0.10);
+  background: #ffffff;
+}
+
+body[data-page="home"] .news-card-media {
+  min-height: 240px;
+  background-size: cover;
+  background-position: center;
+}
+
+body[data-page="home"] .news-card-body {
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+body[data-page="home"] .news-card-title {
+  font-size: 18px;
+  line-height: 1.3;
+}
+
+body[data-page="home"] .news-card-text {
+  -webkit-line-clamp: 4;
+}
+
+body[data-page="home"] .news-card-actions {
+  margin-top: 16px;
+}
+
+body[data-page="home"] .hub-button-card {
+  min-height: 100%;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+  gap: 12px;
+}
+
+body[data-page="home"] .hub-button-top {
+  margin-bottom: 4px;
+}
+
+body[data-page="home"] .hub-button-arrow {
+  background: rgba(255,255,255,0.18);
+}
+
+body[data-page="home"] .hub-button-title {
+  font-size: 28px;
+  max-width: 300px;
+}
+
+body[data-page="home"] #team .hub-button-title,
+body[data-page="home"] #directions .hub-button-title,
+body[data-page="home"] #internships .hub-button-title {
+  font-size: 24px;
+}
+
+body[data-page="home"] .hub-button-text {
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+body[data-page="home"] .hub-card-meta {
+  margin-top: auto;
+}
+
+/* internal pages */
+body[data-page="events"] .home-layout,
+body[data-page="services"] .home-layout,
+body[data-page="team"] .home-layout,
+body[data-page="internships"] .home-layout,
+body[data-page="news"] .news-layout,
+body[data-page="directions"] .news-layout {
+  gap: 18px;
+}
+
+body[data-page="events"] .panel,
+body[data-page="services"] .panel,
+body[data-page="team"] .panel,
+body[data-page="internships"] .panel,
+body[data-page="news"] .news-page-card,
+body[data-page="directions"] .direction-page-card {
+  border-radius: 18px;
+}
+
+body[data-page="team"] .team-card,
+body[data-page="services"] .job-card,
+body[data-page="internships"] .internship-card,
+.direction-card,
+.news-card {
+  border-radius: 14px;
+  border: 1px solid rgba(21, 58, 120, 0.10);
+  box-shadow: 0 10px 24px rgba(8, 35, 83, 0.08);
+}
+
+@media (max-width: 1180px) {
+  body[data-page="home"] .portal-home-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  body[data-page="home"] .portal-tile-hero,
+  body[data-page="home"] #newsPreview,
+  body[data-page="home"] #jobs,
+  body[data-page="home"] #team,
+  body[data-page="home"] #directions,
+  body[data-page="home"] #internships,
+  body[data-page="home"] #events {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 760px) {
+  header {
+    padding: 12px 12px 0;
+  }
+
+  .header-title {
+    font-size: 19px;
+  }
+
+  .header-actions {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .top-links.portal-nav {
+    padding: 0 8px;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .portal-nav a,
+  .top-links a {
+    padding: 14px 12px;
+    font-size: 12px;
+  }
+
+  body[data-page="home"] .news-card {
+    grid-template-columns: 1fr;
+  }
+
+  body[data-page="home"] .news-card-media {
+    min-height: 160px;
+  }
+}
+
+
+/* ===== hotfix: home layout + news page media ===== */
+body[data-page="home"] .portal-home-layout,
+body[data-page="home"] .portal-home-grid,
+body[data-page="home"] .portal-tile {
+  min-width: 0;
+}
+
+body[data-page="home"] .portal-home-grid {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 16px;
+  align-items: stretch;
+}
+
+body[data-page="home"] .portal-tile-hero {
+  grid-column: span 4;
+  min-height: 300px;
+}
+
+body[data-page="home"] #newsPreview {
+  grid-column: span 4;
+  min-height: 300px;
+}
+
+body[data-page="home"] #jobs {
+  grid-column: span 4;
+  min-height: 300px;
+}
+
+body[data-page="home"] #directions,
+body[data-page="home"] #internships,
+body[data-page="home"] #team {
+  grid-column: span 4;
+  min-height: 220px;
+}
+
+body[data-page="home"] #events {
+  grid-column: 1 / -1;
+  min-height: 430px;
+}
+
+body[data-page="home"] #team {
+  background: rgba(255, 255, 255, 0.94);
+}
+
+body[data-page="home"] #team .panel-title {
+  color: #1e2d4b;
+}
+
+body[data-page="home"] #team .section-link-btn {
+  background: linear-gradient(135deg, #184895, #2966c8);
+  border: none;
+  color: #fff;
+}
+
+body[data-page="home"] #team .team-grid {
+  display: block;
+}
+
+body[data-page="home"] .home-team-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+body[data-page="home"] .home-team-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(93, 114, 160, 0.18);
+}
+
+body[data-page="home"] .home-team-item:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+body[data-page="home"] .home-team-text {
+  min-width: 0;
+  flex: 1;
+}
+
+body[data-page="home"] .home-team-item .team-photo {
+  width: 58px;
+  height: 58px;
+  flex: 0 0 58px;
+  box-shadow: none;
+}
+
+body[data-page="home"] .home-team-item .team-name {
+  margin: 0 0 4px;
+  font-size: 16px;
+  line-height: 1.25;
+  color: #243250;
+  word-break: break-word;
+}
+
+body[data-page="home"] .home-team-item .team-role {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.35;
+  color: #4a63c9;
+  word-break: break-word;
+}
+
+body[data-page="news"] .news-page-list {
+  display: grid;
+  gap: 20px;
+}
+
+body[data-page="news"] .news-page-card {
+  overflow: hidden;
+}
+
+body[data-page="news"] .news-page-card-inner {
+  display: grid;
+  grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+  align-items: stretch;
+}
+
+body[data-page="news"] .news-page-cover {
+  min-height: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+body[data-page="news"] .news-page-content {
+  min-width: 0;
+  padding: 24px;
+}
+
+body[data-page="news"] .news-page-summary,
+body[data-page="news"] .news-page-text,
+body[data-page="news"] .rich-text {
+  color: #51617d;
+}
+
+@media (max-width: 1180px) {
+  body[data-page="home"] .portal-home-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  body[data-page="home"] .portal-tile-hero,
+  body[data-page="home"] #newsPreview,
+  body[data-page="home"] #jobs,
+  body[data-page="home"] #directions,
+  body[data-page="home"] #internships,
+  body[data-page="home"] #team,
+  body[data-page="home"] #events {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 860px) {
+  body[data-page="news"] .news-page-card-inner {
+    grid-template-columns: 1fr;
+  }
+
+  body[data-page="news"] .news-page-cover {
+    min-height: 220px;
+  }
+}
+
+
+/* ===== final override: fix broken home width and news page cover ===== */
+body[data-page="home"] .home-layout {
+  display: block !important;
+}
+
+body[data-page="home"] .home-main,
+body[data-page="home"] .portal-home-layout,
+body[data-page="home"] .portal-home-grid {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+body[data-page="home"] .portal-home-grid {
+  display: grid !important;
+  grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+  gap: 16px !important;
+  align-items: stretch !important;
+}
+
+body[data-page="home"] .portal-tile-hero {
+  grid-column: span 4 !important;
+}
+
+body[data-page="home"] #newsPreview {
+  grid-column: span 4 !important;
+}
+
+body[data-page="home"] #jobs {
+  grid-column: span 4 !important;
+}
+
+body[data-page="home"] #team,
+body[data-page="home"] #internships,
+body[data-page="home"] #directions {
+  grid-column: span 4 !important;
+}
+
+body[data-page="home"] #events {
+  grid-column: 1 / -1 !important;
+}
+
+body[data-page="home"] #team {
+  background: linear-gradient(135deg, rgba(92, 177, 255, 0.95), rgba(124, 194, 255, 0.95)) !important;
+}
+
+body[data-page="home"] #team .panel-title,
+body[data-page="home"] #team .team-name,
+body[data-page="home"] #team .team-role {
+  color: #ffffff !important;
+}
+
+body[data-page="home"] #team .section-link-btn {
+  background: rgba(255,255,255,0.14) !important;
+  border: 1px solid rgba(255,255,255,0.22) !important;
+  color: #ffffff !important;
+}
+
+body[data-page="home"] #team .team-grid {
+  display: block !important;
+}
+
+body[data-page="home"] .home-team-list {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 14px !important;
+}
+
+body[data-page="home"] .home-team-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  padding: 0 0 12px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.28) !important;
+}
+
+body[data-page="home"] .home-team-item:last-child {
+  padding-bottom: 0 !important;
+  border-bottom: none !important;
+}
+
+body[data-page="home"] .home-team-text {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  width: auto !important;
+}
+
+body[data-page="home"] .home-team-item .team-photo {
+  width: 58px !important;
+  height: 58px !important;
+  flex: 0 0 58px !important;
+}
+
+body[data-page="home"] .home-team-item .team-name {
+  margin: 0 0 4px !important;
+  font-size: 16px !important;
+  line-height: 1.25 !important;
+  white-space: normal !important;
+  word-break: normal !important;
+  overflow-wrap: anywhere !important;
+}
+
+body[data-page="home"] .home-team-item .team-role {
+  margin: 0 !important;
+  font-size: 13px !important;
+  line-height: 1.35 !important;
+  white-space: normal !important;
+  word-break: normal !important;
+  overflow-wrap: anywhere !important;
+}
+
+body[data-page="news"] .news-page-list {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 20px !important;
+  align-items: start !important;
+}
+
+body[data-page="news"] .news-page-card {
+  height: 100% !important;
+}
+
+body[data-page="news"] .news-page-card-inner {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+}
+
+body[data-page="news"] .news-page-cover {
+  width: 100% !important;
+  min-height: 220px !important;
+  height: 220px !important;
+  flex: 0 0 220px !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+body[data-page="news"] .news-page-content {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+}
+
+@media (max-width: 1180px) {
+  body[data-page="home"] .portal-home-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  body[data-page="home"] .portal-tile-hero,
+  body[data-page="home"] #newsPreview,
+  body[data-page="home"] #jobs,
+  body[data-page="home"] #team,
+  body[data-page="home"] #internships,
+  body[data-page="home"] #directions,
+  body[data-page="home"] #events {
+    grid-column: auto !important;
+  }
+
+  body[data-page="news"] .news-page-list {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 760px) {
+  body[data-page="home"] .portal-home-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  body[data-page="news"] .news-page-cover {
+    min-height: 180px !important;
+    height: 180px !important;
+    flex-basis: 180px !important;
+  }
+}
+
+
+/* ===== Design refresh: blue dashboard layout ===== */
+:root {
+  --text: #f4f7ff;
+  --muted: #d2ddff;
+  --line: rgba(255,255,255,0.14);
+  --panel: linear-gradient(180deg, rgba(57,116,212,0.96), rgba(31,80,165,0.96));
+  --shadow: 0 14px 28px rgba(0, 18, 58, 0.28);
+}
+
+body {
+  color: var(--text);
+  background: radial-gradient(circle at 20% 0%, rgba(80, 170, 255, 0.22), transparent 26%),
+              radial-gradient(circle at 80% 0%, rgba(96, 119, 255, 0.18), transparent 22%),
+              linear-gradient(180deg, #1d4ea0 0%, #10408b 24%, #0b3577 100%);
+}
+
+.bg-pattern {
+  opacity: 0.08;
+  background-image: linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 36px 36px;
+}
+
+.site-header,
+header {
+  background: linear-gradient(180deg, #1c4ca4 0%, #214b9d 100%);
+  padding: 18px 30px 0;
+  box-shadow: 0 10px 32px rgba(2, 17, 56, 0.22);
+}
+
+header::before, header::after { display:none; }
+.header-inner { max-width: 1360px; }
+.header-topline { align-items: center; gap: 22px; }
+.brand-block { min-width: 0; }
+.header-label { font-size: 11px; margin-bottom: 5px; color: rgba(255,255,255,0.88); }
+.header-title { font-size: 22px; line-height: 1.15; max-width: 620px; }
+.header-text { margin-top: 8px; max-width: 740px; font-size: 13px; line-height: 1.45; color: rgba(255,255,255,0.85); }
+.header-actions { gap: 8px; }
+.header-btn { padding: 10px 16px; background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); }
+
+.top-links {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0;
+  margin-top: 18px;
+  background: rgba(255,255,255,0.98);
+  border-radius: 18px 18px 0 0;
+  overflow: hidden;
+}
+.top-links a {
+  background: transparent;
+  color: #2b3e64;
+  border: 0;
+  border-right: 1px solid rgba(28,76,164,0.08);
+  border-radius: 0;
+  padding: 16px 12px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+.top-links a:last-child { border-right: 0; }
+.top-links a.active, .top-links a:hover { background: #eef4ff; color: #1c4ca4; }
+
+body[data-page="home"] .portal-nav a[href="index.html"],
+body[data-page="events"] .portal-nav a[href="events.html"],
+body[data-page="services"] .portal-nav a[href="services.html"],
+body[data-page="internships"] .portal-nav a[href="internships.html"],
+body[data-page="team"] .portal-nav a[href="team.html"],
+body[data-page="news"] .portal-nav a[href="news.html"],
+body[data-page="directions"] .portal-nav a[href="directions.html"] {
+  color: #cf3d46;
+}
+
+body[data-page="home"] .portal-nav a[href="index.html"]::after,
+body[data-page="events"] .portal-nav a[href="events.html"]::after,
+body[data-page="services"] .portal-nav a[href="services.html"]::after,
+body[data-page="internships"] .portal-nav a[href="internships.html"]::after,
+body[data-page="team"] .portal-nav a[href="team.html"]::after,
+body[data-page="news"] .portal-nav a[href="news.html"]::after,
+body[data-page="directions"] .portal-nav a[href="directions.html"]::after {
+  background: #cf3d46;
+}
+
+.container { max-width: 1360px; padding: 18px 14px 42px; }
+.panel {
+  background: var(--panel);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+}
+.panel::before {
+  background: radial-gradient(circle at 100% 0%, rgba(255,255,255,0.14), transparent 26%), radial-gradient(circle at 0% 100%, rgba(160,215,255,0.08), transparent 22%);
+}
+.panel-content { padding: 22px; }
+.panel-title { color: #ffffff; font-size: 18px; margin-bottom: 12px; }
+.panel-text, .muted-text { color: rgba(240,246,255,0.88); }
+.info-mark { color: #f3f7ff; background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.12); }
+.section-link-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 40px; padding: 10px 16px; border-radius: 12px; text-decoration: none;
+  background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.16);
+  font-weight: 700;
+}
+.section-link-btn:hover { background: rgba(255,255,255,0.18); }
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(170px, 1.1fr) minmax(150px, 1fr) minmax(220px, 1.7fr) minmax(220px, 1.7fr) minmax(140px, 0.95fr) minmax(140px, 0.95fr);
+  grid-template-areas:
+    "info info news news internships directions"
+    "events team news news services services";
+  gap: 14px;
+  align-items: stretch;
+}
+.dashboard-panel { min-height: 0; }
+.dashboard-info { grid-area: info; min-height: 240px; }
+.dashboard-news { grid-area: news; min-height: 414px; }
+.dashboard-card-events { grid-area: events; }
+.dashboard-card-team { grid-area: team; }
+.dashboard-card-internships { grid-area: internships; }
+.dashboard-card-directions { grid-area: directions; }
+.dashboard-card-services { grid-area: services; }
+.dashboard-eyebrow, .dashboard-card-label {
+  margin-bottom: 10px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.09em;
+  color: rgba(236,244,255,0.72); font-weight: 700;
+}
+.dashboard-mini-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top: 18px; }
+.dashboard-solid-btn { background: rgba(255,255,255,0.2); }
+.dashboard-ghost-btn { background: transparent; }
+.dashboard-shortcut {
+  display:flex; flex-direction:column; height:100%; text-decoration:none; color:inherit; padding: 20px;
+}
+.dashboard-card .panel-text { font-size: 14px; line-height: 1.5; margin: 0; }
+.dashboard-card-link { margin-top: auto; font-weight: 700; color: #fff; opacity: 0.94; }
+.dashboard-card { min-height: 160px; }
+
+.dashboard-news-head { display:flex; align-items:flex-start; justify-content:space-between; gap:14px; margin-bottom: 14px; }
+.news-grid-featured { display:block; }
+body[data-page="home"] .news-card {
+  display:grid; grid-template-columns: minmax(260px, 1.05fr) minmax(260px, 1fr); gap: 18px;
+  min-height: 320px; background: transparent; border: 0; box-shadow: none; padding: 0;
+}
+body[data-page="home"] .news-card-media {
+  min-height: 320px; border-radius: 14px; background-size: cover; background-position: center;
+  background-image: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(10,25,64,0.24));
+  border: 1px solid rgba(255,255,255,0.08); display:flex; align-items:flex-end; justify-content:flex-start;
+  padding: 20px; font-size: 13px; font-weight:700; color: rgba(255,255,255,0.74);
+}
+body[data-page="home"] .news-card-body {
+  display:flex; flex-direction:column; justify-content:flex-start; padding: 6px 2px;
+}
+body[data-page="home"] .news-card-date { font-size: 12px; color: rgba(236,244,255,0.72); margin-bottom: 10px; }
+body[data-page="home"] .news-card-title { color:#fff; font-size: 18px; line-height:1.35; margin: 0 0 12px; }
+body[data-page="home"] .news-card-text { color: rgba(240,246,255,0.9); font-size: 14px; line-height: 1.6; }
+body[data-page="home"] .news-card-actions { margin-top: auto; padding-top: 14px; display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+body[data-page="home"] .direction-link, body[data-page="home"] .news-video-mark {
+  color:#fff; border:1px solid rgba(255,255,255,0.16); background: rgba(255,255,255,0.10); border-radius: 10px; padding: 9px 14px; text-decoration:none;
+}
+
+.page-hero { margin-bottom: 16px; }
+.page-hero-content { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.team-page-grid {
+  display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;
+}
+.team-card {
+  background: linear-gradient(180deg, rgba(57,116,212,0.98), rgba(28,77,162,0.98));
+  border: 1px solid rgba(255,255,255,0.12); box-shadow: var(--shadow); border-radius: 16px; padding: 20px;
+}
+.team-name { color:#fff; }
+.team-role, .team-desc { color: rgba(240,246,255,0.88); }
+.team-photo { background-color: rgba(255,255,255,0.16); color:#fff; }
+
+.runtime-error-box { background: rgba(110, 0, 0, 0.95); color: #fff; }
+
+@media (max-width: 1120px) {
+  .top-links { grid-template-columns: repeat(4, minmax(0,1fr)); border-radius: 16px; }
+  .dashboard-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-areas:
+      "info info news news"
+      "events team internships directions"
+      "services services services services";
+  }
+  .dashboard-card { min-height: 150px; }
+  body[data-page="home"] .news-card { grid-template-columns: 1fr; }
+  body[data-page="home"] .news-card-media { min-height: 220px; }
+}
+
+@media (max-width: 760px) {
+  .site-header, header { padding: 16px 14px 0; }
+  .header-title { font-size: 19px; }
+  .header-text { font-size: 12px; }
+  .top-links { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .container { padding-inline: 10px; }
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "info"
+      "news"
+      "internships"
+      "directions"
+      "events"
+      "team"
+      "services";
+  }
+  .dashboard-news { min-height: 0; }
+  .dashboard-card { min-height: 132px; }
+  .page-hero-content { flex-direction: column; }
+  .team-page-grid { grid-template-columns: 1fr; }
+}
+
+/* ===== Final layout fixes ===== */
+.header-inner,
+.container {
+  width: min(1460px, calc(100vw - 28px));
+  max-width: none;
+}
+
+body[data-page="home"] .container {
+  width: min(1460px, calc(100vw - 28px));
+  max-width: none;
+  padding-top: 18px;
+}
+
+body[data-page="home"] .dashboard-grid {
+  grid-template-columns: minmax(220px, 1fr) minmax(220px, 1fr) minmax(300px, 1.55fr) minmax(300px, 1.55fr) minmax(220px, 1fr);
+  grid-template-areas:
+    "info news news news internships"
+    "info news news news directions"
+    "events team services services services";
+  gap: 14px;
+}
+
+body[data-page="home"] .dashboard-info {
+  min-height: 312px;
+}
+
+body[data-page="home"] .dashboard-news {
+  min-height: 0;
+}
+
+body[data-page="home"] .dashboard-card,
+body[data-page="home"] .dashboard-card-events,
+body[data-page="home"] .dashboard-card-team,
+body[data-page="home"] .dashboard-card-internships,
+body[data-page="home"] .dashboard-card-directions,
+body[data-page="home"] .dashboard-card-services {
+  min-height: 150px;
+}
+
+body[data-page="home"] #info .panel-text,
+body[data-page="home"] .hub-button-text,
+body[data-page="home"] .hub-card-meta,
+body[data-page="home"] .hub-button-link,
+body[data-page="home"] .news-card-actions,
+body[data-page="home"] .news-video-mark,
+body[data-page="home"] .booking-note,
+body[data-page="home"] .booking-meta {
+  display: initial !important;
+}
+
+body[data-page="home"] .dashboard-mini-actions,
+body[data-page="home"] .news-card-actions {
+  display: flex !important;
+}
+
+body[data-page="home"] .panel-title {
+  font-size: 18px;
+}
+
+body[data-page="home"] .panel-content {
+  padding: 20px;
+}
+
+body[data-page="home"] .news-card-title {
+  font-size: 17px;
+}
+
+body[data-page="team"] .team-page-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+body[data-page="team"] .team-card {
+  min-height: 220px;
+}
+
+@media (max-width: 1180px) {
+  .header-inner,
+  .container,
+  body[data-page="home"] .container {
+    width: min(1360px, calc(100vw - 24px));
+  }
+
+  body[data-page="home"] .dashboard-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-areas:
+      "info info news news"
+      "internships directions news news"
+      "events team services services";
+  }
+}
+
+@media (max-width: 760px) {
+  .header-inner,
+  .container,
+  body[data-page="home"] .container {
+    width: calc(100vw - 20px);
+  }
+}
+
+
+/* ===== Final home corrections: background + news fill ===== */
+body {
+  background:
+    linear-gradient(rgba(7, 35, 92, 0.78), rgba(8, 49, 118, 0.84)),
+    url("../images/portal-bg-tech.png") center center / cover no-repeat fixed;
+}
+
+.bg-pattern {
+  opacity: 0;
+  background: none;
+}
+
+body[data-page="home"] .dashboard-news {
+  min-height: 420px;
+}
+
+body[data-page="home"] .dashboard-news .panel-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+body[data-page="home"] .news-grid-featured {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+body[data-page="home"] .news-grid-featured .news-card {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  grid-template-columns: minmax(300px, 1.08fr) minmax(0, 1fr);
+  align-items: stretch;
+}
+
+body[data-page="home"] .news-grid-featured .news-card-media {
+  min-height: 100%;
+  height: 100%;
+}
+
+body[data-page="home"] .news-grid-featured .news-card-body {
+  min-width: 0;
+  height: 100%;
+}
+
+body[data-page="home"] .news-grid-featured .news-card-title,
+body[data-page="home"] .news-grid-featured .news-card-text {
+  word-break: break-word;
+}
+
+@media (max-width: 1180px) {
+  body {
+    background:
+      linear-gradient(rgba(7, 35, 92, 0.80), rgba(8, 49, 118, 0.86)),
+      url("../images/portal-bg-tech.png") center center / cover no-repeat fixed;
+  }
+
+  body[data-page="home"] .news-grid-featured .news-card {
+    grid-template-columns: 1fr;
+  }
+
+  body[data-page="home"] .news-grid-featured .news-card-media {
+    min-height: 220px;
+  }
+}
+
+/* ===== Final hard fix: restore exact home dashboard positions ===== */
+body[data-page="home"] .dashboard-grid > * {
+  min-width: 0;
+  grid-column: auto !important;
+  grid-row: auto !important;
+}
+
+body[data-page="home"] .dashboard-grid {
+  grid-auto-flow: row;
+  grid-template-columns: minmax(180px, 1fr) minmax(180px, 1fr) minmax(300px, 1.45fr) minmax(300px, 1.45fr) minmax(180px, 1fr);
+  grid-template-areas:
+    "info news news news internships"
+    "info news news news directions"
+    "events team services services services";
+}
+
+body[data-page="home"] .dashboard-info {
+  grid-area: info !important;
+}
+
+body[data-page="home"] #newsPreview,
+body[data-page="home"] .dashboard-news {
+  grid-area: news !important;
+  grid-column: auto !important;
+  grid-row: auto !important;
+}
+
+body[data-page="home"] .dashboard-card-events {
+  grid-area: events !important;
+}
+
+body[data-page="home"] .dashboard-card-team {
+  grid-area: team !important;
+}
+
+body[data-page="home"] .dashboard-card-internships {
+  grid-area: internships !important;
+}
+
+body[data-page="home"] .dashboard-card-directions {
+  grid-area: directions !important;
+}
+
+body[data-page="home"] .dashboard-card-services {
+  grid-area: services !important;
+}
+
+@media (max-width: 1180px) {
+  body[data-page="home"] .dashboard-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-areas:
+      "info info news news"
+      "internships directions news news"
+      "events team services services";
+  }
+}
+
+@media (max-width: 760px) {
+  body[data-page="home"] .dashboard-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "info"
+      "news"
+      "internships"
+      "directions"
+      "events"
+      "team"
+      "services";
+  }
+}
+
+
+/* ===== Home dashboard polish: remove edge glare, align 4 lower tiles, match reference cards ===== */
+body[data-page="home"] {
+  background:
+    linear-gradient(rgba(7, 35, 92, 0.84), rgba(8, 49, 118, 0.90)),
+    url("../images/portal-bg-tech.png") center center / cover no-repeat fixed;
+}
+
+body[data-page="home"] .bg-pattern {
+  display: none;
+}
+
+body[data-page="home"] .site-header,
+body[data-page="home"] header {
+  box-shadow: none;
+}
+
+body[data-page="home"] .container {
+  width: min(1500px, calc(100vw - 32px));
+  max-width: none;
+  padding-top: 16px;
+  padding-bottom: 36px;
+}
+
+body[data-page="home"] .panel {
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.10);
+  box-shadow: 0 12px 24px rgba(0, 20, 60, 0.22);
+  background: linear-gradient(180deg, rgba(51,112,211,0.97) 0%, rgba(35,88,180,0.97) 100%);
+}
+
+body[data-page="home"] .panel::before,
+body[data-page="home"] .panel::after {
+  display: none;
+}
+
+body[data-page="home"] .panel-content,
+body[data-page="home"] .dashboard-shortcut {
+  padding: 26px 28px;
+}
+
+body[data-page="home"] .dashboard-grid > * {
+  min-width: 0;
+  grid-column: auto !important;
+  grid-row: auto !important;
+}
+
+body[data-page="home"] .dashboard-grid {
+  display: grid;
+  grid-auto-flow: row;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  grid-template-areas:
+    "info info news news news news internships internships"
+    "info info news news news news directions directions"
+    "events events team team booking booking tables tables";
+  gap: 16px;
+  align-items: stretch;
+}
+
+body[data-page="home"] .dashboard-info { grid-area: info !important; min-height: 0; }
+body[data-page="home"] #newsPreview,
+body[data-page="home"] .dashboard-news { grid-area: news !important; min-height: 0; }
+body[data-page="home"] .dashboard-card-events { grid-area: events !important; }
+body[data-page="home"] .dashboard-card-team { grid-area: team !important; }
+body[data-page="home"] .dashboard-card-internships { grid-area: internships !important; }
+body[data-page="home"] .dashboard-card-directions { grid-area: directions !important; }
+body[data-page="home"] .dashboard-card-services { grid-area: booking !important; }
+body[data-page="home"] .dashboard-card-tables { grid-area: tables !important; }
+
+body[data-page="home"] .dashboard-info,
+body[data-page="home"] .dashboard-news,
+body[data-page="home"] .dashboard-card,
+body[data-page="home"] .dashboard-card-events,
+body[data-page="home"] .dashboard-card-team,
+body[data-page="home"] .dashboard-card-internships,
+body[data-page="home"] .dashboard-card-directions,
+body[data-page="home"] .dashboard-card-services,
+body[data-page="home"] .dashboard-card-tables {
+  min-height: 210px;
+}
+
+body[data-page="home"] .dashboard-news {
+  min-height: 0;
+}
+
+body[data-page="home"] .dashboard-news .panel-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+body[data-page="home"] .dashboard-news-head {
+  margin-bottom: 18px;
+}
+
+body[data-page="home"] .news-grid-featured {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+body[data-page="home"] .news-grid-featured .news-card {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 40% 60%;
+  gap: 26px;
+  align-items: stretch;
+}
+
+body[data-page="home"] .news-grid-featured .news-card-media {
+  min-height: 100%;
+  height: 100%;
+  border-radius: 9px;
+  border: 0;
+}
+
+body[data-page="home"] .news-grid-featured .news-card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-width: 0;
+  height: 100%;
+  padding: 2px 0;
+}
+
+body[data-page="home"] .dashboard-card .panel-title,
+body[data-page="home"] .dashboard-info .panel-title,
+body[data-page="home"] .dashboard-news .panel-title {
+  font-size: 20px;
+  margin-bottom: 14px;
+}
+
+body[data-page="home"] .dashboard-card .panel-text,
+body[data-page="home"] .dashboard-info .panel-text {
+  font-size: 15px;
+  line-height: 1.65;
+  color: rgba(244,248,255,0.92);
+}
+
+body[data-page="home"] .dashboard-card-label,
+body[data-page="home"] .dashboard-eyebrow {
+  font-size: 11px;
+  margin-bottom: 12px;
+  color: rgba(232,240,255,0.68);
+}
+
+body[data-page="home"] .dashboard-shortcut {
+  justify-content: flex-start;
+}
+
+body[data-page="home"] .dashboard-card-link {
+  margin-top: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+}
+
+body[data-page="home"] .info-mark {
+  margin-top: 20px;
+  background: rgba(255,255,255,0.10);
+  color: rgba(255,255,255,0.94);
+}
+
+@media (max-width: 1260px) {
+  body[data-page="home"] .dashboard-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-areas:
+      "info info news news internships internships"
+      "info info news news directions directions"
+      "events events team team booking booking"
+      "tables tables tables tables tables tables";
+  }
+}
+
+@media (max-width: 980px) {
+  body[data-page="home"] .container {
+    width: calc(100vw - 24px);
+  }
+
+  body[data-page="home"] .dashboard-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      "info internships"
+      "news news"
+      "directions directions"
+      "events team"
+      "booking tables";
+  }
+
+  body[data-page="home"] .news-grid-featured .news-card {
+    grid-template-columns: 1fr;
+  }
+
+  body[data-page="home"] .news-grid-featured .news-card-media {
+    min-height: 240px;
+  }
+}
+
+@media (max-width: 760px) {
+  body[data-page="home"] .container {
+    width: calc(100vw - 20px);
+  }
+
+  body[data-page="home"] .panel-content,
+  body[data-page="home"] .dashboard-shortcut {
+    padding: 22px 20px;
+  }
+
+  body[data-page="home"] .dashboard-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "info"
+      "news"
+      "internships"
+      "directions"
+      "events"
+      "team"
+      "booking"
+      "tables";
+  }
+}
+
+body.edit-mode[data-page="home"] {
+  user-select: none;
+}
+
+body.edit-mode[data-page="home"] .dashboard {
+  position: relative;
+  display: block !important;
+  min-height: 0;
+  --dashboard-grid-col-width: 100px;
+  --dashboard-grid-row-height: 120px;
+  --dashboard-grid-gap: 20px;
+}
+
+body.edit-mode[data-page="home"] .dashboard::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 18px;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.22) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.22) 1px, transparent 1px),
+    linear-gradient(to right, rgba(255, 255, 255, 0.12) calc(var(--dashboard-grid-col-width)), transparent calc(var(--dashboard-grid-col-width))),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.12) calc(var(--dashboard-grid-row-height)), transparent calc(var(--dashboard-grid-row-height)));
+  background-size:
+    calc(var(--dashboard-grid-col-width) + var(--dashboard-grid-gap)) 100%,
+    100% calc(var(--dashboard-grid-row-height) + var(--dashboard-grid-gap)),
+    calc(var(--dashboard-grid-col-width) + var(--dashboard-grid-gap)) 100%,
+    100% calc(var(--dashboard-grid-row-height) + var(--dashboard-grid-gap));
+  background-position: 0 0, 0 0, 0 0, 0 0;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+}
+
+body.edit-mode[data-page="home"] .dashboard-grid {
+  grid-template-columns: none !important;
+  grid-template-areas: none !important;
+  gap: 0 !important;
+}
+
+body.edit-mode[data-page="home"] .dashboard-grid > * {
+  grid-area: auto !important;
+}
+
+body.edit-mode[data-page="home"] .tile {
+  position: absolute;
+  margin: 0;
+  outline: 2px dashed rgba(255, 255, 255, 0.72);
+  outline-offset: -6px;
+  cursor: move;
+  z-index: 2;
+  transition: box-shadow 0.12s ease, transform 0.12s ease;
+}
+
+body.edit-mode[data-page="home"] .tile.is-dragging,
+body.edit-mode[data-page="home"] .tile.is-resizing {
+  z-index: 4;
+  box-shadow: 0 22px 46px rgba(0, 0, 0, 0.22);
+}
+
+body.edit-mode[data-page="home"] .tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 28px 28px;
+  opacity: 0.35;
+}
+
+body.edit-mode[data-page="home"] .tile a,
+body.edit-mode[data-page="home"] .tile button {
+  pointer-events: none;
+}
+
+.tile-edit-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 7;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: rgba(8, 18, 42, 0.62);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+}
+
+body.edit-mode[data-page="home"].admin-layout-edit .tile-edit-btn {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+body[data-page="home"] .dashboard-panel,
+body[data-page="home"] .dashboard-card,
+body[data-page="home"] .dashboard-shortcut,
+body[data-page="home"] .dashboard-info .panel-content,
+body[data-page="home"] .dashboard-news .panel-content {
+  color: var(--tile-text, #ffffff);
+}
+
+body[data-page="home"] .dashboard-card .panel-title,
+body[data-page="home"] .dashboard-info .panel-title,
+body[data-page="home"] .dashboard-news .panel-title,
+body[data-page="home"] .dashboard-card .panel-text,
+body[data-page="home"] .dashboard-info .panel-text,
+body[data-page="home"] .dashboard-news .panel-text,
+body[data-page="home"] .dashboard-card-label,
+body[data-page="home"] .dashboard-eyebrow,
+body[data-page="home"] .dashboard-card-link {
+  color: var(--tile-text, #ffffff) !important;
+}
+
+body[data-page="home"] .dashboard-info .info-mark,
+body[data-page="home"] .dashboard-news .section-link-btn,
+body[data-page="home"] .dashboard-shortcut .section-link-btn {
+  color: var(--tile-text, #ffffff);
+}
+
+body[data-page="news"] .news-card-title,
+body[data-page="news"] .panel-title,
+body[data-page="news"] .header-title,
+body[data-page="news"] #newsPageTitle {
+  color: #ffffff;
+  text-shadow: 0 2px 10px rgba(5, 16, 41, 0.28);
+}
+
+body[data-page="news"] .news-card {
+  background: linear-gradient(180deg, rgba(18, 60, 122, 0.96), rgba(14, 47, 98, 0.98));
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+body[data-page="news"] .news-card-text,
+body[data-page="news"] .news-rich-text,
+body[data-page="news"] .muted-text,
+body[data-page="news"] .page-hero-note {
+  color: rgba(241, 246, 255, 0.9);
+}
+
+body[data-page="news"] .news-card-date {
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+}
+
+body[data-page="news"] .back-link,
+body[data-page="directions"] .back-link {
+  color: #ffffff;
+}
+
+#dayEventsModal .day-event-card,
+#dayEventsModal .day-event-meta,
+#dayEventsModal .day-event-meta div,
+#dayEventsModal .booking-note,
+#dayEventsModal .item-title,
+#dayEventsModal b {
+  color: #1f2a44 !important;
+}
+
+#bookingModal .modal-title,
+#bookingModal #bookingModalText,
+#bookingModal #bookingCapacityText,
+#bookingModal #bookingSelectedDayTitle,
+#bookingModal #bookingSelectedDayMeta,
+#bookingModal .booking-note,
+#bookingModal .booking-meta,
+#bookingModal .booking-day-subtitle,
+#bookingModal .muted-text,
+#bookingModal .field label {
+  color: #1f2a44 !important;
+}
+
+#bookingModal .booking-time-meta,
+#bookingModal .booking-day-empty,
+#bookingModal .booking-calendar-empty {
+  color: #4f5f7b !important;
+}
+
+#myRegistrationsModal .modal-title,
+#myRegistrationsModal .muted-text,
+#myRegistrationsModal .success,
+#myRegistrationsModal .error,
+#myRegistrationsModal .registrations-empty,
+#myRegistrationsModal .registrations-table,
+#myRegistrationsModal .registrations-table thead th,
+#myRegistrationsModal .registrations-table tbody td {
+  color: #1f2a44 !important;
+}
+
+#registrationsModal .registrations-table,
+#registrationsModal .registrations-table thead th,
+#registrationsModal .registrations-table tbody td {
+  color: #1f2a44 !important;
+}
+
+.registrations-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.registrations-table thead th {
+  text-align: left;
+  font-size: 13px;
+  font-weight: 800;
+  color: #1f2a44;
+  background: #eef4ff;
+  padding: 12px 14px;
+  border-bottom: 1px solid #d9e2f0;
+}
+
+.registrations-table tbody td {
+  font-size: 14px;
+  line-height: 1.45;
+  color: #1f2a44;
+  padding: 12px 14px;
+  border-bottom: 1px solid #e7edf7;
+  vertical-align: top;
+}
+
+.registrations-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+body[data-page="news"] #newsPageTitle {
+  color: #ffffff !important;
+  text-shadow: none !important;
+}
+
+body[data-page="news"] .news-page-card .panel-title,
+body[data-page="news"] .news-page-card h2 {
+  color: #1f2a44 !important;
+  text-shadow: none !important;
+}
+
+body:not([data-page="home"]) .news-sidebar-panel .panel-title,
+body[data-page="news"] #newsTitle {
+  color: #ffffff !important;
+}
+
+body[data-page="news"] .news-page-cover {
+  background-size: contain !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  background-color: rgba(255, 255, 255, 0.92) !important;
+}
+
+.welcome-page {
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(circle at top left, rgba(118, 220, 255, 0.32), transparent 24%),
+    linear-gradient(135deg, #d9f6ff 0%, #9bdfff 28%, #4faff2 58%, #2368c8 100%);
+}
+
+.welcome-screen {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.welcome-card {
+  width: min(1200px, 100%);
+  border-radius: 28px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 30px 80px rgba(5, 35, 92, 0.28);
+  backdrop-filter: blur(10px);
+}
+
+.welcome-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+}
+
+.welcome-actions {
+  display: flex;
+  justify-content: center;
+  padding: 24px;
+  background: linear-gradient(180deg, rgba(7, 37, 96, 0.08), rgba(7, 37, 96, 0.16));
+}
+
+.welcome-start-btn {
+  min-width: 220px;
+  min-height: 52px;
+  font-size: 18px;
+  border-radius: 999px;
+  box-shadow: 0 16px 32px rgba(32, 95, 198, 0.25);
+}
+
+@media (max-width: 760px) {
+  .welcome-screen {
+    padding: 14px;
+  }
+
+  .welcome-card {
+    border-radius: 20px;
+  }
+
+  .welcome-actions {
+    padding: 18px;
+  }
+
+  .welcome-start-btn {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+.resize-handle {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  width: 16px;
+  height: 16px;
+  z-index: 6;
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
+  cursor: se-resize;
+  opacity: 0;
+  pointer-events: none;
+}
+
+body.edit-mode[data-page="home"] .resize-handle {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ===== Motion polish ===== */
+@keyframes pageFloat {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, 8px, 0);
+  }
+}
+
+@keyframes softShimmer {
+  0% {
+    transform: translateX(-140%);
+    opacity: 0;
+  }
+  35% {
+    opacity: 0.22;
+  }
+  100% {
+    transform: translateX(160%);
+    opacity: 0;
+  }
+}
+
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.00);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.08);
+  }
+}
+
+body:not(.edit-mode) .site-header,
+body:not(.edit-mode) header {
+  isolation: isolate;
+}
+
+body:not(.edit-mode) .site-header::before,
+body:not(.edit-mode) header::before,
+body:not(.edit-mode) .site-header::after,
+body:not(.edit-mode) header::after {
+  display: block;
+  animation: pageFloat 14s ease-in-out infinite;
+}
+
+body:not(.edit-mode) .site-header::after,
+body:not(.edit-mode) header::after {
+  animation-duration: 18s;
+  animation-delay: -6s;
+}
+
+body:not(.edit-mode) .header-inner,
+body:not(.edit-mode) .container,
+body:not(.edit-mode) .dashboard-grid > *,
+body:not(.edit-mode) .team-card,
+body:not(.edit-mode) .news-card,
+body:not(.edit-mode) .job-card,
+body:not(.edit-mode) .internship-card {
+  animation: riseIn 0.7s ease both;
+}
+
+body:not(.edit-mode) .header-inner {
+  animation-duration: 0.6s;
+}
+
+body:not(.edit-mode) .dashboard-grid > *:nth-child(1) { animation-delay: 0.05s; }
+body:not(.edit-mode) .dashboard-grid > *:nth-child(2) { animation-delay: 0.1s; }
+body:not(.edit-mode) .dashboard-grid > *:nth-child(3) { animation-delay: 0.15s; }
+body:not(.edit-mode) .dashboard-grid > *:nth-child(4) { animation-delay: 0.2s; }
+body:not(.edit-mode) .dashboard-grid > *:nth-child(5) { animation-delay: 0.25s; }
+body:not(.edit-mode) .dashboard-grid > *:nth-child(6) { animation-delay: 0.3s; }
+body:not(.edit-mode) .dashboard-grid > *:nth-child(7) { animation-delay: 0.35s; }
+body:not(.edit-mode) .dashboard-grid > *:nth-child(8) { animation-delay: 0.4s; }
+
+.panel,
+.team-card,
+.news-card,
+.job-card,
+.internship-card,
+.day,
+.booking-calendar-day,
+.booking-time-item,
+.header-btn,
+.top-links a,
+.btn,
+.small-btn,
+.close-btn,
+.calendar-nav-btn,
+.section-link-btn,
+.dashboard-shortcut,
+.news-card-media,
+.team-photo {
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    background-color 0.22s ease,
+    background 0.22s ease,
+    border-color 0.22s ease,
+    color 0.22s ease,
+    opacity 0.22s ease,
+    filter 0.22s ease;
+}
+
+.panel,
+.team-card,
+.news-card,
+.job-card,
+.internship-card,
+.dashboard-shortcut,
+.top-links a,
+.header-btn,
+.section-link-btn,
+.btn,
+.small-btn,
+.close-btn,
+.calendar-nav-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.panel::after,
+.team-card::after,
+.job-card::before,
+.internship-card::before,
+.dashboard-shortcut::after,
+.section-link-btn::after,
+.btn::after,
+.small-btn::after,
+.close-btn::after,
+.calendar-nav-btn::after,
+.header-btn::after {
+  content: "";
+  position: absolute;
+  inset: -20% auto -20% -40%;
+  width: 32%;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.22), transparent);
+  transform: translateX(-150%);
+  opacity: 0;
+}
+
+.panel:hover,
+.team-card:hover,
+.news-card:hover,
+.job-card:hover,
+.internship-card:hover,
+.dashboard-shortcut:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 36px rgba(8, 30, 78, 0.20);
+}
+
+.panel:hover::after,
+.team-card:hover::after,
+.job-card:hover::before,
+.internship-card:hover::before,
+.dashboard-shortcut:hover::after,
+.section-link-btn:hover::after,
+.btn:hover::after,
+.small-btn:hover::after,
+.close-btn:hover::after,
+.calendar-nav-btn:hover::after,
+.header-btn:hover::after {
+  animation: softShimmer 0.9s ease;
+}
+
+.news-card:hover .news-card-media,
+.dashboard-shortcut:hover .panel-title,
+.panel:hover .panel-title,
+.team-card:hover .team-photo {
+  transform: translateY(-2px) scale(1.01);
+}
+
+.header-btn:hover,
+.btn:hover,
+.small-btn:hover,
+.close-btn:hover,
+.calendar-nav-btn:hover,
+.section-link-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+}
+
+.top-links a:hover,
+.top-links a:focus-visible {
+  transform: translateY(-2px);
+}
+
+.top-links a.active {
+  animation: glowPulse 3.2s ease-in-out infinite;
+}
+
+.day.has-events:hover,
+.booking-calendar-day.has-slots:hover,
+.booking-time-item:hover {
+  transform: translateY(-3px);
+  border-color: rgba(116, 171, 255, 0.58);
+  box-shadow: 0 12px 24px rgba(22, 73, 158, 0.16);
+}
+
+.team-card:hover .team-photo {
+  box-shadow: 0 14px 28px rgba(74, 99, 255, 0.28);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+}
+
+body[data-page="home"] .dashboard-panel,
+body[data-page="home"] .dashboard-shortcut {
+  position: relative;
+}
+
+.dashboard-tile-icon-bg {
+  position: absolute;
+  right: 14px;
+  bottom: 8px;
+  font-size: clamp(52px, 6vw, 88px);
+  line-height: 1;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.14);
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  filter: blur(0.4px);
+  transform: rotate(-8deg);
+}
+
+body[data-page="home"] .dashboard-shortcut > *,
+body[data-page="home"] .dashboard-news .panel-content > *,
+body[data-page="home"] .dashboard-info .panel-content > * {
+  position: relative;
+  z-index: 1;
+}
+
+body[data-page="home"] .dashboard-card-custom .dashboard-shortcut.is-static {
+  cursor: default;
+}
